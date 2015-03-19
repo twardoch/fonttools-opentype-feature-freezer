@@ -1,7 +1,7 @@
 MacOSXSystemFontReplacer
 ========================
 
-With **MacOSXSystemFontReplacer** v1.0, you can replace your system UI fonts of
+With **[MacOSXSystemFontReplacer](http://bit.ly/MacOSXSystemFontReplacer)**, you can replace your system UI fonts of
 Mac OS X 10.10 Yosemite with any fonts of your choice. 
 
 You can supply any fonts to the tool as long as they have filenames in
@@ -110,6 +110,6 @@ This tool is written in Python 2.7 and requires the fontTools/TTX package from h
 
 Credits
 -------
-* Code by: [Adam Twardoch](./AUTHORS) 
+* Code by [Adam Twardoch](./AUTHORS) 
 * Inspired by https://github.com/jenskutilek/FiraSystemFontReplacement and https://github.com/dtinth/YosemiteSystemFontPatcher 
-* Homepage: https://github.com/twardoch/fonttools-utils/tree/master/mac-os-x-system-font-replacer
+* Homepage: http://bit.ly/MacOSXSystemFontReplacer
