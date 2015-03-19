@@ -16,10 +16,10 @@ Usage
 This is a command-line tool written in Python. 
 
 1. Download and install https://github.com/behdad/fonttools/
-2. Download [MacOSXSystemFontReplacer.py](./MacOSXSystemFontReplacer.py?raw=true) and save it in a folder. 
+2. Download [MacOSXSystemFontReplacer.py](./MacOSXSystemFontReplacer.py?raw=true) and save it in a folder
 3. Place your fonts in the same folder
 3. Rename your fonts to a scheme that the tool expects (see section "Preparing your fonts" below)
-4. Run Terminal.app and navigate to that folder using 'cd'
+4. Run Terminal.app and navigate to that folder using ```cd```
 5. Run ```sudo python ./MacOSXSystemFontReplacer.py``` 
 6. Enter your OS X Administrator password
 7. Log out of Mac OS X and log in again
@@ -100,7 +100,7 @@ Example
 -------
 
 ![Example: Work Sans](example-work-sans.png?raw=true "Example: I have used the tool to replace the default UI system font with Work Sans")
-In this example, I have used the tool to replace the default UI system fonts of Mac OS X 10.10 with the open-source [Work Sans](http://weiweihuanghuang.github.io/Work-Sans/) font family. 
+In this example, I have used the tool to replace the default UI system fonts of Mac OS X 10.10 with the open-source [Work Sans](http://weiweihuanghuang.github.io/Work-Sans/) font family. I did use the ```-s 105``` option, otherwise the fonts were a bit too small for my taste. 
 
 Requirements
 ------------
