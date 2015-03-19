@@ -7,9 +7,9 @@ Mac OS X 10.10 Yosemite with any fonts of your choice.
 You can supply any fonts to the tool as long as they have filenames in
 a format that the tool expects. 
 
-The tool is “safe” i.e. it does not modify the original system UI fonts. 
-Instead, it writes patched versions of the fonts you provide into the System library folder, but you can easily
-uninstall those later manually or using the tool itself.
+The tool is “safe” i.e. it does not modify the original system UI fonts. Instead, it writes patched versions of the fonts you provide into the System library folder, but you can easily uninstall those later manually or using the tool itself. Also, since it uses the fontTools library, it only does minimal modifications to your fonts, retaining all essential information. The fonts that you want patched can be in ```.ttf``` or ```.otf``` format, but you need to rename them and use the ```.otf``` extension. 
+
+**If you use this tool, please consult if your font’s EULA allows modifications. Since this tool copies a small bit of the OS X system font into the patched fonts, you should not redistribute the patched fonts.** 
 
 ![Example: Work Sans](example-work-sans.png?raw=true "Example: I have used the tool to replace the default UI system font with Work Sans")
 *This example shows how the tool was used to replace the default UI system fonts of Mac OS X 10.10 with the open-source [Work Sans](http://weiweihuanghuang.github.io/Work-Sans/) font family. The ```-s 105``` option was used to visually increase the font sizes by 5%.*
@@ -99,6 +99,10 @@ If you find that after logging out and in again, the new UI fonts are visually t
 
 In Mac OS X 10.10 Yosemite, the default Mac OS X UI fonts are stored in ```/System/Library/Fonts/HelveticaNeueDeskInterface.ttc```. The tool allows you to point to a different ```.ttc``` font as default, so it should work even in newer OS X versions. 
 
+Software License and Disclaimer
+-------------------------------
+This tool is licensed “as is” under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). By using the tool, you accept all conditions of the license, including Disclaimer of Warranty and Limitation of Liability.
+
 Requirements
 ------------
 
@@ -109,7 +113,3 @@ Credits
 * Code by: [Adam Twardoch](./AUTHORS) 
 * Inspired by https://github.com/jenskutilek/FiraSystemFontReplacement and https://github.com/dtinth/YosemiteSystemFontPatcher 
 * Homepage: https://github.com/twardoch/fonttools-utils/tree/master/mac-os-x-system-font-replacer
-
-Software License and Disclaimer
--------------------------------
-This tool is licensed “as is” under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). By using the tool, you accept all conditions of the license, including Disclaimer of Warranty and Limitation of Liability.
