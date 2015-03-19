@@ -65,7 +65,7 @@ MacOSXSystemFontReplacer.py [-h] [-i INPUT_FOLDER] [-s FONT_SIZE]
 Preparing your fonts
 --------------------
 
-If you wish to replace all system UI fonts of Mac OS X 10.10 Yosemite with your custom fonts, you need to rename the fonts so that each of your font files has one of file names given in the table below. The table also indicates the general usage of the font and the relationships in the design of the original system font family. 
+If you wish to replace all system UI fonts of Mac OS X 10.10 Yosemite with your custom fonts, you need to **rename the font files exactly** so that each of your font files has one of file names given in the table below. The table also indicates the general usage of the font and the relationships in the design of the original system font family. 
 
 Filename | Usage | Design
 ---------| ------| ------
@@ -82,16 +82,16 @@ Filename | Usage | Design
 
 ¹e.g. in Calendar for month ²e.g. in the headline of Notification Center ³or as bold for the UltraLight e.g. in Calendar for year
 
-The font files renamed according to the above scheme need to be placed in a folder, and then you need to specify that folder using the ```-i``` command-line option. (If the tool is in the same folder as the fonts, you can omit that option). The tool will match each of your fonts to one of the default Mac OS X UI fonts using the filename. 
+You need to place the font files renamed according to the above scheme in a folder, and then you need to specify that folder using the ```-i``` command-line option. (If the tool is in the same folder as the fonts, you can omit that option). The tool will match each of your fonts to one of the default Mac OS X UI fonts using the filename. 
 
-Then it will try to patch your fonts and install them in ```/Library/Fonts/```. After logging out and back in, you should see your new UI fonts.
+Then it will try to patch your fonts and install them in ```/Library/Fonts/```. Then you **log out and back in**, and you should see your new UI fonts.
 
 Notes
 -----
 
 Please use the file names exactly as provided, and **use the ```.otf``` extension** even if your fonts are actually ```.ttf```. 
 
-The most important fonts are **System Font Regular.otf** and **System Font Bold.otf**. You don’t need to provide all fonts (then the default system font will still be used in some places). 
+The most important fonts are *System Font Regular.otf* and *System Font Bold.otf*. You don’t need to provide all fonts (then the default system font will still be used in some places). 
 
 If you find that after logging out and in again, the new UI fonts are visually too small, run the tool again, but this time, provide an ```-s``` command-line option with a percentage scaling. Usually a value such as ```-s 105``` will be good enough. 
 
