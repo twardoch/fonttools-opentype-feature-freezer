@@ -15,11 +15,12 @@ Usage
 -----
 This is a command-line tool written in Python. 
 
-1. Prepare your fonts: rename them to a scheme that the tool expects (see section "Preparing your fonts" below)
-2. Place them in some folder
-3. Download and install https://github.com/behdad/fonttools/
-4. Run Terminal.app and navigate to the folder where the tool is stored using 'cd'
-5. Run ```sudo python ./MacOSXSystemFontReplacer.py -i INPUT_FOLDER``` where INPUT_FOLDER is the path of the folder with your prepared fonts
+1. Download and install https://github.com/behdad/fonttools/
+2. Download [MacOSXSystemFontReplacer.py](./MacOSXSystemFontReplacer.py?raw=true) and save it in a folder. 
+3. Place your fonts in the same folder
+3. Rename your fonts to a scheme that the tool expects (see section "Preparing your fonts" below)
+4. Run Terminal.app and navigate to that folder using 'cd'
+5. Run ```sudo python ./MacOSXSystemFontReplacer.py``` 
 6. Enter your OS X Administrator password
 7. Log out of Mac OS X and log in again
 
@@ -110,7 +111,7 @@ Credits
 -------
 * Code by: [Adam Twardoch](./AUTHORS) 
 * Inspired by https://github.com/jenskutilek/FiraSystemFontReplacement and https://github.com/dtinth/YosemiteSystemFontPatcher 
-* Homepage: http://github.com/twardoch/fontools-utils/mac-os-x-system-font-replacer
+* Homepage: https://github.com/twardoch/fonttools-utils/tree/master/mac-os-x-system-font-replacer
 
 Software License and Disclaimer
 -------------------------------
