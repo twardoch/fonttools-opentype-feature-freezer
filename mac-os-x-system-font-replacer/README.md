@@ -27,11 +27,7 @@ This is a command-line tool written in Python.
 6. Enter your OS X Administrator password
 7. Log out of Mac OS X and log in again
 
-¹To install **fontTools/TTX**: download the [fonttools-master.zip](https://github.com/behdad/fonttools/archive/master.zip?raw=true) archive, unzip it, open Terminal.app and navigate to the unzipped folder using ```cd```. Then just type: 
-```
-sudo python setup.py install
-```
-and enter your Administrator password. 
+¹To install **fontTools/TTX**: download the [fonttools-master.zip](https://github.com/behdad/fonttools/archive/master.zip?raw=true) archive, unzip it, open Terminal.app and navigate to the unzipped folder using ```cd```. Then just type ```sudo python setup.py install``` and enter your Administrator password. 
 
 Advanced usage
 --------------
