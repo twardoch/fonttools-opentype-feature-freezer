@@ -18,16 +18,16 @@ Installation and basic usage
 ----------------------------
 This is a command-line tool written in Python. 
 
-1. Download and install* [fontTools/TTX](https://github.com/behdad/fonttools/)
-2. Download [MacOSXSystemFontReplacer.py](./MacOSXSystemFontReplacer.py?raw=true) and save it in a folder
+1. Download and install¹ [fontTools/TTX](https://github.com/behdad/fonttools/)
+2. Download **[MacOSXSystemFontReplacer.py](./MacOSXSystemFontReplacer.py?raw=true)** and save it in a folder
 3. Place your fonts in the same folder
-3. Rename your fonts to a scheme that the tool expects (see section "Preparing your fonts" below)
+3. Rename your fonts to a scheme that the tool expects (see section “Preparing your fonts” below)
 4. Run Terminal.app and navigate to that folder using ```cd```
 5. Run ```sudo python ./MacOSXSystemFontReplacer.py``` 
 6. Enter your OS X Administrator password
 7. Log out of Mac OS X and log in again
 
-*To install **fontTools/TTX**: download the [fonttools-master.zip](https://github.com/behdad/fonttools/archive/master.zip?raw=true) archive, unzip it, open Terminal.app and navigate to the unzipped folder using ```cd```. Then just type: 
+¹To install **fontTools/TTX**: download the [fonttools-master.zip](https://github.com/behdad/fonttools/archive/master.zip?raw=true) archive, unzip it, open Terminal.app and navigate to the unzipped folder using ```cd```. Then just type: 
 ```
 sudo python setup.py install
 ```
@@ -106,7 +106,7 @@ In Mac OS X 10.10 Yosemite, the default Mac OS X UI fonts are stored in ```/Syst
 Requirements
 ------------
 
-Please install the fontTools/TTX package from https://github.com/behdad/fonttools/
+This tool is written in Python 2.7 and requires the fontTools/TTX package from https://github.com/behdad/fonttools/
 
 Credits
 -------
