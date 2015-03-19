@@ -11,8 +11,8 @@ The tool is 'safe' i.e. it does not modify the original system UI fonts.
 Instead, it writes patched versions of the fonts you provide into the System library folder, but you can easily
 uninstall those later manually or using the tool itself.
 
-Usage
------
+Basic usage
+-----------
 This is a command-line tool written in Python. 
 
 1. Download and install https://github.com/behdad/fonttools/
@@ -24,8 +24,8 @@ This is a command-line tool written in Python.
 6. Enter your OS X Administrator password
 7. Log out of Mac OS X and log in again
 
-Optional command-line arguments
--------------------------------
+Advanced usage
+--------------
 There are more options to the tool: 
 ```
 MacOSXSystemFontReplacer.py [-h] [-i INPUT_FOLDER] [-s FONT_SIZE]
