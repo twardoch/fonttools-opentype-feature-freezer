@@ -14,11 +14,11 @@ uninstall those later manually or using the tool itself.
 ![Example: Work Sans](example-work-sans.png?raw=true "Example: I have used the tool to replace the default UI system font with Work Sans")
 *This example shows how the tool was used to replace the default UI system fonts of Mac OS X 10.10 with the open-source [Work Sans](http://weiweihuanghuang.github.io/Work-Sans/) font family. The ```-s 105``` option was used to visually increase the font sizes by 5%.*
 
-Basic usage
------------
+Installation and basic usage
+----------------------------
 This is a command-line tool written in Python. 
 
-1. Download and install https://github.com/behdad/fonttools/
+1. Download and install* [fontTools/TTX](https://github.com/behdad/fonttools/)
 2. Download [MacOSXSystemFontReplacer.py](./MacOSXSystemFontReplacer.py?raw=true) and save it in a folder
 3. Place your fonts in the same folder
 3. Rename your fonts to a scheme that the tool expects (see section "Preparing your fonts" below)
@@ -26,6 +26,12 @@ This is a command-line tool written in Python.
 5. Run ```sudo python ./MacOSXSystemFontReplacer.py``` 
 6. Enter your OS X Administrator password
 7. Log out of Mac OS X and log in again
+
+*To install **fontTools/TTX**: download the [fonttools-master.zip](https://github.com/behdad/fonttools/archive/master.zip?raw=true) archive, unzip it, open Terminal.app and navigate to the unzipped folder using ```cd```. Then just type: 
+```
+sudo python setup.py install
+```
+and enter your Administrator password. 
 
 Advanced usage
 --------------
