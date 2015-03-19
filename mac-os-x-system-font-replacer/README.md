@@ -90,7 +90,7 @@ Notes
 
 Please use the file names exactly as provided, and **use the ```.otf``` extension** even if your fonts are actually ```.ttf```. 
 
-The most important fonts are ***System Font Regular.otf*** and ***System Font Bold.otf***. You don't need to provide all fonts (then the default system font will still be used in some places). 
+The most important fonts are **System Font Regular.otf** and **System Font Bold.otf**. You don't need to provide all fonts (then the default system font will still be used in some places). 
 
 If you find that after logging out and in again, the new UI fonts are visually too small, run the tool again, but this time, provide an ```-s``` command-line option with a percentage scaling. Usually a value such as ```-s 105``` will be good enough. 
 
