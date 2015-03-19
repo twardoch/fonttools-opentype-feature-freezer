@@ -79,7 +79,7 @@ Filename | Usage | Design
 **System Font Light.otf** | yet smaller headlines³ | slightly bolder than Thin
 **System Font Heavy.otf** | | bolder than Bold
 
-¹) e.g. in Calendar for month ²) e.g. in the headline of Notification Center ³) or as bold for the UltraLight e.g. in Calendar for year
+¹e.g. in Calendar for month ²e.g. in the headline of Notification Center ³or as bold for the UltraLight e.g. in Calendar for year
 
 The font files renamed according to the above scheme need to be placed in a folder, and then you need to specify that folder using the ```-i``` command-line option. (If the tool is in the same folder as the fonts, you can omit that option). The tool will match each of your fonts to one of the default Mac OS X UI fonts using the filename. 
 
