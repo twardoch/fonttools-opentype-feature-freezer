@@ -24,16 +24,14 @@ This is a command-line tool written in Python.
 6. Enter your OS X Administrator password
 7. Log out of Mac OS X and log in again
 
+Optional command-line arguments
+-------------------------------
 There are more options to the tool: 
 ```
 MacOSXSystemFontReplacer.py [-h] [-i INPUT_FOLDER] [-s FONT_SIZE]
                             [-o OUTPUT_FOLDER] [-H] [-u] [-c]
                             [-t SYSTEM_TTC]
-```
 
-Optional command-line arguments
--------------------------------
-```
   -h, --help            show this help message and exit
   -i INPUT_FOLDER, --input-folder INPUT_FOLDER
                         path to folder with your input font files, default is
