@@ -61,6 +61,8 @@ additional options:
   -V, --version         show program's version number and exit
 ```
 
+*Tip: the `-n` option outputs a space-separated list of “frozen” glyphs. If you redirect it to a file, you can use this list as input for **pyftsubset** to create a small font that only includes the “frozen” glyphs.*
+
 Software License and Disclaimer
 -------------------------------
 This tool is licensed “as is” under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). By using the tool, you accept all conditions of the license, including Disclaimer of Warranty and Limitation of Liability. **If you use this tool, please consult if your font’s EULA allows modifications. If the font is licensed under the OFL, please use the `-R` option to change the Reserved Font Name to something else.** 
