@@ -61,7 +61,7 @@ additional options:
   -V, --version         show program's version number and exit
 ```
 
-*Tip: the `-n` option outputs a space-separated list of “frozen” glyphs. If you redirect it to a file, you can use this list as input for **pyftsubset** to create a small font that only includes the “frozen” glyphs.*
+*Tip: the `-n` option outputs a space-separated list of “frozen” glyphs. If you redirect it to a file, you can use this list as input for `pyftsubset` to create a small font that only includes the “frozen” glyphs.*
 
 Software License and Disclaimer
 -------------------------------
