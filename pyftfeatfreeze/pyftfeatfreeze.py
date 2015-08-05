@@ -1,13 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-VERSION = "1.10"
+VERSION = "1.20"
 """pyftfeatfreeze.py
 Version %(version)s
 Copyright (c) 2015 by Adam Twardoch <adam@twardoch.com>
 Licensed under the Apache 2 license.
 """ % {"version": VERSION}
 
+# 1.20 (2015-08-05 by adam):
+#      added -r option to report available scripts and features
+#      made outpath optional
+#      fixed a bug reported by Eric Muller that made the -s and -l options non-functional
 # 1.10 (2015-07-18 by adam):
 #      first version
 
@@ -41,7 +45,7 @@ def warn(message, category="WARN", exit=False):
 
 
 def parseOptions():
-    USAGE = "%(prog)s [options] inpath outpath"
+    USAGE = "%(prog)s [options] inpath [outpath]"
     EXAMPLE = "Example: %(prog)s -f 'c2sc,smcp' -S -U SC OpenSans.ttf OpenSansSC.ttf"
     parser = argparse.ArgumentParser(usage=USAGE, 
                                    epilog=EXAMPLE, add_help=True)
@@ -52,7 +56,7 @@ def parseOptions():
     Only single and alternate substitutions are supported. Homepage: https://github.com/twardoch/fonttools-utils/
     """
     parser.add_argument("inpath", help="input .otf or .ttf font file")
-    parser.add_argument("outpath", help="output .otf or .ttf font file")
+    parser.add_argument("outpath", nargs='?', default=None, help="output .otf or .ttf font file (optional)")
     group1 = parser.add_argument_group("options to control feature freezing")
     group1.add_argument("-f", "--features",
                       action="store", dest="features", type=str, default="",
@@ -72,7 +76,10 @@ def parseOptions():
                       help="use a custom suffix when -S is provided")
     group2.add_argument("-R", "--replacenames", action="store", dest="replacenames", default="", 
                       help="search for strings in the font naming tables and replace them, format is 'search1/replace1,search2/replace2,...'")
-    group3 = parser.add_argument_group("additional options")
+    group3 = parser.add_argument_group("reporting options")
+    group3.add_argument("-r", "--report",
+                      action="store_true", dest="report", default=False,
+                      help="report languages, scripts and features in font")
     group3.add_argument("-n", "--names",
                       action="store_true", dest="names", default=False,
                       help="output names of remapped glyphs during processing")
@@ -90,8 +97,12 @@ class RemapByOTL:
         self.success = True
         self.inpath = options.inpath
         self.outpath = options.outpath
+        if not self.outpath: 
+            self.outpath = self.inpath + ".featfreeze.otf"
         self.options = options
         self.names = []
+        self.reportLangSys = []
+        self.reportFeature = []
         self.ttx = None
         if self.options.verbose:
             log("[RemapByOTL] Running with options: %s" % self.options)
@@ -116,9 +127,17 @@ class RemapByOTL:
                 self.ttx = None
 
     def saveFont(self):
-        self._saveFontTTX()
-        if self.options.verbose and self.success:
-            log("[saveFont] Saved font: %s" % self.outpath)
+        if self.options.report: 
+            self._reportFont()
+        else: 
+            self._saveFontTTX()
+            if self.options.verbose and self.success:
+                log("[saveFont] Saved font: %s" % self.outpath)
+
+    def _reportFont(self): 
+        self.success = True
+        print "# Scripts and languages:\n%s" % ("\n".join(sorted(list(set(self.reportLangSys)))))
+        print "# Features:\n-f %s" % (",".join(sorted(list(set(self.reportFeature)))))
 
     def _saveFontTTX(self):
         self.success = True
@@ -148,12 +167,16 @@ class RemapByOTL:
         self.filterByScript = self.options.script
         self.filterByLangSys = self.options.lang
         if not "GSUB" in self.ttx:
-            warn("No 'GSUB' table found in %s, nothing to do!" % inpath, "ERRR")
+            warn("No 'GSUB' table found in %s, nothing to do!" % self.inpath, "ERRR")
             self.success = False
             return None
         gsub = self.ttx["GSUB"].table
         self.FeatureIndex = []
         for ScriptRecord in gsub.ScriptList.ScriptRecord:
+            if self.options.report: 
+                self.reportLangSys.append("-s '%s'" % (ScriptRecord.ScriptTag))
+                for LangSysRecord in ScriptRecord.Script.LangSysRecord:
+                    self.reportLangSys.append("-s '%s' -l '%s'" % (ScriptRecord.ScriptTag, LangSysRecord.LangSysTag))
             if ScriptRecord.ScriptTag == self.filterByScript:
                 if self.filterByLangSys:
                     for LangSysRecord in ScriptRecord.Script.LangSysRecord:
@@ -176,9 +199,12 @@ class RemapByOTL:
             return None
         gsub = self.ttx["GSUB"].table
         self.LookupList = []
-        for FeatureRecord in gsub.FeatureList.FeatureRecord:
-            if FeatureRecord.FeatureTag in self.filterByFeatures:
-                self.LookupList += FeatureRecord.Feature.LookupListIndex
+        if self.options.report: 
+            for FeatureRecord in gsub.FeatureList.FeatureRecord:
+                self.reportFeature.append(FeatureRecord.FeatureTag)
+        for fi in self.FeatureIndex:
+            if gsub.FeatureList.FeatureRecord[fi].FeatureTag in self.filterByFeatures:
+                self.LookupList += gsub.FeatureList.FeatureRecord[fi].Feature.LookupListIndex
         self.LookupList = sorted(list(set(self.LookupList)))
         if self.options.verbose:
             log("[filterLookupList] Lookups: %s" % (self.LookupList))
