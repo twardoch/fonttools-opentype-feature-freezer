@@ -8,6 +8,9 @@ Copyright (c) 2015 by Adam Twardoch <adam@twardoch.com>
 Licensed under the Apache 2 license.
 """ % {"version": VERSION}
 
+# 1.21 (2015-08-06 by adam):
+#      added -i option to control version string update
+#      fixed issues with suffix and name replacing
 # 1.20 (2015-08-05 by adam):
 #      added -r option to report available scripts and features
 #      made outpath optional
@@ -72,10 +75,13 @@ def parseOptions():
                       action="store_true", dest="rename", default=False,
                       help="add a suffix to the font menu names (by default, the suffix will be constructed from the OpenType feature tags)")
     group2.add_argument("-U", "--usesuffix",
-                      action="store", dest="usesuffix", default=None,
+                      action="store", dest="usesuffix", default="",
                       help="use a custom suffix when -S is provided")
     group2.add_argument("-R", "--replacenames", action="store", dest="replacenames", default="", 
                       help="search for strings in the font naming tables and replace them, format is 'search1/replace1,search2/replace2,...'")
+    group2.add_argument("-i", "--info",
+                      action="store_true", dest="info", default=False,
+                      help="update font version string")
     group3 = parser.add_argument_group("reporting options")
     group3.add_argument("-r", "--report",
                       action="store_true", dest="report", default=False,
@@ -263,11 +269,13 @@ class RemapByOTL:
 
     def renameFont(self):
         self.success = True
-        if not self.options.rename:
+        if not self.options.rename and not self.options.replacenames:
             return self.success
-        suffix = self.options.usesuffix
-        if not suffix:
+        suffix = " " + self.options.usesuffix
+        if suffix == " ":
             suffix = " ".join(sorted(self.filterByFeatures))
+        if suffix == " ": 
+            suffix = ""
         pssuffix = suffix.replace(" ", "")
         replacenames = False
         replacetable = [s.split("/") for s in self.options.replacenames.split(",")]
@@ -284,7 +292,7 @@ class RemapByOTL:
                     oldname = nr.string.decode("utf_16_be")
                 else:
                     oldname = nr.string
-                newname = u"%s %s" % (oldname, suffix)
+                newname = u"%s%s" % (oldname, suffix)
                 if replacenames: 
                     for repl in replacetable: 
                         newname = newname.replace(repl[0],repl[1])
@@ -294,17 +302,18 @@ class RemapByOTL:
                         utf8familyname = newname.encode("utf_8")
                 else:
                     nr.string = newname.encode("utf_8")
-            # Version string
-            if nr.nameID in [5]:
-                if nr.platformID in [0, 3]:
-                    oldname = nr.string.decode("utf_16_be")
-                else:
-                    oldname = nr.string
-                newname = u"%s; featfreeze: %s" % (oldname, self.options.features)
-                if nr.platformID in [0, 3]:
-                    nr.string = newname.encode("utf_16_be")
-                else:
-                    nr.string = newname.encode("utf_8")
+            if self.options.info: 
+                # Version string
+                if nr.nameID in [5]:
+                    if nr.platformID in [0, 3]:
+                        oldname = nr.string.decode("utf_16_be")
+                    else:
+                        oldname = nr.string
+                    newname = u"%s; featfreeze: %s" % (oldname, self.options.features)
+                    if nr.platformID in [0, 3]:
+                        nr.string = newname.encode("utf_16_be")
+                    else:
+                        nr.string = newname.encode("utf_8")
             # PS name
             newpsname = None
             if nr.nameID in [6]:
