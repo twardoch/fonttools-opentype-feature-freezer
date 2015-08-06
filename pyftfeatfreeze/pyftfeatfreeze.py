@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-VERSION = "1.20"
+VERSION = "1.22"
 """pyftfeatfreeze.py
 Version %(version)s
 Copyright (c) 2015 by Adam Twardoch <adam@twardoch.com>
 Licensed under the Apache 2 license.
 """ % {"version": VERSION}
 
+# 1.22 (2015-08-06 by adam):
+#      added -z option to zap TT glyph names
 # 1.21 (2015-08-06 by adam):
 #      added -i option to control version string update
 #      fixed issues with suffix and name replacing
@@ -70,6 +72,9 @@ def parseOptions():
     group1.add_argument("-l", "--lang",
                       action="store", dest="lang", type=str, default=None,
                       help="OpenType language tag, e.g. 'SRB ' (optional)")
+    group1.add_argument("-z", "--zapnames",
+                      action="store_true", dest="zapnames", default=False,
+                      help="zap glyphnames from the font ('post' table version 3, .ttf only)")
     group2 = parser.add_argument_group("options to control font renaming")
     group2.add_argument("-S", "--suffix",
                       action="store_true", dest="rename", default=False,
@@ -136,6 +141,8 @@ class RemapByOTL:
         if self.options.report: 
             self._reportFont()
         else: 
+            if self.options.zapnames: 
+                self.ttx["post"].formatType = 3.0
             self._saveFontTTX()
             if self.options.verbose and self.success:
                 log("[saveFont] Saved font: %s" % self.outpath)
@@ -174,7 +181,7 @@ class RemapByOTL:
         self.filterByLangSys = self.options.lang
         if not "GSUB" in self.ttx:
             warn("No 'GSUB' table found in %s, nothing to do!" % self.inpath, "ERRR")
-            self.success = False
+            self.success = True
             return None
         gsub = self.ttx["GSUB"].table
         self.FeatureIndex = []
@@ -201,7 +208,7 @@ class RemapByOTL:
             log("[filterLookupList] Features to apply: %s" %
                 (self.filterByFeatures))
         if not "GSUB" in self.ttx:
-            self.success = False
+            self.success = True
             return None
         gsub = self.ttx["GSUB"].table
         self.LookupList = []
@@ -218,7 +225,7 @@ class RemapByOTL:
     def applySubstitutions(self):
         self.success = True
         if not "GSUB" in self.ttx:
-            self.success = False
+            self.success = True
             return None
         gsub = self.ttx["GSUB"].table
         for LookupID in self.LookupList:
@@ -279,7 +286,7 @@ class RemapByOTL:
         pssuffix = suffix.replace(" ", "")
         replacenames = False
         replacetable = [s.split("/") for s in self.options.replacenames.split(",")]
-        if len(replacetable[0]) > 0: 
+        if len(replacetable[0]) > 1: 
             replacenames = True
         name = self.ttx["name"]
         utf8familyname = None
