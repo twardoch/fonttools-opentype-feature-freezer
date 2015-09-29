@@ -7,6 +7,20 @@ These features are then “on by default”, so characters previously accessible
 
 *Note: This tool actually remaps the `cmap` table of the font by applying the specified `GSUB` features. Only single and alternate substitutions are supported.*
 
+Installation
+------------
+On Mac OS X: 
+* Download and unzip https://github.com/twardoch/fonttools-utils/archive/master.zip
+* Open Terminal and navigate to the folder where you’ve unzipped the archive.
+* Type these lines one by one, enter the Administrator password after the first "sudo" line: 
+```
+cd pyftfeatfreeze
+chmod gou+x pyftfeatfreeze.py
+sudo mkdir -p /usr/local/bin
+sudo cp pyftfeatfreeze.py /usr/local/bin
+```
+Test if the tool is available in Terminal by typing `pyftfeatfreeze.py -h`
+
 Examples
 --------
 Let’s say you have the font *CharisSIL-R.ttf* (with the menu name “Charis SIL”), and this font includes true smallcaps accessible via the OpenType Layout features `c2sc` (for uppercase) and `smcp` (for lowercase). Let’s say that you’d like to make a second font where the **true smallcaps** are available by default. Just run: 
