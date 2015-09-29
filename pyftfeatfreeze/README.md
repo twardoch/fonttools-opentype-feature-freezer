@@ -27,11 +27,17 @@ pyftfeatfreeze.py -f 'locl' -s 'cyrl' -l 'BGR ' -S -U BG SomeFont.ttf SomeFontBG
 Command-line syntax
 -------------------
 ```
-usage: pyftfeatfreeze.py [options] inpath outpath
+usage: pyftfeatfreeze.py [options] inpath [outpath]
+
+With pyftfeatfreeze.py you can "freeze" some OpenType features into a font.
+These features are then "on by default", even in apps that don't support
+OpenType features. This tool actually remaps the "cmap" table of the font by
+applying the specified GSUB features. Only single and alternate substitutions
+are supported. Homepage: https://github.com/twardoch/fonttools-utils/
 
 positional arguments:
   inpath                input .otf or .ttf font file
-  outpath               output .otf or .ttf font file
+  outpath               output .otf or .ttf font file (optional)
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -43,6 +49,8 @@ options to control feature freezing:
   -s SCRIPT, --script SCRIPT
                         OpenType script tag, e.g. 'cyrl' (default: 'latn')
   -l LANG, --lang LANG  OpenType language tag, e.g. 'SRB ' (optional)
+  -z, --zapnames        zap glyphnames from the font ('post' table version 3,
+                        .ttf only)
 
 options to control font renaming:
   -S, --suffix          add a suffix to the font menu names (by default, the
@@ -54,11 +62,17 @@ options to control font renaming:
                         search for strings in the font naming tables and
                         replace them, format is
                         'search1/replace1,search2/replace2,...'
+  -i, --info            update font version string
 
-additional options:
+reporting options:
+  -r, --report          report languages, scripts and features in font
   -n, --names           output names of remapped glyphs during processing
   -v, --verbose         print additional information during processing
   -V, --version         show program's version number and exit
+
+Examples: 
+pyftfeatfreeze.py -f 'c2sc,smcp' -S -U SC OpenSans.ttf OpenSansSC.ttf
+pyftfeatfreeze.py -R 'Lato/Otal' Lato-Regular.ttf Otal-Regular.ttf
 ```
 
 *Tip: the `-n` option outputs a space-separated list of “frozen” glyphs. If you redirect it to a file, you can use this list as input for `pyftsubset` to create a small font that only includes the “frozen” glyphs.*

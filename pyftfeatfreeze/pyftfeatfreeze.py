@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-VERSION = "1.22"
+VERSION = "1.23"
 """pyftfeatfreeze.py
 Version %(version)s
 Copyright (c) 2015 by Adam Twardoch <adam@twardoch.com>
 Licensed under the Apache 2 license.
 """ % {"version": VERSION}
 
+# 1.23 (2015-09-29 by adam):
+#      minor
 # 1.22 (2015-08-06 by adam):
 #      added -z option to zap TT glyph names
 # 1.21 (2015-08-06 by adam):
