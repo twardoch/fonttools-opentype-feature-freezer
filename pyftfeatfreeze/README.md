@@ -24,6 +24,11 @@ pyftfeatfreeze.py -f 'locl' -s 'cyrl' -l 'BGR ' -S -U BG SomeFont.ttf SomeFontBG
 
 *Note: To remap features from multiple scripts or languagesystems, run the tool multiple times (taking the previous run’s output as input). Use the `-S` option only on the final run.*
 
+The following replaces the string `Lato` by `Otal` in all internal font names (in the `name` and `CFF ` tables), without doing any “feature freezing”. This can be used to quickly change some internal font names: 
+```
+pyftfeatfreeze.py -R 'Lato/Otal' Lato-Regular.ttf Otal-Regular.ttf
+```
+
 Command-line syntax
 -------------------
 ```
