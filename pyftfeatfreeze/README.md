@@ -9,16 +9,16 @@ These features are then “on by default”, so characters previously accessible
 
 Installation on Mac OS X
 ------------------------
-1. Download and unzip https://github.com/twardoch/fonttools-utils/archive/master.zip
-2. Open Terminal and navigate to the folder where you’ve unzipped the archive.
-3. Type these lines one by one, enter the Administrator password after the first "sudo" line: 
+* Download and unzip https://github.com/twardoch/fonttools-utils/archive/master.zip
+* Open Terminal and navigate to the folder where you’ve unzipped the archive.
+* Type these lines one by one, enter the Administrator password after the first "sudo" line: 
 ```
 cd pyftfeatfreeze
 chmod gou+x pyftfeatfreeze.py
 sudo mkdir -p /usr/local/bin
 sudo cp pyftfeatfreeze.py /usr/local/bin
 ```
-4. Test if the tool is available in Terminal by typing `pyftfeatfreeze.py -h`
+* Test if the tool is available in Terminal by typing `pyftfeatfreeze.py -h`
 
 Examples
 --------
