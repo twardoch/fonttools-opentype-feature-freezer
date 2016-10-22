@@ -46,8 +46,12 @@ Python usage
 import ttxjson
 import fontTools.ttLib
 font = fontTools.ttLib.TTFont(fontPath, lazy=False, ignoreDecompileErrors=True)
-json = ttxjson.ttxJson(font, tables=['head','name','CFF '])
-print json
+jsonString = ttxjson.ttxJson(font, tables=['head','name','CFF '])
+print jsonString
+import json
+jsonDict = json.loads(jsonString)
+upm = jsonDict[u'tables'][u'head'][u'unitsPerEm']
+print upm
 ```
 
 Software License and Disclaimer
