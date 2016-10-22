@@ -13,9 +13,9 @@ Installation on Mac OS X
 pip install --user git+https://github.com/fonttools/fonttools.git
 pip install --user git+https://github.com/jsonpickle/jsonpickle.git
 cd ttxjson
-chmod gou+x pyftfeatfreeze.py
+chmod gou+x ttxjson.py
 sudo mkdir -p /usr/local/bin
-sudo cp pyftfeatfreeze.py /usr/local/bin
+sudo cp ttxjson.py /usr/local/bin
 ```
 * Test if the tool is available in Terminal by typing `ttxjson.py -h`
 
