@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import, print_function, unicode_literals
+from builtins import range
+from builtins import object
+
 VERSION = "1.23"
 """pyftfeatfreeze.py
 Version %(version)s
@@ -104,7 +108,7 @@ def parseOptions():
     return parser.parse_args()
 
 
-class RemapByOTL:
+class RemapByOTL(object):
 
     def __init__(self, options):
         self.success = True
@@ -151,8 +155,8 @@ class RemapByOTL:
 
     def _reportFont(self): 
         self.success = True
-        print "# Scripts and languages:\n%s" % ("\n".join(sorted(list(set(self.reportLangSys)))))
-        print "# Features:\n-f %s" % (",".join(sorted(list(set(self.reportFeature)))))
+        print("# Scripts and languages:\n%s" % ("\n".join(sorted(list(set(self.reportLangSys))))))
+        print("# Features:\n-f %s" % (",".join(sorted(list(set(self.reportFeature))))))
 
     def _saveFontTTX(self):
         self.success = True
@@ -369,7 +373,7 @@ class RemapByOTL:
                             nr.string = nrpsn.string
         if "CFF " in self.ttx:
             cff = self.ttx["CFF "]
-            rawDict = cff.cff[cff.cff.keys()[0]].rawDict
+            rawDict = cff.cff[list(cff.cff.keys())[0]].rawDict
             if utf8familyname:
                 rawDict["FamilyName"] = utf8familyname
             else:
@@ -405,7 +409,7 @@ class RemapByOTL:
             self.remapCmaps()
         if self.success:
             if self.options.names:
-                print " ".join(self.names)
+                print(" ".join(self.names))
 
     def run(self):
         self.openFont()
@@ -432,7 +436,7 @@ def main():
         else:
             warn("Errors during processing.", "FAIL", exit=True)
     else:
-        print "Add -h for help"
+        print("Add -h for help")
 
 if __name__ == "__main__":
     finish = main()
