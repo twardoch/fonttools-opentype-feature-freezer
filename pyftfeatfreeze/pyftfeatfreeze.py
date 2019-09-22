@@ -285,7 +285,7 @@ class RemapByOTL(object):
         if not self.options.rename and not self.options.replacenames:
             return self.success
         suffix = " " + self.options.usesuffix
-        if suffix == " ":
+        if suffix == " " and self.options.rename:
             suffix = " ".join(sorted(self.filterByFeatures))
         if suffix == " ": 
             suffix = ""
