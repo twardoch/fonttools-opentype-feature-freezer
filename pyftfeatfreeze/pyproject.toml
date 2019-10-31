@@ -17,7 +17,6 @@ pylint = "^2.4"
 pytest = "^5.2"
 pytest-cov = "^2.8"
 pytest-mypy = "^0.4.1"
-rope = "^0.14.0"
 
 [tool.poetry.scripts]
 pyftfeatfreeze = "opentype_feature_freezer.cli:main"
