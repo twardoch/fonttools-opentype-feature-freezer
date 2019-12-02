@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "opentype-feature-freezer"
+version = "1.30.0"
+description = "Turn some OpenType features in a font \"on\" by default."
+authors = [
+    "Adam Twardoch <adam@twardoch.com>",
+    "Nikolaus Waxweiler <nikolaus.waxweiler@daltonmaag.com>",
+]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+fonttools = "^4.0"
+
+[tool.poetry.dev-dependencies]
+pylint = "^2.4"
+pytest = "^5.2"
+pytest-cov = "^2.8"
+pytest-mypy = "^0.4.1"
+
+[tool.poetry.scripts]
+pyftfeatfreeze = "opentype_feature_freezer.cli:main"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
