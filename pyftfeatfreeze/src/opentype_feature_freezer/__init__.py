@@ -262,27 +262,21 @@ class RemapByOTL:
         family_name_new_no_space = family_name_new.replace(" ", "")
 
         for record in name.names:
-            if record.nameID in {0, 7}:
-                # Copyright notice and trademark string, don't replace there.
-                continue
-
-            string = record.toStr()
-
-            if record.nameID == 3:
+            if record.nameID in {1, 4, 16, 18, 21}:
+                record.string = record.toStr().replace(family_name_old, family_name_new)
+            elif record.nameID == 3:
                 # Unique ID. Do not search and replace strings here because a unique ID
                 # is essentially an arbitrary string.
-                record.string = f"{string};featfreeze:{self.options.features}"
+                record.string = f"{record.toStr()};featfreeze:{self.options.features}"
             elif record.nameID == 5 and self.options.info:
                 # Version string. Do not search and replace strings here because the
                 # field is a semi-arbitrary string.
-                record.string = f"{string}; featfreeze: {self.options.features}"
-            elif record.nameID == 6:
+                record.string = f"{record.toStr()}; featfreeze: {self.options.features}"
+            elif record.nameID in (6, 20):
                 # PostScript name: no spaces.
-                record.string = string.replace(
+                record.string = record.toStr().replace(
                     family_name_no_space_old, family_name_new_no_space
                 )
-            else:
-                record.string = string.replace(family_name_old, family_name_new)
 
         full_name_new = name.getName(4, 3, 1).toStr()
         postscript_name_new = name.getName(6, 3, 1).toStr()
