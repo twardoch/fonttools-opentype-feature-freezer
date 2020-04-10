@@ -9,7 +9,7 @@ These features are then “on by default”, so characters previously accessible
 
 
 Installation
------------
+------------
 
 This tool requires Python 3.6 or above to be installed first. Get it from https://www.python.org or your package manager.
 
@@ -133,15 +133,22 @@ pyftfeatfreeze -R 'Lato/Otal' Lato-Regular.ttf Otal-Regular.ttf
 
 Software License and Disclaimer
 -------------------------------
-This tool is licensed “as is” under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). By using the tool, you accept all conditions of the license, including Disclaimer of Warranty and Limitation of Liability. **If you use this tool, please consult if your font’s EULA allows modifications. If the font is licensed under the OFL, please use the `-R` option to change the Reserved Font Name to something else.**
+This tool is licensed “as is” under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). By using the tool, you accept all conditions of the license, including Disclaimer of Warranty and Limitation of Liability. **If you use this tool, please consult if your font’s EULA allows modifications. If the font is licensed under the OFL and uses the Reserved Font Name, please use the `-R` option to change the Reserved Font Name to something else.**
 
 
 Requirements
 ------------
-This tool is written for Python 3.6+ and requires [fontTools/TTX](https://github.com/behdad/fonttools/).
+This tool is written for Python 3.6+ and requires [fontTools/TTX](https://github.com/fonttools/fonttools/).
+
+
+Project homepage
+----------------
+- [https://github.com/twardoch/fonttools-opentype-feature-freezer/](https://github.com/twardoch/fonttools-opentype-feature-freezer/)
+- Previously, this tool was published as a sub-tool in a [fonttools-utils](https://github.com/twardoch/fonttools-utils/tree/master/pyftfeatfreeze) repo
+- The other tools of the `fonttools-utils` repo are now at [fonttools-ttxjson](https://github.com/twardoch/fonttools-ttxjson) and [mac-os-x-system-font-replacer](https://github.com/twardoch/mac-os-x-system-font-replacer)
 
 
 Credits
 -------
-* Code by [Adam Twardoch](./AUTHORS)
-* Homepage: [https://github.com/twardoch/fonttools-utils/](https://github.com/twardoch/fonttools-utils/)
+
+* Code by [Adam Twardoch and others](./AUTHORS)
