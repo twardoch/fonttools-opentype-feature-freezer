@@ -13,9 +13,9 @@ Installation
 
 This tool requires Python 3.6 or above to be installed first. Get it from https://www.python.org or your package manager.
 
-**XXX: Upload this package to Pypi**
-
 ### Recommended
+
+**When this tool is published on Pypi (it’s not yet)**:
 
 We recommend using [pipx](https://pypi.org/project/pipx/) to install Python command line tools. Pipx tucks them away neatly on your computer and gives you an easy way to add, update and remove Python tools on all platforms, without leaving a mess in your Python installation.
 
@@ -24,6 +24,8 @@ pipx install opentype-feature-freezer
 ```
 
 ### Other methods
+
+**When this tool is published on Pypi (it’s not yet)**:
 
 Install it with `pip`, as any other Python package.
 
@@ -34,6 +36,15 @@ Install it with `pip`, as any other Python package.
 pip install opentype-feature-freezer
 ```
 
+### Development version
+
+```
+pip install --upgrade git+https://github.com/twardoch/fonttools-opentype-feature-freezer
+```
+
+- Use `python3 -m pip install` instead of `pip` if you have different versions of Python installed.
+
+- You may need to do `pip install --upgrade configparser` before installing
 
 Examples
 --------
