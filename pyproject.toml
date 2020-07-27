@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "opentype-feature-freezer"
 version = "1.30.0"
-description = "Turn some OpenType features in a font \"on\" by default."
+description = "Turns OpenType features 'on' by default in a font: reassigns the font's Unicode-to-glyph mapping fo permanently 'freeze' the 1-to-1 substitution features, and creates a new font."
 authors = [
     "Adam Twardoch <adam@twardoch.com>",
     "Nikolaus Waxweiler <nikolaus.waxweiler@daltonmaag.com>",
@@ -22,5 +22,5 @@ pytest-mypy = "^0.4.1"
 pyftfeatfreeze = "opentype_feature_freezer.cli:main"
 
 [build-system]
-requires = ["poetry>=0.12"]
+requires = ["poetry>=0.12", "configparser>=5.0.0"]
 build-backend = "poetry.masonry.api"
