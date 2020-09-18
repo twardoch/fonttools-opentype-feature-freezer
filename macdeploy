@@ -1,0 +1,240 @@
+#!/usr/bin/env bash
+dir=${0%/*}
+if [ "$dir" = "$0" ]; then dir="."; fi
+cd "$dir" || exit
+
+export WINEDEBUG="fixme-all,err-all"
+PYEXE="$HOME/.wine/drive_c/windows/py.exe"
+ISSEXE="$HOME/.wine/drive_c/Program Files (x86)/Inno Setup 6/ISCC.exe"
+PYMAC="python3"
+PYWIN="wine py"
+VER=$(echo -e "import opentype_feature_freezer.__init__\nprint(opentype_feature_freezer.__init__.__version__)" | "$PYMAC")
+
+function pp() {
+  echo
+  echo -e "[dist] $1"
+  echo
+}
+
+function pins() {
+  pp "Installing $1..."
+}
+
+function pup() {
+  pp "Updating $1..."
+}
+
+function pok() {
+  echo
+  echo -e "\e[92m[dist] $1"
+  echo
+}
+
+function perr() {
+  echo
+  echo -e "\e[91m[dist][ERROR] $1"
+  echo
+  exit
+}
+
+function pwarn() {
+  echo
+  echo -e "\e[91m[dist][WARNING] $1"
+  echo
+}
+
+function insbrew() {
+  if [ ! -x "$(command -v brew)" ]; then
+    pins "brew"
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
+}
+
+function pkgbrew() {
+  # Install package if not installed
+  # $ pkgbrew go
+  if [ -z "$1" ]; then return; else local pkg=$@; fi
+  insbrew
+  if [ -x "$(touch $(brew --prefix)/var/testX6mg87lk)" ]; then
+    pwarn "$(brew) needs to fix permissions, enter your administrator password:"
+    sudo chown -R $(whoami) $(brew --prefix)/*
+    sudo chown $(whoami) $(brew --prefix)/*
+    brew list -1 | while read pkg; do
+      brew unlink "$pkg"
+      brew link "$pkg"
+    done
+  else
+    rm "$(brew --prefix)/var/testX6mg87lk"
+  fi
+  if [ "$1" == "cask" ]; then
+    local brewins="brew cask install"
+    local brewupg="brew upgrade --cask"
+    local brewlist="brew list --cask"
+    local pkg=${@:2}
+  else
+    local brewins="brew install"
+    local brewupg="brew upgrade"
+    local brewlist="brew list"
+  fi
+  if $brewlist --versions "$pkg" >/dev/null; then
+    pup "$brewupg:$pkg"
+    HOMEBREW_NO_AUTO_UPDATE=1 $brewupg "$pkg"
+  else
+    pins "$brewins:$pkg"
+    HOMEBREW_NO_AUTO_UPDATE=1 $brewins "$pkg"
+  fi
+}
+
+function brewapp() {
+  # $ brewapp package # if command=package
+  # $ brewapp command package # if command!=package
+  if [ -z "$1" ]; then return; else local cmd="$1"; fi
+  if [ -z "$2" ]; then local pkg="$cmd"; else local pkg=${@:2}; fi
+  pkgbrew $pkg && return 1
+}
+
+function getapp() {
+  if [ -z "$1" ]; then
+    return 2
+  else
+    command -v "$1" && return 0
+  fi
+}
+
+function preppy() {
+  pins "Python Mac packages"
+  $PYMAC -m pip install --user --upgrade setuptools wheel pip
+  $PYMAC -m pip install --user --upgrade .
+  $PYMAC -m pip install --user --upgrade poetry
+  $PYMAC -m pip install --user --upgrade pyinstaller
+  $PYMAC -m pip install --user --upgrade dmgbuild
+  pins "Python Win packages"
+  $PYWIN -m pip install --user --upgrade setuptools wheel pip
+  $PYWIN -m pip install --user --upgrade .
+  $PYWIN -m pip install --user --upgrade poetry
+  $PYWIN -m pip install --user --upgrade pyinstaller
+}
+
+function prep() {
+  brewapp wine cask wine-staging
+  if [ ! -f "$PYEXE" ]; then
+    pins "wine py"
+    curl -L -o "$TMPDIR/python.exe" https://www.python.org/ftp/python/3.8.5/python-3.8.5-amd64.exe &&
+      wine "$TMPDIR/python.exe" /quiet &&
+      rm "$TMPDIR/python.exe"
+  fi
+  if [ ! -f "$ISSEXE" ]; then
+    pins "wine iss"
+    curl -L -o "$TMPDIR/iss.exe" https://jrsoftware.org/download.php/is.exe &&
+      wine "$TMPDIR/iss.exe" /VERYSILENT &&
+      rm "$TMPDIR/iss.exe"
+  fi
+  brewapp upx
+  brewapp grealpath coreutils
+  brewapp python3 python
+  preppy
+}
+
+function install() {
+  pp "## Installing"
+  $PYMAC -m pip install --user --upgrade .
+}
+
+function buildpy() {
+  pp "## Building wheel"
+  rm -rf dist/*
+  poetry build
+}
+
+function buildmac() {
+  pp "## Building Mac DMG"
+  $PYMAC -m PyInstaller \
+    --distpath="$cwd/app/build/dist-mac" \
+    --workpath="$cwd/app/build" \
+    -y "app/pyinstaller-mac.spec"
+  dmgbuild -s "app/dmgbuild_settings.py" "OTFeatureFreezer" "download/OTFeatureFreezer.dmg"
+  #rm -rf "$cwd/app/build/dist-mac"
+}
+
+function iss() {
+  wine "$ISSEXE" /dMyAppVersion="$VER" app/featfreeze.iss /Q
+}
+
+function buildwin() {
+  pp "## Building Win EXE"
+  $PYWIN -m pip install --user --upgrade .
+  $PYWIN -m PyInstaller \
+    --distpath="$cwd/app/build/dist-win" \
+    --workpath="$cwd/app/build" \
+    -y "app/pyinstaller-win.spec"
+  pp "## Building Win EXE installer"
+  wine "$ISSEXE" /dMyAppVersion="$VER" app/featfreeze.iss /Q
+  pp "## Building Win ZIP"
+  rm -rf "download/OTFeatureFreezer.zip" && zip -j "download/OTFeatureFreezer.zip" "app/build/dist-win/setup_featfreeze.exe"
+}
+
+function build() {
+  echo "## Pushing to Github"
+  git add --all
+  git commit -am "Build: v$VER"
+  git pull
+  git push
+
+  buildpy
+  buildmac
+  buildwin
+}
+
+function publish() {
+  poetry publish
+  echo "## Pushing to Github"
+  git add --all
+  git commit -am "Published: v$VER"
+  git pull
+  git push
+}
+
+function init() {
+  upx=$(getapp upx) || prep
+  grealpath=$(getapp grealpath) || prep
+  python3=$(getapp "$PYMAC") || prep
+  cwd=$("$grealpath" "$dir")
+}
+
+function usage() {
+  echo "Usage: ""$0 build | publish; "
+}
+
+function all() {
+  prep
+  install
+  build
+  publish
+}
+
+function main() {
+  init
+  if [ $# -eq 0 ]; then
+    usage
+    exit $?
+  fi
+
+  case $1 in
+  help)
+    usage
+    exit $?
+    ;;
+  init) init ;;
+  prep) prep ;;
+  preppy) preppy ;;
+  install) install ;;
+  build) build ;;
+  buildpy) buildpy ;;
+  buildmac) buildmac ;;
+  buildwin) buildwin ;;
+  publish) publish $@ ;;
+  all) all $@ ;;
+  esac
+}
+
+main $@
