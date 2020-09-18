@@ -180,6 +180,7 @@ function build() {
   git pull
   git push
 
+  mkdir -p "download"
   buildpy
   buildmac
   buildwin

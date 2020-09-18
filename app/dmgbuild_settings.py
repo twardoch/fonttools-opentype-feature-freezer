@@ -17,7 +17,7 @@ import os.path
 
 # .. Useful stuff ..............................................................
 
-application = defines.get('app', os.path.join('build', 'dist-mac', 'PyPolona.app'))
+application = defines.get('app', os.path.join('app', 'build', 'dist-mac', 'OTFeatureFreezer.app'))
 appname = os.path.basename(application)
 
 

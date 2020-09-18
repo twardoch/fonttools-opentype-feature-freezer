@@ -44,7 +44,7 @@ DESCRIPTION = 'Freeze some OpenType features into a font, see Help › %s Help.'
             'license'    : 'Apache 2'
         }, {
             'type'     : 'Link',
-            'menuTitle': '%s Documentation' % (GUI_NAME),
+            'menuTitle': '%s Help' % (GUI_NAME),
             'url'      : 'https://twardoch.github.io/fonttools-opentype-feature-freezer/'
         }]
     }]
