@@ -201,6 +201,7 @@ function usage() {
   echo "buildmac: build the Mac distributable"
   echo "buildwin: build the Win distributable (uses Wine on macOS)"
   echo "build: build the Mac and Win distributables"
+  echo "publish: publish a release (for maintainers only)"
   echo "all: prep, install, build"
 }
 
