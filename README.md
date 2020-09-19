@@ -1,21 +1,43 @@
-OpenType Feature Freezer
-=======================
+# OpenType Feature Freezer
 
-With **pyftfeatfreeze**, you can “freeze” some OpenType features into a font.
+With **[OpenType Feature Freezer](https://github.com/twardoch/fonttools-opentype-feature-freezer/)**, you can “freeze” some OpenType features into a font.
 
 These features are then “on by default”, so characters previously accessible through OpenType features only (such as smallcaps, oldstyle numerals or localized forms) will now be accessible even in apps that don’t support OpenType features, such as LibreOffice, OpenOffice, or in apps that don’t support a particular feature, such as Microsoft Office in case of smallcaps.
 
 *Note: This tool actually remaps the `cmap` table of the font by applying the specified `GSUB` features. It will not work for substitutions where neither glyph has any `cmap` entries. Only single and alternate substitutions are supported.*
 
+This tool comes in two versions: 
 
-Installation
-------------
+- **OTFeatureFreezer**: a simple GUI (graphical) app for macOS and Windows that you can download and run without any special perparations
+- **pyftfeatfreeze**: a CLI (command-line) app that required Python 3.6 or newer to be installed on your computer
+
+## Install the OTFeatureFreezer GUI app for macOS
+
+### <a class="github-button btn btn-primary" href="https://github.com/twardoch/fonttools-opentype-feature-freezer/raw/master/download/OTFeatureFreezer.dmg" data-color-scheme="no-preference: dark; light: dark; dark: dark;" data-icon="octicon-download" data-size="large" aria-label="Download DMG for macOS">Download DMG for macOS</a>
+
+1. On **macOS**, click the **Download** button above.
+2. **Ctrl+click** the downloaded DMG, choose **Open**, then **Open** again.
+3. Drag the _OTFeatureFreezer.app_ icon to your **/Applications** folder.
+4. When you **run the app for the first time**, **Ctrl+click** the _OTFeatureFreezer.app_, choose **Open**, then click **Open**.
+5. Later, you can just double-click the icon to run the app. If the app does not run, double-click again.
+6. See the [Examples](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#examples) section and the [Command-line syntax](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#command-line-syntax) documentation for info about how to use the GUI app. The GUI corresponds to the command-line options.
+
+## Install the OTFeatureFreezer GUI app for Windows (64-bit)
+
+### <a class="github-button btn btn-primary" href="https://github.com/twardoch/fonttools-opentype-feature-freezer/raw/master/download/OTFeatureFreezer.zip" data-color-scheme="no-preference: dark; light: dark; dark: dark;" data-icon="octicon-download" data-size="large" aria-label="Download ZIP for Windows">Download ZIP for Windows</a>
+
+1. You need a **64-bit** version of **Windows**, 7 or newer. 32-bit Windows is not supported.
+2. Click the **Download** button above.
+3. Unzip the downloaded ZIP. 
+4. Double-click the _setup_featfreeze.exe_ icon to install the app.
+5. Run _OTFeatureFreezer_ from your Start menu.
+6. See the [Examples](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#examples) section and the [Command-line syntax](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#command-line-syntax) documentation for info about how to use the GUI app. The GUI corresponds to the command-line options.
+
+## Install the pyftfeatfreeze CLI app
 
 This tool requires Python 3.6 or above to be installed first. Get it from https://www.python.org or your package manager.
 
 ### Recommended
-
-**When this tool is published on Pypi (it’s not yet)**:
 
 We recommend using [pipx](https://pypi.org/project/pipx/) to install Python command line tools. Pipx tucks them away neatly on your computer and gives you an easy way to add, update and remove Python tools on all platforms, without leaving a mess in your Python installation.
 
@@ -25,15 +47,19 @@ pipx install opentype-feature-freezer
 
 ### Other methods
 
-**When this tool is published on Pypi (it’s not yet)**:
-
 Install it with `pip`, as any other Python package.
 
 ```
 # This is best done inside a virtual environment, so you don't pollute
 # your Python installation and need no special privileges to install anything.
 
-pip install opentype-feature-freezer
+pip install --upgrade opentype-feature-freezer
+```
+
+If this does not work, try: 
+
+```
+python3 -m pip install --user --upgrade opentype-feature-freezer
 ```
 
 ### Development version
@@ -42,12 +68,15 @@ pip install opentype-feature-freezer
 pip install --upgrade git+https://github.com/twardoch/fonttools-opentype-feature-freezer
 ```
 
-- Use `python3 -m pip install` instead of `pip` if you have different versions of Python installed.
+If this does not work, use:
+
+```
+python3 -m pip install --user --upgrade git+https://github.com/twardoch/fonttools-opentype-feature-freezer
+```
 
 - You may need to do `pip install --upgrade configparser` before installing
 
-Examples
---------
+# Examples
 
 Let’s say you have the font *CharisSIL-R.ttf* (with the menu name “Charis SIL”), and this font includes true smallcaps accessible via the OpenType Layout features `c2sc` (for uppercase) and `smcp` (for lowercase). Let’s say that you’d like to make a second font where the **true smallcaps** are available by default. Just run:
 
@@ -74,8 +103,8 @@ pyftfeatfreeze -R 'Lato/Otal' Lato-Regular.ttf Otal-Regular.ttf
 ```
 
 
-Command-line syntax
--------------------
+# Command-line syntax
+
 ```
 usage: pyftfeatfreeze [-h] [-f FEATURES] [-s SCRIPT] [-l LANG] [-z] [-S]
                       [-U USESUFFIX] [-R REPLACENAMES] [-i] [-r] [-n] [-v]
@@ -110,7 +139,7 @@ options to control font renaming:
                         suffix will be constructed from the OpenType feature
                         tags)
   -U USESUFFIX, --usesuffix USESUFFIX
-                        use a custom suffix when -S is provided
+                        use a custom suffix when --suffix is provided
   -R REPLACENAMES, --replacenames REPLACENAMES
                         search for strings in the font naming tables and
                         replace them, format is
@@ -123,32 +152,34 @@ reporting options:
   -v, --verbose         print additional information during processing
   -V, --version         show program's version number and exit
 
-Examples:
-pyftfeatfreeze -f 'c2sc,smcp' -S -U SC OpenSans.ttf OpenSansSC.ttf
+Examples: pyftfeatfreeze -f 'c2sc,smcp' -S -U SC OpenSans.ttf OpenSansSC.ttf
 pyftfeatfreeze -R 'Lato/Otal' Lato-Regular.ttf Otal-Regular.ttf
 ```
 
 *Tip: the `-n` option outputs a space-separated list of “frozen” glyphs. If you redirect it to a file, you can use this list as input for `pyftsubset` to create a small font that only includes the “frozen” glyphs.*
 
 
-Software License and Disclaimer
--------------------------------
+# Software License and Disclaimer
+
 This tool is licensed “as is” under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). By using the tool, you accept all conditions of the license, including Disclaimer of Warranty and Limitation of Liability. **If you use this tool, please consult if your font’s EULA allows modifications. If the font is licensed under the OFL and uses the Reserved Font Name, please use the `-R` option to change the Reserved Font Name to something else.**
 
 
-Requirements
-------------
-This tool is written for Python 3.6+ and requires [fontTools/TTX](https://github.com/fonttools/fonttools/).
+# Requirements
+
+This tool is written for Python 3.6+m and uses [fontTools/TTX](https://github.com/fonttools/fonttools/).
 
 
-Project homepage
-----------------
-- [https://github.com/twardoch/fonttools-opentype-feature-freezer/](https://github.com/twardoch/fonttools-opentype-feature-freezer/)
+# Links
+
+- Homepage: [https://github.com/twardoch/fonttools-opentype-feature-freezer/](https://github.com/twardoch/fonttools-opentype-feature-freezer/)
 - Previously, this tool was published as a sub-tool in a [fonttools-utils](https://github.com/twardoch/fonttools-utils/tree/master/pyftfeatfreeze) repo
 - The other tools of the `fonttools-utils` repo are now at [fonttools-ttxjson](https://github.com/twardoch/fonttools-ttxjson) and [mac-os-x-system-font-replacer](https://github.com/twardoch/mac-os-x-system-font-replacer)
 
 
-Credits
--------
+# Credits
 
 * Code by [Adam Twardoch and others](./AUTHORS)
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
