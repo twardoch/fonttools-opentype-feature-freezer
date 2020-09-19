@@ -8,6 +8,8 @@ _Note: This tool actually remaps the `cmap` table of the font by applying the sp
 
 This tool comes in two versions: **OTFeatureFreezer**: a simple GUI (graphical) app for macOS and Windows that you can download and run without any special perparations, and **pyftfeatfreeze**: a CLI (command-line) app that required Python 3.6 or newer to be installed on your computer.
 
+Current version: **[1.32.0](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#changelog)**
+
 - [Download and install](https://twardoch.github.io/fonttools-opentype-feature-freezer/)
 - [Documentation](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#documentation)
 - [Source code](https://github.com/twardoch/fonttools-opentype-feature-freezer/)
