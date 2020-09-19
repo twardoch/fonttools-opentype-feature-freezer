@@ -11,6 +11,7 @@ This tool comes in two versions: **OTFeatureFreezer**: a simple GUI (graphical) 
 - [Download and install](https://twardoch.github.io/fonttools-opentype-feature-freezer/)
 - [Documentation](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#documentation)
 - [Source code](https://github.com/twardoch/fonttools-opentype-feature-freezer/)
+- [Issues](https://github.com/twardoch/fonttools-opentype-feature-freezer/issues) for problem reporting
 
 # Installation
 
@@ -163,26 +164,31 @@ pyftfeatfreeze -R 'Lato/Otal' Lato-Regular.ttf Otal-Regular.ttf
 
 *Tip: the `-n` option outputs a space-separated list of “frozen” glyphs. If you redirect it to a file, you can use this list as input for `pyftsubset` to create a small font that only includes the “frozen” glyphs.*
 
+## Other
 
-## Software License and Disclaimer
+### Problem reporting
+
+To report a problem, open an **[issue](https://github.com/twardoch/fonttools-opentype-feature-freezer/issues)**. You need a Github account.
+
+### Software license and disclaimer
 
 This tool is licensed “as is” under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). By using the tool, you accept all conditions of the license, including Disclaimer of Warranty and Limitation of Liability. **If you use this tool, please consult if your font’s EULA allows modifications. If the font is licensed under the OFL and uses the Reserved Font Name, please use the `-R` option to change the Reserved Font Name to something else.**
 
 
-## Requirements
+### Requirements
 
 This tool is written for Python 3.6+, and uses [fontTools/TTX](https://github.com/fonttools/fonttools/).
 
 
-## Changelog
+### Changelog
 
 - **1.31.0**: Changes the `-S` (suffix) option so that if it’s not provided, no sufix is added, and added the GUI apps.
 - Previously, this tool was published as a sub-tool in a [fonttools-utils](https://github.com/twardoch/fonttools-utils/tree/master/pyftfeatfreeze) repo
 - The other tools of the `fonttools-utils` repo are now at [fonttools-ttxjson](https://github.com/twardoch/fonttools-ttxjson) and [mac-os-x-system-font-replacer](https://github.com/twardoch/mac-os-x-system-font-replacer)
 
-## Building
+### Building
 
-To build the Python package, install [Poetry](https://python-poetry.org/): 
+To build the Python package, install [Poetry](https://python-poetry.org/):
 
 ```
 pip install poetry
@@ -190,7 +196,7 @@ pip install poetry
 
 To build the DMG & EXE, you need macOS. In the [app](https://github.com/twardoch/fonttools-opentype-feature-freezer/tree/master/app) folder, run `./macdeploy`all`
 
-## Credits
+### Credits
 
 * Code by [Adam Twardoch and others](https://raw.githubusercontent.com/twardoch/fonttools-opentype-feature-freezer/master/AUTHORS)
 
