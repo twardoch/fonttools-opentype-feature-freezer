@@ -171,7 +171,7 @@ This tool is licensed “as is” under the [Apache License, Version 2.0](http:/
 
 ## Requirements
 
-This tool is written for Python 3.6+m and uses [fontTools/TTX](https://github.com/fonttools/fonttools/).
+This tool is written for Python 3.6+, and uses [fontTools/TTX](https://github.com/fonttools/fonttools/).
 
 
 ## Changelog
