@@ -1,38 +1,14 @@
-import argparse
+from argparse import ArgumentParser
 import logging
 import os
 import sys
-from typing import List, Optional
+from typing import List, Optional, Callable
 
 import opentype_feature_freezer
 
 
-def main(args: Optional[List[str]] = None) -> int:
-    args_parsed = parseOptions(args)
-    if not os.path.exists(args_parsed.inpath):
-        logging.error("Input file does not exist.")
-        return 1
-
-    logging.basicConfig(format="%(levelname)s: %(message)s")
-    if args_parsed.verbose:
-        logging.getLogger().setLevel(logging.INFO)
-
-    p = opentype_feature_freezer.RemapByOTL(args_parsed)
-    try:
-        p.run()
-    except RuntimeError as e:
-        logging.error(e)
-        return 1
-    if p.success:
-        logging.info("Finished processing.")
-        return 0
-
-    logging.warning("Errors during processing.")
-    return 1
-
-
 def parseOptions(args=None):
-    parser = argparse.ArgumentParser(
+    parser = ArgumentParser(
         description=(
             'With %(prog)s you can "freeze" some OpenType features into a font. '
             'These features are then "on by default", even in apps that don\'t '
@@ -47,7 +23,10 @@ def parseOptions(args=None):
         ),
     )
 
-    parser.add_argument("inpath", help="input .otf or .ttf font file")
+    parser.add_argument(
+        "inpath",
+        help="input .otf or .ttf font file"
+    )
     parser.add_argument(
         "outpath",
         nargs="?",
@@ -72,7 +51,7 @@ def parseOptions(args=None):
         dest="script",
         type=str,
         default="latn",
-        help="OpenType script tag, e.g. 'cyrl' (default: '%(default)s')",
+        help="OpenType script tag, e.g. 'cyrl' (default: 'latn')",
     )
     group_freezing.add_argument(
         "-l",
@@ -96,7 +75,7 @@ def parseOptions(args=None):
         "-S",
         "--suffix",
         action="store_true",
-        dest="rename",
+        dest="suffix",
         help="add a suffix to the font family name (by default, the suffix will be constructed from the OpenType feature tags)",
     )
     group_renaming.add_argument(
@@ -105,7 +84,7 @@ def parseOptions(args=None):
         action="store",
         dest="usesuffix",
         default="",
-        help="use a custom suffix when -S is provided",
+        help="use a custom suffix when --suffix is provided",
     )
     group_renaming.add_argument(
         "-R",
@@ -155,5 +134,32 @@ def parseOptions(args=None):
     return parser.parse_args(args)
 
 
+def main(args: Optional[List[str]] = None, parser: Optional[Callable[[list], ArgumentParser]] = None) -> int:
+    logging.basicConfig(format="%(levelname)s: %(message)s")
+    if not parser:
+        parser = parseOptions
+    args_parsed = parser(args)
+    if not os.path.exists(args_parsed.inpath):
+        logging.error("Input file does not exist.")
+        return 1
+
+    if args_parsed.verbose:
+        logging.getLogger().setLevel(logging.INFO)
+
+    p = opentype_feature_freezer.RemapByOTL(args_parsed)
+    try:
+        p.run()
+    except RuntimeError as e:
+        logging.error(e)
+        return 1
+    if p.success:
+        logging.info("Finished processing.")
+        return 0
+
+    logging.warning("Errors during processing.")
+    return 1
+
+
 if __name__ == "__main__":
     sys.exit(main())
+

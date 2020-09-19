@@ -1,12 +1,11 @@
 import logging
 import os
-import sys
 from types import SimpleNamespace
 from typing import List, Mapping, MutableMapping, Optional, Set
 
 import fontTools.ttLib as ttLib
 
-__version__ = "1.30.0"
+__version__ = "1.31.0"
 
 
 logger = logging.getLogger(__name__)
@@ -226,7 +225,7 @@ class RemapByOTL:
 
     def renameFont(self):
         self.success = True
-        if not self.options.rename and not self.options.replacenames:
+        if not self.options.suffix and not self.options.replacenames:
             return self.success
 
         name: ttLib.tables._n_a_m_e.table__n_a_m_e = self.ttx["name"]
@@ -253,10 +252,12 @@ class RemapByOTL:
         # generate it from the selected features.
         if self.options.usesuffix:
             suffix = f" {self.options.usesuffix}"
-        else:
+        elif self.options.suffix:
             suffix = " ".join(sorted(self.filterByFeatures))
             if suffix:  # Add padding space if we actually have a suffix.
                 suffix = f" {suffix}"
+        else:
+            suffix = ""
 
         family_name_new = f"{family_name}{suffix}"
         family_name_new_no_space = family_name_new.replace(" ", "")
