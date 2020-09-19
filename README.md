@@ -11,6 +11,8 @@ This tool comes in two versions:
 - **OTFeatureFreezer**: a simple GUI (graphical) app for macOS and Windows that you can download and run without any special perparations
 - **pyftfeatfreeze**: a CLI (command-line) app that required Python 3.6 or newer to be installed on your computer
 
+# Installation
+
 ## Install the OTFeatureFreezer GUI app for macOS
 
 ### <a class="github-button btn btn-primary" href="https://github.com/twardoch/fonttools-opentype-feature-freezer/raw/master/download/OTFeatureFreezer.dmg" data-color-scheme="no-preference: dark; light: dark; dark: dark;" data-icon="octicon-download" data-size="large" aria-label="Download DMG for macOS">Download DMG for macOS</a>
@@ -76,7 +78,9 @@ python3 -m pip install --user --upgrade git+https://github.com/twardoch/fonttool
 
 - You may need to do `pip install --upgrade configparser` before installing
 
-# Examples
+# Documentation
+
+## Examples
 
 Let’s say you have the font *CharisSIL-R.ttf* (with the menu name “Charis SIL”), and this font includes true smallcaps accessible via the OpenType Layout features `c2sc` (for uppercase) and `smcp` (for lowercase). Let’s say that you’d like to make a second font where the **true smallcaps** are available by default. Just run:
 
@@ -103,7 +107,7 @@ pyftfeatfreeze -R 'Lato/Otal' Lato-Regular.ttf Otal-Regular.ttf
 ```
 
 
-# Command-line syntax
+## Command-line syntax
 
 ```
 usage: pyftfeatfreeze [-h] [-f FEATURES] [-s SCRIPT] [-l LANG] [-z] [-S]
@@ -159,24 +163,26 @@ pyftfeatfreeze -R 'Lato/Otal' Lato-Regular.ttf Otal-Regular.ttf
 *Tip: the `-n` option outputs a space-separated list of “frozen” glyphs. If you redirect it to a file, you can use this list as input for `pyftsubset` to create a small font that only includes the “frozen” glyphs.*
 
 
-# Software License and Disclaimer
+## Software License and Disclaimer
 
 This tool is licensed “as is” under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). By using the tool, you accept all conditions of the license, including Disclaimer of Warranty and Limitation of Liability. **If you use this tool, please consult if your font’s EULA allows modifications. If the font is licensed under the OFL and uses the Reserved Font Name, please use the `-R` option to change the Reserved Font Name to something else.**
 
 
-# Requirements
+## Requirements
 
 This tool is written for Python 3.6+m and uses [fontTools/TTX](https://github.com/fonttools/fonttools/).
 
 
-# Links
+## Links
 
-- Homepage: [https://github.com/twardoch/fonttools-opentype-feature-freezer/](https://github.com/twardoch/fonttools-opentype-feature-freezer/)
+- [Homepage](https://twardoch.github.io/fonttools-opentype-feature-freezer/)
+- [Documentation]
+- Code: [https://github.com/twardoch/fonttools-opentype-feature-freezer/](https://github.com/twardoch/fonttools-opentype-feature-freezer/)
 - Previously, this tool was published as a sub-tool in a [fonttools-utils](https://github.com/twardoch/fonttools-utils/tree/master/pyftfeatfreeze) repo
 - The other tools of the `fonttools-utils` repo are now at [fonttools-ttxjson](https://github.com/twardoch/fonttools-ttxjson) and [mac-os-x-system-font-replacer](https://github.com/twardoch/mac-os-x-system-font-replacer)
 
 
-# Credits
+## Credits
 
 * Code by [Adam Twardoch and others](./AUTHORS)
 
