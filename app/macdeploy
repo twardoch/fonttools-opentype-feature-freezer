@@ -164,15 +164,15 @@ function buildwin() {
 }
 
 function build() {
-  echo "## Pushing to Github"
+  echo "## Committing to git"
   git add --all
-  git commit -am "Build: v$VER"
-  git pull
-  git push
-
+  git commit -am "Building: v$VER"
   mkdir -p "../download"
   buildmac
   buildwin
+  echo "## Committing to git"
+  git add --all
+  git commit -am "Built: v$VER"
 }
 
 function publish() {
@@ -182,6 +182,9 @@ function publish() {
   git commit -am "Published: v$VER"
   git pull
   git push
+  cd ..
+  poetry publish
+  cd "$dir"
 }
 
 function init() {
@@ -192,14 +195,19 @@ function init() {
 }
 
 function usage() {
-  echo "Usage: ""$0 build | publish; "
+  echo "Usage: $0 command. Commands:"
+  echo "prep: install prerequisites for building on macOS"
+  echo "install: install the Python package"
+  echo "buildmac: build the Mac distributable"
+  echo "buildwin: build the Win distributable (uses Wine on macOS)"
+  echo "build: build the Mac and Win distributables"
+  echo "all: prep, install, build"
 }
 
 function all() {
   prep
   install
   build
-  publish
 }
 
 function main() {
