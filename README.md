@@ -180,10 +180,19 @@ This tool is written for Python 3.6+, and uses [fontTools/TTX](https://github.co
 - Previously, this tool was published as a sub-tool in a [fonttools-utils](https://github.com/twardoch/fonttools-utils/tree/master/pyftfeatfreeze) repo
 - The other tools of the `fonttools-utils` repo are now at [fonttools-ttxjson](https://github.com/twardoch/fonttools-ttxjson) and [mac-os-x-system-font-replacer](https://github.com/twardoch/mac-os-x-system-font-replacer)
 
+## Building
+
+To build the Python package, install [Poetry](https://python-poetry.org/): 
+
+```
+pip install poetry
+```
+
+To build the DMG & EXE, you need macOS. In the [app](https://github.com/twardoch/fonttools-opentype-feature-freezer/tree/master/app) folder, run `./macdeploy`all`
 
 ## Credits
 
-* Code by [Adam Twardoch and others](./AUTHORS)
+* Code by [Adam Twardoch and others](https://raw.githubusercontent.com/twardoch/fonttools-opentype-feature-freezer/master/AUTHORS)
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
