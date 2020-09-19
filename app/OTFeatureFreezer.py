@@ -69,7 +69,7 @@ def parseGuiOptions(args=None):
 
     parser.add_argument(
         "inpath",
-        help="input .otf or .ttf font file1",
+        help="input .otf or .ttf font file",
         widget='FileChooser',
     )
     parser.add_argument(
@@ -168,7 +168,9 @@ def parseGuiOptions(args=None):
     group_reporting.add_argument(
         "-v",
         "--verbose",
-        action="store_true",
+        action="store_const",
+        const=True,
+        default=True,
         dest="verbose",
         help="print additional information during processing",
     )
