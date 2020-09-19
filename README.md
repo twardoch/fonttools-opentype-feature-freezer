@@ -6,7 +6,7 @@ These features are then “on by default”, so characters previously accessible
 
 *Note: This tool actually remaps the `cmap` table of the font by applying the specified `GSUB` features. It will not work for substitutions where neither glyph has any `cmap` entries. Only single and alternate substitutions are supported.*
 
-This tool comes in two versions: 
+This tool comes in two versions:
 
 - **OTFeatureFreezer**: a simple GUI (graphical) app for macOS and Windows that you can download and run without any special perparations
 - **pyftfeatfreeze**: a CLI (command-line) app that required Python 3.6 or newer to be installed on your computer
@@ -15,7 +15,7 @@ This tool comes in two versions:
 
 ### <a class="github-button btn btn-primary" href="https://github.com/twardoch/fonttools-opentype-feature-freezer/raw/master/download/OTFeatureFreezer.dmg" data-color-scheme="no-preference: dark; light: dark; dark: dark;" data-icon="octicon-download" data-size="large" aria-label="Download DMG for macOS">Download DMG for macOS</a>
 
-1. On **macOS**, click the **Download** button above.
+1. On **macOS**, click the **Download** link above.
 2. **Ctrl+click** the downloaded DMG, choose **Open**, then **Open** again.
 3. Drag the _OTFeatureFreezer.app_ icon to your **/Applications** folder.
 4. When you **run the app for the first time**, **Ctrl+click** the _OTFeatureFreezer.app_, choose **Open**, then click **Open**.
@@ -27,8 +27,8 @@ This tool comes in two versions:
 ### <a class="github-button btn btn-primary" href="https://github.com/twardoch/fonttools-opentype-feature-freezer/raw/master/download/OTFeatureFreezer.zip" data-color-scheme="no-preference: dark; light: dark; dark: dark;" data-icon="octicon-download" data-size="large" aria-label="Download ZIP for Windows">Download ZIP for Windows</a>
 
 1. You need a **64-bit** version of **Windows**, 7 or newer. 32-bit Windows is not supported.
-2. Click the **Download** button above.
-3. Unzip the downloaded ZIP. 
+2. Click the **Download** link above.
+3. Unzip the downloaded ZIP.
 4. Double-click the _setup_featfreeze.exe_ icon to install the app.
 5. Run _OTFeatureFreezer_ from your Start menu.
 6. See the [Examples](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#examples) section and the [Command-line syntax](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#command-line-syntax) documentation for info about how to use the GUI app. The GUI corresponds to the command-line options.
@@ -56,7 +56,7 @@ Install it with `pip`, as any other Python package.
 pip install --upgrade opentype-feature-freezer
 ```
 
-If this does not work, try: 
+If this does not work, try:
 
 ```
 python3 -m pip install --user --upgrade opentype-feature-freezer
