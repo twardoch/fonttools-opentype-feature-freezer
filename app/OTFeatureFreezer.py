@@ -96,8 +96,8 @@ def parseGuiOptions(args=None):
         action="store",
         dest="script",
         type=str,
-        default="latn",
-        help="OpenType script tag, e.g. 'cyrl' (default: 'latn')",
+        default=None,
+        help="OpenType script tag, e.g. 'cyrl' (optional)",
     )
     group_freezing.add_argument(
         "-l",

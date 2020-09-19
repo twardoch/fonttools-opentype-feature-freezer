@@ -104,13 +104,13 @@ function getapp() {
 function preppy() {
   pins "Python Mac packages"
   $PYMAC -m pip install --user --upgrade setuptools wheel pip
-  $PYMAC -m pip install --user --upgrade .
+  $PYMAC -m pip install --user --upgrade ..
   $PYMAC -m pip install --user --upgrade poetry
   $PYMAC -m pip install --user --upgrade pyinstaller
   $PYMAC -m pip install --user --upgrade dmgbuild
   pins "Python Win packages"
   $PYWIN -m pip install --user --upgrade setuptools wheel pip
-  $PYWIN -m pip install --user --upgrade .
+  $PYWIN -m pip install --user --upgrade ..
   $PYWIN -m pip install --user --upgrade poetry
   $PYWIN -m pip install --user --upgrade pyinstaller
 }
@@ -137,7 +137,7 @@ function prep() {
 
 function install() {
   pp "## Installing"
-  $PYMAC -m pip install --user --upgrade .
+  $PYMAC -m pip install --user --upgrade ..
 }
 
 function buildmac() {

@@ -182,6 +182,7 @@ This tool is written for Python 3.6+, and uses [fontTools/TTX](https://github.co
 
 ### Changelog
 
+- **1.32.0**: Changes the `-s` (script) option so that if it’s not provided, the remapping is in all scripts.
 - **1.31.0**: Changes the `-S` (suffix) option so that if it’s not provided, no sufix is added, and added the GUI apps.
 - Previously, this tool was published as a sub-tool in a [fonttools-utils](https://github.com/twardoch/fonttools-utils/tree/master/pyftfeatfreeze) repo
 - The other tools of the `fonttools-utils` repo are now at [fonttools-ttxjson](https://github.com/twardoch/fonttools-ttxjson) and [mac-os-x-system-font-replacer](https://github.com/twardoch/mac-os-x-system-font-replacer)

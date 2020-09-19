@@ -5,7 +5,7 @@ from typing import List, Mapping, MutableMapping, Optional, Set
 
 import fontTools.ttLib as ttLib
 
-__version__ = "1.31.0"
+__version__ = "1.32.0"
 
 
 logger = logging.getLogger(__name__)
@@ -111,7 +111,7 @@ class RemapByOTL:
                         "-s '%s' -l '%s'"
                         % (ScriptRecord.ScriptTag, LangSysRecord.LangSysTag)
                     )
-            if ScriptRecord.ScriptTag == self.filterByScript:
+            if (ScriptRecord.ScriptTag == self.filterByScript) or not self.filterByScript:
                 if self.filterByLangSys:
                     for LangSysRecord in ScriptRecord.Script.LangSysRecord:
                         if LangSysRecord.LangSysTag == self.filterByLangSys:
