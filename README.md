@@ -213,7 +213,7 @@ poetry build
 
 #### DMG & EXE
 
-To build the DMG & EXE, you need macOS. In the [app](https://github.com/twardoch/fonttools-opentype-feature-freezer/tree/master/app) folder, run `./macdeploy`all`
+To build the DMG & EXE, you need macOS. In the [app](https://github.com/twardoch/fonttools-opentype-feature-freezer/tree/master/app) subfolder, run `./macdeploy all`
 
 ### Credits
 
