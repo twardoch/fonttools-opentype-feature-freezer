@@ -22,7 +22,7 @@ DESCRIPTION = 'Freeze some OpenType features into a font, see Help › %s Help.'
     header_show_title=True,
     header_height=80,
     hide_progress_msg=False,
-    optional_cols=1,
+    optional_cols=2,
     program_description=DESCRIPTION,
     program_name=GUI_NAME,
     progress_expr=None,
@@ -131,7 +131,7 @@ def parseGuiOptions(args=None):
         action="store",
         dest="usesuffix",
         default="",
-        help="use a custom suffix when --suffix is provided",
+        help="use a custom suffix when suffix is enabled",
     )
     group_renaming.add_argument(
         "-R",
@@ -161,7 +161,9 @@ def parseGuiOptions(args=None):
     group_reporting.add_argument(
         "-n",
         "--names",
-        action="store_true",
+        action="store_const",
+        const=True,
+        default=True,
         dest="names",
         help="output names of remapped glyphs during processing",
     )

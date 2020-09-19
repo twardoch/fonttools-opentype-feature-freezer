@@ -84,7 +84,7 @@ def parseOptions(args=None):
         action="store",
         dest="usesuffix",
         default="",
-        help="use a custom suffix when --suffix is provided",
+        help="use a custom suffix when --suffix is enabled",
     )
     group_renaming.add_argument(
         "-R",
