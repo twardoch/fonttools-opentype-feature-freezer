@@ -4,12 +4,9 @@ With **[OpenType Feature Freezer](https://twardoch.github.io/fonttools-opentype-
 
 These features are then “on by default”, so characters previously accessible through OpenType features only (such as smallcaps, oldstyle numerals or localized forms) will now be accessible even in apps that don’t support OpenType features, such as LibreOffice, OpenOffice, or in apps that don’t support a particular feature, such as Microsoft Office in case of smallcaps.
 
-*Note: This tool actually remaps the `cmap` table of the font by applying the specified `GSUB` features. It will not work for substitutions where neither glyph has any `cmap` entries. Only single and alternate substitutions are supported.*
+_Note: This tool actually remaps the `cmap` table of the font by applying the specified `GSUB` features. It will not work for substitutions where neither glyph has any `cmap` entries. Only single and alternate substitutions are supported._
 
-This tool comes in two versions:
-
-- **OTFeatureFreezer**: a simple GUI (graphical) app for macOS and Windows that you can download and run without any special perparations
-- **pyftfeatfreeze**: a CLI (command-line) app that required Python 3.6 or newer to be installed on your computer
+This tool comes in two versions: **OTFeatureFreezer**: a simple GUI (graphical) app for macOS and Windows that you can download and run without any special perparations, and **pyftfeatfreeze**: a CLI (command-line) app that required Python 3.6 or newer to be installed on your computer.
 
 - [Download and install](https://twardoch.github.io/fonttools-opentype-feature-freezer/)
 - [Documentation](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#documentation)
