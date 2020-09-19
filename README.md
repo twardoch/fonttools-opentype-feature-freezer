@@ -1,6 +1,6 @@
 # OpenType Feature Freezer
 
-With **[OpenType Feature Freezer](https://github.com/twardoch/fonttools-opentype-feature-freezer/)**, you can “freeze” some OpenType features into a font.
+With **[OpenType Feature Freezer](https://twardoch.github.io/fonttools-opentype-feature-freezer/)**, you can “freeze” some OpenType features into a font.
 
 These features are then “on by default”, so characters previously accessible through OpenType features only (such as smallcaps, oldstyle numerals or localized forms) will now be accessible even in apps that don’t support OpenType features, such as LibreOffice, OpenOffice, or in apps that don’t support a particular feature, such as Microsoft Office in case of smallcaps.
 
@@ -10,6 +10,10 @@ This tool comes in two versions:
 
 - **OTFeatureFreezer**: a simple GUI (graphical) app for macOS and Windows that you can download and run without any special perparations
 - **pyftfeatfreeze**: a CLI (command-line) app that required Python 3.6 or newer to be installed on your computer
+
+- [Download and install](https://twardoch.github.io/fonttools-opentype-feature-freezer/)
+- [Documentation](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#documentation)
+- [Source code](https://github.com/twardoch/fonttools-opentype-feature-freezer/)
 
 # Installation
 
@@ -22,7 +26,7 @@ This tool comes in two versions:
 3. Drag the _OTFeatureFreezer.app_ icon to your **/Applications** folder.
 4. When you **run the app for the first time**, **Ctrl+click** the _OTFeatureFreezer.app_, choose **Open**, then click **Open**.
 5. Later, you can just double-click the icon to run the app. If the app does not run, double-click again.
-6. See the [Examples](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#examples) section and the [Command-line syntax](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#command-line-syntax) documentation for info about how to use the GUI app. The GUI corresponds to the command-line options.
+6. See the [Documentation](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#documentation) for info about how to use the GUI app. The GUI corresponds to the command-line options.
 
 ## Install the OTFeatureFreezer GUI app for Windows (64-bit)
 
@@ -33,7 +37,7 @@ This tool comes in two versions:
 3. Unzip the downloaded ZIP.
 4. Double-click the _setup_featfreeze.exe_ icon to install the app.
 5. Run _OTFeatureFreezer_ from your Start menu.
-6. See the [Examples](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#examples) section and the [Command-line syntax](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#command-line-syntax) documentation for info about how to use the GUI app. The GUI corresponds to the command-line options.
+6. See the [Documentation](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#documentation) for info about how to use the GUI app. The GUI corresponds to the command-line options.
 
 ## Install the pyftfeatfreeze CLI app
 
@@ -173,11 +177,9 @@ This tool is licensed “as is” under the [Apache License, Version 2.0](http:/
 This tool is written for Python 3.6+m and uses [fontTools/TTX](https://github.com/fonttools/fonttools/).
 
 
-## Links
+## Changelog
 
-- [Homepage](https://twardoch.github.io/fonttools-opentype-feature-freezer/)
-- [Documentation]
-- Code: [https://github.com/twardoch/fonttools-opentype-feature-freezer/](https://github.com/twardoch/fonttools-opentype-feature-freezer/)
+- **1.31.0**: Changes the `-S` (suffix) option so that if it’s not provided, no sufix is added, and added the GUI apps.
 - Previously, this tool was published as a sub-tool in a [fonttools-utils](https://github.com/twardoch/fonttools-utils/tree/master/pyftfeatfreeze) repo
 - The other tools of the `fonttools-utils` repo are now at [fonttools-ttxjson](https://github.com/twardoch/fonttools-ttxjson) and [mac-os-x-system-font-replacer](https://github.com/twardoch/mac-os-x-system-font-replacer)
 
