@@ -191,11 +191,27 @@ This tool is written for Python 3.6+, and uses [fontTools/TTX](https://github.co
 
 ### Building
 
+#### Python
+
 To build the Python package, install [Poetry](https://python-poetry.org/):
 
 ```
 pip install poetry
 ```
+
+or
+
+```
+python3 -m install --user --upgrade poetry
+```
+
+then in the main folder of the project run:
+
+```
+poetry build
+```
+
+#### DMG & EXE
 
 To build the DMG & EXE, you need macOS. In the [app](https://github.com/twardoch/fonttools-opentype-feature-freezer/tree/master/app) folder, run `./macdeploy`all`
 
