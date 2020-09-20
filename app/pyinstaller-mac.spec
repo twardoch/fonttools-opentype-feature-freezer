@@ -10,7 +10,7 @@ from PyInstaller.building.osx import BUNDLE
 
 def get_version(*args):
     ver = ""
-    verstrline = open(os.path.join('..', 'opentype_feature_freezer', '__init__.py'), "rt").read()
+    verstrline = open(os.path.join('..', 'src', ''opentype_feature_freezer', '__init__.py'), "rt").read()
     VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
     mo = re.search(VSRE, verstrline, re.M)
     if mo:
