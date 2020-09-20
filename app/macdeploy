@@ -141,11 +141,12 @@ function install() {
 }
 
 function builddmg() {
+  pp "## Building Mac DMG"
   dmgbuild -s "dmgbuild_settings.py" "" ""
 }
 
 function buildmac() {
-  pp "## Building Mac DMG"
+  pp "## Building Mac APP"
   $PYMAC -m PyInstaller \
     --distpath="$cwd/build/dist-mac" \
     --workpath="$cwd/build" \
