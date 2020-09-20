@@ -8,7 +8,11 @@ PYEXE="$HOME/.wine/drive_c/windows/py.exe"
 ISSEXE="$HOME/.wine/drive_c/Program Files (x86)/Inno Setup 6/ISCC.exe"
 PYMAC="python3"
 PYWIN="wine py"
-VER=$(echo -e "import opentype_feature_freezer.__init__\nprint(opentype_feature_freezer.__init__.__version__)" | "$PYMAC")
+VER=$(
+  perl -lne \
+    "print \$1 if /^__version__ = ['\"]([^'\"]*)['\"]/" \
+    "../src/opentype_feature_freezer/__init__.py"
+)
 
 function pp() {
   echo
@@ -140,7 +144,7 @@ function install() {
   $PYMAC -m pip install --user --upgrade ..
 }
 
-function builddmg() {
+function buildmacdmg() {
   pp "## Building Mac DMG"
   dmgbuild -s "dmgbuild_settings.py" "" ""
 }
@@ -151,8 +155,20 @@ function buildmac() {
     --distpath="$cwd/build/dist-mac" \
     --workpath="$cwd/build" \
     -y "pyinstaller-mac.spec"
-  builddmg
+  buildmacdmg
   #rm -rf "$cwd/build/dist-mac"
+}
+
+function buildwiniss() {
+  pp "## Building Win EXE installer"
+  wine "$ISSEXE" /dMyAppVersion="$VER" featfreeze.iss /Q
+}
+
+function buildwinzip() {
+  pp "## Building Win ZIP"
+  rm -rf "../download/OTFeatureFreezer.zip" && zip -j \
+    "../download/OTFeatureFreezer.zip" \
+    "build/dist-win/setup_featfreeze_$VER.exe"
 }
 
 function buildwin() {
@@ -162,12 +178,15 @@ function buildwin() {
     --distpath="$cwd/build/dist-win" \
     --workpath="$cwd/build" \
     -y "pyinstaller-win.spec"
-  pp "## Building Win EXE installer"
-  wine "$ISSEXE" /dMyAppVersion="$VER" featfreeze.iss /Q
-  pp "## Building Win ZIP"
-  rm -rf "../download/OTFeatureFreezer.zip" && zip -j \
-    "../download/OTFeatureFreezer.zip" \
-    "build/dist-win/setup_featfreeze_$VER.exe"
+  buildwiniss
+  buildwinzip
+}
+
+function buildpy() {
+  pp "## Building wheel"
+  cd ..
+  poetry build
+  cd "$dir"
 }
 
 function build() {
@@ -175,6 +194,7 @@ function build() {
   git add --all
   git commit -am "Building: v$VER"
   mkdir -p "../download"
+  buildpy
   buildmac
   buildwin
   echo "## Committing to git"
@@ -183,7 +203,6 @@ function build() {
 }
 
 function publish() {
-  poetry publish
   echo "## Pushing to Github"
   git add --all
   git commit -am "Published: v$VER"
@@ -201,6 +220,12 @@ function init() {
   cwd=$("$grealpath" "$dir")
 }
 
+function clean() {
+  echo rm -rf "$cwd/../build/*"
+  echo rm -rf "$cwd/../dist/*"
+  echo rm -rf "$cwd/../app/build/*"
+}
+
 function usage() {
   echo "Usage: $0 command. Commands:"
   echo "prep: install prerequisites for building on macOS"
@@ -215,6 +240,7 @@ function usage() {
 function all() {
   prep
   install
+  clean
   build
 }
 
@@ -232,11 +258,15 @@ function main() {
     ;;
   init) init ;;
   prep) prep ;;
+  clean) clean ;;
   preppy) preppy ;;
   install) install ;;
   build) build ;;
-  builddmg) builddmg ;;
+  buildpy) buildpy ;;
+  buildmacdmg) buildmacdmg ;;
   buildmac) buildmac ;;
+  buildwiniss) buildwiniss ;;
+  buildwinzip) buildwinzip ;;
   buildwin) buildwin ;;
   publish) publish $@ ;;
   all) all $@ ;;
