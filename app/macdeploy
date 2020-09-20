@@ -146,7 +146,7 @@ function buildmac() {
     --distpath="$cwd/build/dist-mac" \
     --workpath="$cwd/build" \
     -y "pyinstaller-mac.spec"
-  dmgbuild -s "dmgbuild_settings.py" "OTFeatureFreezer" "../download/OTFeatureFreezer.dmg"
+  dmgbuild -s "dmgbuild_settings.py" "" ""
   #rm -rf "$cwd/build/dist-mac"
 }
 
@@ -160,7 +160,9 @@ function buildwin() {
   pp "## Building Win EXE installer"
   wine "$ISSEXE" /dMyAppVersion="$VER" featfreeze.iss /Q
   pp "## Building Win ZIP"
-  rm -rf "../download/OTFeatureFreezer.zip" && zip -j "../download/OTFeatureFreezer.zip" "build/dist-win/setup_featfreeze.exe"
+  rm -rf "../download/OTFeatureFreezer.zip" && zip -j \
+    "../download/OTFeatureFreezer.zip" \
+    "build/dist-win/setup_featfreeze_$VER.exe"
 }
 
 function build() {

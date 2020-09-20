@@ -5,7 +5,7 @@ from typing import List, Mapping, MutableMapping, Optional, Set
 
 import fontTools.ttLib as ttLib
 
-__version__ = "1.32.0"
+__version__ = "1.32.2"
 
 
 logger = logging.getLogger(__name__)
@@ -47,7 +47,8 @@ class RemapByOTL:
             try:
                 self.ttx = ttLib.TTFont(self.inpath, 0, recalcBBoxes=False)
             except Exception as e:
-                logger.warning("[_openFontTTX] TTX cannot open %s: %s", self.inpath, e)
+                logger.warning(
+                    "[_openFontTTX] TTX cannot open %s: %s", self.inpath, e)
                 self.success = False
                 self.ttx = None
 
@@ -67,7 +68,8 @@ class RemapByOTL:
             "# Scripts and languages:\n%s"
             % ("\n".join(sorted(list(set(self.reportLangSys)))))
         )
-        print("# Features:\n-f %s" % (",".join(sorted(list(set(self.reportFeature))))))
+        print("# Features:\n-f %s" %
+              (",".join(sorted(list(set(self.reportFeature))))))
 
     def _saveFontTTX(self):
         self.success = True
@@ -97,7 +99,8 @@ class RemapByOTL:
         self.filterByScript = self.options.script
         self.filterByLangSys = self.options.lang
         if "GSUB" not in self.ttx:
-            logger.warning("No 'GSUB' table found in %s, nothing to do!", self.inpath)
+            logger.warning(
+                "No 'GSUB' table found in %s, nothing to do!", self.inpath)
             self.success = True
             return
 
@@ -124,7 +127,8 @@ class RemapByOTL:
     def filterLookupList(self):
         self.success = True
         self.filterByFeatures = self.options.features.split(",")
-        logger.info("[filterLookupList] Features to apply: %s", self.filterByFeatures)
+        logger.info("[filterLookupList] Features to apply: %s",
+                    self.filterByFeatures)
         if "GSUB" not in self.ttx:
             self.success = True
             return
@@ -192,7 +196,8 @@ class RemapByOTL:
                             self.subs1[i] = sub_out_first
 
         if len(self.subs0) != len(self.subs1):
-            raise RuntimeError("Internal error: Substitution mapping out of sync.")
+            raise RuntimeError(
+                "Internal error: Substitution mapping out of sync.")
 
         # Zip the above mappings together.
         for sub_in, sub_out in zip(self.subs0, self.subs1):
@@ -214,7 +219,8 @@ class RemapByOTL:
                 if self.options.names:
                     self.names.append(sub_out)
 
-                logger.info("[applySubstitutions] Remap: '%s' -> '%s'", sub_in, sub_out)
+                logger.info(
+                    "[applySubstitutions] Remap: '%s' -> '%s'", sub_in, sub_out)
 
     def remapCmaps(self):
         self.success = True
@@ -296,7 +302,8 @@ class RemapByOTL:
 
         logger.info("[renameFont] New family name: '%s'", family_name_new)
         logger.info("[renameFont] New full name: '%s'", full_name_new)
-        logger.info("[renameFont] New PostScript name: '%s'", postscript_name_new)
+        logger.info("[renameFont] New PostScript name: '%s'",
+                    postscript_name_new)
 
         return self.success
 

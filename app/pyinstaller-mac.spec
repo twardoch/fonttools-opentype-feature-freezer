@@ -1,12 +1,23 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 import os
-
+import re
 import gooey
 from PyInstaller.building.api import EXE, PYZ, COLLECT
 from PyInstaller.building.build_main import Analysis
 from PyInstaller.building.datastruct import Tree
 from PyInstaller.building.osx import BUNDLE
+
+def get_version(*args):
+    ver = ""
+    verstrline = open(os.path.join('..', 'opentype_feature_freezer', '__init__.py'), "rt").read()
+    VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
+    mo = re.search(VSRE, verstrline, re.M)
+    if mo:
+        ver = mo.group(1)
+    return ver
+
+version = get_version()
 
 gooey_root = os.path.dirname(gooey.__file__)
 gooey_languages = Tree(os.path.join(
@@ -63,6 +74,8 @@ app = BUNDLE(
     info_plist={
         'NSPrincipalClass': 'NSApplication',
         'NSAppleScriptEnabled': False,
-        'NSHighResolutionCapable': 'True'
+        'NSHighResolutionCapable': 'True',
+        'CFBundleShortVersionString': version,
+        'CFBundleSupportedPlatforms': ['MacOSX'],
     }
 )

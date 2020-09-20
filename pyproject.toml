@@ -1,12 +1,13 @@
 [tool.poetry]
 name = "opentype-feature-freezer"
-version = "1.32.0"
+version = "1.32.2"
 description = "Turns OpenType features 'on' by default in a font: reassigns the font's Unicode-to-glyph mapping fo permanently 'freeze' the 1-to-1 substitution features, and creates a new font."
 authors = [
     "Adam Twardoch <adam@twardoch.com>",
     "Nikolaus Waxweiler <nikolaus.waxweiler@daltonmaag.com>",
 ]
 license = "Apache-2.0"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.6"

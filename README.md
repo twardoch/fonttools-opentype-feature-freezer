@@ -8,7 +8,7 @@ _Note: This tool actually remaps the `cmap` table of the font by applying the sp
 
 This tool comes in two versions: **OTFeatureFreezer**: a simple GUI (graphical) app for macOS and Windows that you can download and run without any special perparations, and **pyftfeatfreeze**: a CLI (command-line) app that required Python 3.6 or newer to be installed on your computer.
 
-Current version: **[1.32.0](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#changelog)**
+Current version: **[1.32](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#changelog)**
 
 - [Download and install](https://twardoch.github.io/fonttools-opentype-feature-freezer/)
 - [Documentation](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#documentation)
@@ -184,8 +184,8 @@ This tool is written for Python 3.6+, and uses [fontTools/TTX](https://github.co
 
 ### Changelog
 
-- **1.32.0**: Changes the `-s` (script) option so that if it’s not provided, the remapping is in all scripts.
-- **1.31.0**: Changes the `-S` (suffix) option so that if it’s not provided, no sufix is added, and added the GUI apps.
+- **1.32**: Changes the `-s` (script) option so that if it’s not provided, the remapping is in all scripts.
+- **1.31**: Changes the `-S` (suffix) option so that if it’s not provided, no sufix is added, and added the GUI apps.
 - Previously, this tool was published as a sub-tool in a [fonttools-utils](https://github.com/twardoch/fonttools-utils/tree/master/pyftfeatfreeze) repo
 - The other tools of the `fonttools-utils` repo are now at [fonttools-ttxjson](https://github.com/twardoch/fonttools-ttxjson) and [mac-os-x-system-font-replacer](https://github.com/twardoch/mac-os-x-system-font-replacer)
 
