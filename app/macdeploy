@@ -140,13 +140,17 @@ function install() {
   $PYMAC -m pip install --user --upgrade ..
 }
 
+function builddmg() {
+  dmgbuild -s "dmgbuild_settings.py" "" ""
+}
+
 function buildmac() {
   pp "## Building Mac DMG"
   $PYMAC -m PyInstaller \
     --distpath="$cwd/build/dist-mac" \
     --workpath="$cwd/build" \
     -y "pyinstaller-mac.spec"
-  dmgbuild -s "dmgbuild_settings.py" "" ""
+  builddmg
   #rm -rf "$cwd/build/dist-mac"
 }
 
@@ -230,6 +234,7 @@ function main() {
   preppy) preppy ;;
   install) install ;;
   build) build ;;
+  builddmg) builddmg ;;
   buildmac) buildmac ;;
   buildwin) buildwin ;;
   publish) publish $@ ;;
