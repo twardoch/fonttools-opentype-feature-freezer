@@ -1,13 +1,13 @@
-from argparse import ArgumentParser
-import logging
-import os
+import logging  # Keep only one import
 import sys
-from typing import List, Optional, Callable
+from argparse import ArgumentParser, Namespace
+from pathlib import Path
+from typing import Callable, List, Optional, Sequence
 
 import opentype_feature_freezer
 
 
-def parseOptions(args=None):
+def parseOptions(args: Optional[Sequence[str]] = None) -> Namespace:
     parser = ArgumentParser(
         description=(
             'With %(prog)s you can "freeze" some OpenType features into a font. '
@@ -23,10 +23,7 @@ def parseOptions(args=None):
         ),
     )
 
-    parser.add_argument(
-        "inpath",
-        help="input .otf or .ttf font file"
-    )
+    parser.add_argument("inpath", help="input .otf or .ttf font file")
     parser.add_argument(
         "outpath",
         nargs="?",
@@ -76,7 +73,10 @@ def parseOptions(args=None):
         "--suffix",
         action="store_true",
         dest="suffix",
-        help="add a suffix to the font family name (by default, the suffix will be constructed from the OpenType feature tags)",
+        help=(
+            "add a suffix to the font family name (by default, the suffix will be "
+            "constructed from the OpenType feature tags)"
+        ),
     )
     group_renaming.add_argument(
         "-U",
@@ -92,7 +92,10 @@ def parseOptions(args=None):
         action="store",
         dest="replacenames",
         default="",
-        help="search for strings in the font naming tables and replace them, format is 'search1/replace1,search2/replace2,...'",
+        help=(
+            "search for strings in the font naming tables and replace them, format is "
+            "'search1/replace1,search2/replace2,...'"
+        ),
     )
     group_renaming.add_argument(
         "-i",
@@ -134,18 +137,27 @@ def parseOptions(args=None):
     return parser.parse_args(args)
 
 
-def main(args: Optional[List[str]] = None, parser: Optional[Callable[[list], ArgumentParser]] = None) -> int:
+def main(
+    args: Optional[List[str]] = None,
+    # The parser callable now expects Optional[Sequence[str]] and returns Namespace
+    parser_func: Optional[Callable[[Optional[Sequence[str]]], Namespace]] = None,
+) -> int:
     logging.basicConfig(format="%(levelname)s: %(message)s")
-    if not parser:
-        parser = parseOptions
-    args_parsed = parser(args)
-    if not os.path.exists(args_parsed.inpath):
+
+    current_parser_func = parser_func if parser_func else parseOptions
+    # args_parsed will be of type Namespace (or the return type of current_parser_func)
+    args_parsed: Namespace = current_parser_func(args)
+
+    if not Path(args_parsed.inpath).exists():
         logging.error("Input file does not exist.")
         return 1
 
     if args_parsed.verbose:
         logging.getLogger().setLevel(logging.INFO)
 
+    # argparse.Namespace is structurally compatible with types.SimpleNamespace.
+    # RemapByOTL expects argparse.Namespace (updated in __init__.py).
+    # A more robust solution might involve a Protocol.
     p = opentype_feature_freezer.RemapByOTL(args_parsed)
     try:
         p.run()
@@ -162,4 +174,3 @@ def main(args: Optional[List[str]] = None, parser: Optional[Callable[[list], Arg
 
 if __name__ == "__main__":
     sys.exit(main())
-

@@ -1,27 +1,96 @@
-[tool.poetry]
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
 name = "opentype-feature-freezer"
-version = "1.32.2"
+version = "1.32.2" # Will be replaced by hatch-vcs later
 description = "Turns OpenType features 'on' by default in a font: reassigns the font's Unicode-to-glyph mapping fo permanently 'freeze' the 1-to-1 substitution features, and creates a new font."
-authors = [
-    "Adam Twardoch <adam@twardoch.com>",
-    "Nikolaus Waxweiler <nikolaus.waxweiler@daltonmaag.com>",
-]
-license = "Apache-2.0"
 readme = "README.md"
+requires-python = ">=3.8" # Modernizing to Python 3.8+
+license = "Apache-2.0"
+authors = [
+    { name = "Adam Twardoch", email = "adam@twardoch.com" },
+    { name = "Nikolaus Waxweiler", email = "nikolaus.waxweiler@daltonmaag.com" },
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing :: Fonts",
+]
 
-[tool.poetry.dependencies]
-python = "^3.6"
-fonttools = "^4.0"
+dependencies = [
+    "fonttools>=4.0",
+]
 
-[tool.poetry.dev-dependencies]
-pylint = "^2.4"
-pytest = "^5.2"
-pytest-cov = "^2.8"
-pytest-mypy = "^0.4.1"
-
-[tool.poetry.scripts]
+[project.scripts]
 pyftfeatfreeze = "opentype_feature_freezer.cli:main"
 
-[build-system]
-requires = ["poetry>=0.12", "configparser>=5.0.0"]
-build-backend = "poetry.masonry.api"
+[project.urls]
+Homepage = "https://github.com/twardoch/fonttools-opentype-feature-freezer"
+Documentation = "https://github.com/twardoch/fonttools-opentype-feature-freezer#documentation"
+Repository = "https://github.com/twardoch/fonttools-opentype-feature-freezer"
+Issues = "https://github.com/twardoch/fonttools-opentype-feature-freezer/issues"
+
+[tool.hatch.version]
+# This section will be used for hatch-vcs later
+path = "src/opentype_feature_freezer/__init__.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "pytest",
+  "pytest-cov",
+  "ruff",
+  "mypy", # Added mypy
+  "pytest-mypy", # Added pytest-mypy for running mypy via pytest if desired
+]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/opentype_feature_freezer --cov=tests {args}"
+lint = "ruff check src tests"
+format = "ruff format src tests"
+typecheck = "mypy src tests" # Added mypy script
+# Add other scripts as needed
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "A", "C4", "ARG", "SIM", "PTH", "TCH"] # Common useful rules
+ignore = []
+# Add isort configuration if needed, e.g.
+# known-first-party = ["opentype_feature_freezer"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.coverage.run]
+source = ["opentype_feature_freezer"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",  # Fixed escape sequence
+    "@(abc\\.)?abstractmethod", # Fixed escape sequence
+]
