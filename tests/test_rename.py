@@ -1,7 +1,5 @@
-import types
-
+from argparse import Namespace # Changed from types
 import fontTools.ttLib
-
 import opentype_feature_freezer
 
 
@@ -9,14 +7,23 @@ def test_rename_ttf(shared_datadir):
     font = fontTools.ttLib.TTFont()
     font.importXML(shared_datadir / "Empty_TTF.ttx")
 
-    remapper_options = types.SimpleNamespace(
+    # Using Namespace and adding 'suffix' attribute
+    remapper_options = Namespace(
         inpath="None",
         outpath=None,
-        rename=True,
+        # rename=True, # This attribute is not used by RemapByOTL directly
+        suffix=True, # Explicitly add suffix based on command line options
         usesuffix="Asdf",
         replacenames="Test/Rest Dest",
         info=True,
         features="smcp,c2sc,onum",
+        # Add other attributes that parseOptions would create, with defaults
+        script=None,
+        lang=None,
+        zapnames=False,
+        report=False,
+        names=False, # For self.options.names in applySubstitutions
+        verbose=False,
     )
     remapper = opentype_feature_freezer.RemapByOTL(remapper_options)
     remapper.ttx = font
@@ -42,14 +49,20 @@ def test_rename_ttf_no_replace(shared_datadir):
     font = fontTools.ttLib.TTFont()
     font.importXML(shared_datadir / "Empty_TTF.ttx")
 
-    remapper_options = types.SimpleNamespace(
+    remapper_options = Namespace(
         inpath="None",
         outpath=None,
-        rename=True,
+        suffix=True, # Explicitly add suffix
         usesuffix="Asdf",
         replacenames="",
         info=True,
         features="smcp,c2sc,onum",
+        script=None,
+        lang=None,
+        zapnames=False,
+        report=False,
+        names=False,
+        verbose=False,
     )
     remapper = opentype_feature_freezer.RemapByOTL(remapper_options)
     remapper.ttx = font
@@ -75,14 +88,20 @@ def test_rename_ttf_autosuffix(shared_datadir):
     font = fontTools.ttLib.TTFont()
     font.importXML(shared_datadir / "Empty_TTF.ttx")
 
-    remapper_options = types.SimpleNamespace(
+    remapper_options = Namespace(
         inpath="None",
         outpath=None,
-        rename=True,
-        usesuffix="",
+        suffix=True, # Suffix is True for autosuffix generation
+        usesuffix="", # Empty usesuffix means auto-generate from features
         replacenames="",
         info=True,
         features="smcp,c2sc,onum",
+        script=None,
+        lang=None,
+        zapnames=False,
+        report=False,
+        names=False,
+        verbose=False,
     )
     remapper = opentype_feature_freezer.RemapByOTL(remapper_options)
     remapper.ttx = font
@@ -109,14 +128,20 @@ def test_rename_ttf_with_nameid16(shared_datadir):
     font = fontTools.ttLib.TTFont()
     font.importXML(shared_datadir / "EmptyNameID16_TTF.ttx")
 
-    remapper_options = types.SimpleNamespace(
+    remapper_options = Namespace(
         inpath="None",
         outpath=None,
-        rename=True,
+        suffix=True,
         usesuffix="Asdf",
         replacenames="Test/Rest Dest",
         info=True,
         features="smcp,c2sc,onum",
+        script=None,
+        lang=None,
+        zapnames=False,
+        report=False,
+        names=False,
+        verbose=False,
     )
     remapper = opentype_feature_freezer.RemapByOTL(remapper_options)
     remapper.ttx = font
@@ -144,14 +169,20 @@ def test_rename_otf(shared_datadir):
     font = fontTools.ttLib.TTFont()
     font.importXML(shared_datadir / "Empty_OTF.ttx")
 
-    remapper_options = types.SimpleNamespace(
+    remapper_options = Namespace(
         inpath="None",
         outpath=None,
-        rename=True,
+        suffix=True,
         usesuffix="Asdf",
         replacenames="Test/Rest Test",
         info=True,
         features="smcp,c2sc,onum",
+        script=None,
+        lang=None,
+        zapnames=False,
+        report=False,
+        names=False,
+        verbose=False,
     )
     remapper = opentype_feature_freezer.RemapByOTL(remapper_options)
     remapper.ttx = font
@@ -183,14 +214,20 @@ def test_rename_otf_with_nameid16(shared_datadir):
     font = fontTools.ttLib.TTFont()
     font.importXML(shared_datadir / "EmptyNameID16_OTF.ttx")
 
-    remapper_options = types.SimpleNamespace(
+    remapper_options = Namespace(
         inpath="None",
         outpath=None,
-        rename=True,
+        suffix=True,
         usesuffix="Asdf",
         replacenames="Test/Rest Test",
         info=True,
         features="smcp,c2sc,onum",
+        script=None,
+        lang=None,
+        zapnames=False,
+        report=False,
+        names=False,
+        verbose=False,
     )
     remapper = opentype_feature_freezer.RemapByOTL(remapper_options)
     remapper.ttx = font
