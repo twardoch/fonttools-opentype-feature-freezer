@@ -1,7 +1,8 @@
 import logging
 import os
-from argparse import Namespace  # Changed from types.SimpleNamespace
-from typing import List, Mapping, MutableMapping, Optional, Set
+from collections.abc import Mapping, MutableMapping
+from types import SimpleNamespace
+from typing import List, Optional, Set
 
 import fontTools.ttLib as ttLib
 
@@ -22,16 +23,16 @@ class RemapByOTL:
         self.filterByLangSys = None
         self.filterByScript = None
         self.LookupList = None
-        self.names: List[str] = []
-        self.options: Namespace = options  # Changed SimpleNamespace to Namespace
-        self.reportFeature: List[str] = []
-        self.reportLangSys: List[str] = []
-        self.subs0: List[str] = []
-        self.subs1: List[str] = []
+        self.names: list[str] = []
+        self.options: SimpleNamespace = options
+        self.reportFeature: list[str] = []
+        self.reportLangSys: list[str] = []
+        self.subs0: list[str] = []
+        self.subs1: list[str] = []
         self.substitution_mapping: MutableMapping[str, str] = {}
         self.success: bool = True
-        self.ttx: Optional[ttLib.TTFont] = None
-        logger.info(f"[RemapByOTL] Running with options: {self.options}")
+        self.ttx: ttLib.TTFont | None = None
+        logger.info("[RemapByOTL] Running with options: %s", self.options)
 
     def openFont(self):
         self.success = True
@@ -47,7 +48,7 @@ class RemapByOTL:
             try:
                 self.ttx = ttLib.TTFont(self.inpath, 0, recalcBBoxes=False)
             except Exception as e:
-                logger.warning(f"[_openFontTTX] TTX cannot open {self.inpath}: {e}")
+                logger.warning("[_openFontTTX] TTX cannot open %s: %s", self.inpath, e)
                 self.success = False
                 self.ttx = None
 
@@ -64,8 +65,11 @@ class RemapByOTL:
 
     def _reportFont(self):
         self.success = True
-        print("# Scripts and languages:\n" + "\n".join(sorted(set(self.reportLangSys))))
-        print(f"# Features:\n-f {','.join(sorted(set(self.reportFeature)))}")
+        print(
+            "# Scripts and languages:\n%s"
+            % ("\n".join(sorted(list(set(self.reportLangSys)))))
+        )
+        print("# Features:\n-f %s" % (",".join(sorted(list(set(self.reportFeature))))))
 
     def _saveFontTTX(self):
         self.success = True
@@ -97,7 +101,7 @@ class RemapByOTL:
         self.filterByScript = self.options.script
         self.filterByLangSys = self.options.lang
         if "GSUB" not in self.ttx:
-            logger.warning(f"No 'GSUB' table found in {self.inpath}, nothing to do!")
+            logger.warning("No 'GSUB' table found in %s, nothing to do!", self.inpath)
             self.success = True
             return
 
@@ -130,7 +134,7 @@ class RemapByOTL:
         self.success = True
         assert self.ttx is not None  # Ensured by successful openFont
         self.filterByFeatures = self.options.features.split(",")
-        logger.info(f"[filterLookupList] Features to apply: {self.filterByFeatures}")
+        logger.info("[filterLookupList] Features to apply: %s", self.filterByFeatures)
         if "GSUB" not in self.ttx:
             self.success = True
             return
@@ -162,8 +166,7 @@ class RemapByOTL:
         # Determine which glyphs have any Unicode value attached at all, to warn the
         # user when trying to freeze glyph substitutions where neither has a Unicode
         # value and therefore nothing will happen.
-        assert self.ttx is not None  # Should be handled by the caller or initial check
-        glyphs_with_unicode_value: Set[str] = {
+        glyphs_with_unicode_value: set[str] = {
             glyph_name
             for cmap_table in self.ttx["cmap"].tables
             for glyph_name in cmap_table.cmap.values()
@@ -206,8 +209,6 @@ class RemapByOTL:
                                 self.subs1[i] = sub_out_first
 
         if len(self.subs0) != len(self.subs1):
-            # This should ideally not happen if logic is correct
-            logger.error("Internal error: Substitution mapping out of sync.")
             raise RuntimeError("Internal error: Substitution mapping out of sync.")
 
         # Zip the above mappings together.
@@ -228,7 +229,7 @@ class RemapByOTL:
                 if self.options.names:
                     self.names.append(sub_out)
 
-                logger.info(f"[applySubstitutions] Remap: '{sub_in}' -> '{sub_out}'")
+                logger.info("[applySubstitutions] Remap: '%s' -> '%s'", sub_in, sub_out)
 
     def remapCmaps(self):
         self.success = True
@@ -353,23 +354,14 @@ class RemapByOTL:
                     "Font has multiple CFF font entries. Renaming only the first one."
                 )
 
-            # Ensure there's at least one fontName to modify
-            if cff_table.fontNames:
-                top_dict = cff_table[
-                    cff_table.fontNames[0]
-                ].rawDict  # Access TopDict via fontName
-                top_dict["FamilyName"] = family_name_new.encode("utf-8")
-                top_dict["FullName"] = full_name_new.encode("utf-8")
-                # The value in fontNames array is the PostScript name (string).
-                # The key in cff_table.cff.topDictIndex is the one that needs to be bytes if it's non-standard.
-                # fontNames itself stores strings.
-                cff_table.fontNames[0] = postscript_name_new
-            else:
-                logger.warning("CFF table found but no fontNames to update.")
+            top_dict = cff[0].rawDict
+            top_dict["FamilyName"] = family_name_new.encode("utf-8")
+            top_dict["FullName"] = full_name_new.encode("utf-8")
+            cff.fontNames[0] = postscript_name_new.encode("utf-8")
 
-        logger.info(f"[renameFont] New family name: '{family_name_new}'")
-        logger.info(f"[renameFont] New full name: '{full_name_new}'")
-        logger.info(f"[renameFont] New PostScript name: '{postscript_name_new}'")
+        logger.info("[renameFont] New family name: '%s'", family_name_new)
+        logger.info("[renameFont] New full name: '%s'", full_name_new)
+        logger.info("[renameFont] New PostScript name: '%s'", postscript_name_new)
 
         return self.success
 

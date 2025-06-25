@@ -1,8 +1,8 @@
-import logging  # Keep only one import
+import logging
+import os
 import sys
-from argparse import ArgumentParser, Namespace
-from pathlib import Path
-from typing import Callable, List, Optional, Sequence
+from argparse import ArgumentParser
+from collections.abc import Callable
 
 import opentype_feature_freezer
 
@@ -138,9 +138,8 @@ def parseOptions(args: Optional[Sequence[str]] = None) -> Namespace:
 
 
 def main(
-    args: Optional[List[str]] = None,
-    # The parser callable now expects Optional[Sequence[str]] and returns Namespace
-    parser_func: Optional[Callable[[Optional[Sequence[str]]], Namespace]] = None,
+    args: list[str] | None = None,
+    parser: Callable[[list], ArgumentParser] | None = None,
 ) -> int:
     logging.basicConfig(format="%(levelname)s: %(message)s")
 

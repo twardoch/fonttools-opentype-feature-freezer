@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 import sys
+
 import opentype_feature_freezer
 from opentype_feature_freezer.cli import main
+
 from ezgooey.ez import *
 
 version = opentype_feature_freezer.__version__
 
-GUI_NAME = 'OTFeatureFreezer %s' % (version)
-DESCRIPTION = 'Freeze some OpenType features into a font, see Help › %s Help.' % (GUI_NAME)
+GUI_NAME = "OTFeatureFreezer %s" % (version)
+DESCRIPTION = "Freeze some OpenType features into a font, see Help › %s Help." % (
+    GUI_NAME
+)
 
 
 @ezgooey(
@@ -35,21 +38,26 @@ DESCRIPTION = 'Freeze some OpenType features into a font, see Help › %s Help.'
     tabbed_groups=False,
     target=None,
     use_legacy_titles=True,
-    menu=[{
-        'name' : 'Help',
-        'items': [{
-            'type'       : 'AboutDialog',
-            'menuTitle'  : 'About',
-            'name'       : GUI_NAME,
-            'description': 'Click the link for more info',
-            'website'    : 'https://twardoch.github.io/fonttools-opentype-feature-freezer/',
-            'license'    : 'Apache 2'
-        }, {
-            'type'     : 'Link',
-            'menuTitle': '%s Help' % (GUI_NAME),
-            'url'      : 'https://twardoch.github.io/fonttools-opentype-feature-freezer/'
-        }]
-    }]
+    menu=[
+        {
+            "name": "Help",
+            "items": [
+                {
+                    "type": "AboutDialog",
+                    "menuTitle": "About",
+                    "name": GUI_NAME,
+                    "description": "Click the link for more info",
+                    "website": "https://twardoch.github.io/fonttools-opentype-feature-freezer/",
+                    "license": "Apache 2",
+                },
+                {
+                    "type": "Link",
+                    "menuTitle": "%s Help" % (GUI_NAME),
+                    "url": "https://twardoch.github.io/fonttools-opentype-feature-freezer/",
+                },
+            ],
+        }
+    ],
 )
 def parseGuiOptions(args=None):
     parser = ArgumentParser(
@@ -70,14 +78,15 @@ def parseGuiOptions(args=None):
     parser.add_argument(
         "inpath",
         help="input .otf or .ttf font file",
-        widget='FileChooser',
+        widget="FileChooser",
     )
     parser.add_argument(
-        "-o", "--outpath",
+        "-o",
+        "--outpath",
         nargs="?",
         default=None,
         help="output .otf or .ttf font file (optional)",
-        widget='FileSaver',
+        widget="FileSaver",
     )
 
     group_freezing = parser.add_argument_group("options to control feature freezing")
@@ -123,7 +132,7 @@ def parseGuiOptions(args=None):
         action="store_true",
         dest="suffix",
         help="add a suffix to the font family name (by default, the suffix will be constructed from the OpenType "
-             "feature tags)",
+        "feature tags)",
     )
     group_renaming.add_argument(
         "-U",
@@ -140,7 +149,7 @@ def parseGuiOptions(args=None):
         dest="replacenames",
         default="",
         help="search for strings in the font naming tables and replace them, format is 'search1/replace1,"
-             "search2/replace2,...'",
+        "search2/replace2,...'",
     )
     group_renaming.add_argument(
         "-i",

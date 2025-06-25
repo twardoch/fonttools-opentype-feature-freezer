@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
-import re
-import biplist
 import os.path
+import re
+
+import biplist
 
 #
 # Example settings file for dmgbuild
@@ -18,29 +16,35 @@ import os.path
 
 # .. Useful stuff ..............................................................
 
+
 def get_version(*args):
     ver = ""
-    verstrline = open(os.path.join('..', 'src', 'opentype_feature_freezer', '__init__.py'), "rt").read()
+    verstrline = open(
+        os.path.join("..", "src", "opentype_feature_freezer", "__init__.py")
+    ).read()
     VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
     mo = re.search(VSRE, verstrline, re.M)
     if mo:
         ver = mo.group(1)
     return ver
 
-application = defines.get('app', os.path.join(
-    'build', 'dist-mac', 'OTFeatureFreezer.app'))
+
+application = defines.get(
+    "app", os.path.join("build", "dist-mac", "OTFeatureFreezer.app")
+)
 appname = os.path.basename(application)
 
 
 def icon_from_app(app_path):
-    plist_path = os.path.join(app_path, 'Contents', 'Info.plist')
+    plist_path = os.path.join(app_path, "Contents", "Info.plist")
     plist = biplist.readPlist(plist_path)
-    icon_name = plist['CFBundleIconFile']
+    icon_name = plist["CFBundleIconFile"]
     icon_root, icon_ext = os.path.splitext(icon_name)
     if not icon_ext:
-        icon_ext = '.icns'
+        icon_ext = ".icns"
     icon_name = icon_root + icon_ext
-    return os.path.join(app_path, 'Contents', 'Resources', icon_name)
+    return os.path.join(app_path, "Contents", "Resources", icon_name)
+
 
 # .. Basics ....................................................................
 
@@ -48,19 +52,19 @@ def icon_from_app(app_path):
 filename = "../download/OTFeatureFreezer.dmg"
 
 # Uncomment to override the output volume name
-volume_name = 'OTFeatureFreezer %s' % (get_version())
+volume_name = "OTFeatureFreezer %s" % (get_version())
 
 # Volume format (see hdiutil create -help)
-format = defines.get('format', 'UDBZ')
+format = defines.get("format", "UDBZ")
 
 # Volume size
-size = defines.get('size', None)
+size = defines.get("size", None)
 
 # Files to include
 files = [application]
 
 # Symlinks to create
-symlinks = {'Applications': '/Applications'}
+symlinks = {"Applications": "/Applications"}
 
 # Volume icon
 #
@@ -68,14 +72,11 @@ symlinks = {'Applications': '/Applications'}
 # image, *or* you can define badge_icon, in which case the icon file you specify
 # will be used to badge the system's Removable Disk icon
 #
-#icon = '/path/to/icon.icns'
+# icon = '/path/to/icon.icns'
 badge_icon = icon_from_app(application)
 
 # Where to put the icons
-icon_locations = {
-    appname:        (140, 120),
-    'Applications': (500, 120)
-}
+icon_locations = {appname: (140, 120), "Applications": (500, 120)}
 
 # .. Window configuration ......................................................
 
@@ -99,7 +100,7 @@ icon_locations = {
 #
 # Other color components may be expressed either in the range 0 to 1, or
 # as percentages (e.g. 60% is equivalent to 0.6).
-background = 'builtin-arrow'
+background = "builtin-arrow"
 
 show_status_bar = False
 show_tab_view = False
@@ -118,15 +119,15 @@ window_rect = ((100, 100), (640, 280))
 #    'column-view'
 #    'coverflow'
 #
-default_view = 'icon-view'
+default_view = "icon-view"
 
 # General view configuration
 show_icon_preview = False
 
 # Set these to True to force inclusion of icon/list view settings (otherwise
 # we only include settings for the default view)
-include_icon_view_settings = 'auto'
-include_list_view_settings = 'auto'
+include_icon_view_settings = "auto"
+include_list_view_settings = "auto"
 
 # .. Icon view configuration ...................................................
 
@@ -134,7 +135,7 @@ arrange_by = None
 grid_offset = (0, 0)
 grid_spacing = 100
 scroll_position = (0, 0)
-label_pos = 'bottom'  # or 'right'
+label_pos = "bottom"  # or 'right'
 text_size = 16
 icon_size = 128
 
@@ -156,33 +157,33 @@ icon_size = 128
 list_icon_size = 16
 list_text_size = 12
 list_scroll_position = (0, 0)
-list_sort_by = 'name'
+list_sort_by = "name"
 list_use_relative_dates = True
-list_calculate_all_sizes = False,
-list_columns = ('name', 'date-modified', 'size', 'kind', 'date-added')
+list_calculate_all_sizes = (False,)
+list_columns = ("name", "date-modified", "size", "kind", "date-added")
 list_column_widths = {
-    'name': 300,
-    'date-modified': 181,
-    'date-created': 181,
-    'date-added': 181,
-    'date-last-opened': 181,
-    'size': 97,
-    'kind': 115,
-    'label': 100,
-    'version': 75,
-    'comments': 300,
+    "name": 300,
+    "date-modified": 181,
+    "date-created": 181,
+    "date-added": 181,
+    "date-last-opened": 181,
+    "size": 97,
+    "kind": 115,
+    "label": 100,
+    "version": 75,
+    "comments": 300,
 }
 list_column_sort_directions = {
-    'name': 'ascending',
-    'date-modified': 'descending',
-    'date-created': 'descending',
-    'date-added': 'descending',
-    'date-last-opened': 'descending',
-    'size': 'descending',
-    'kind': 'ascending',
-    'label': 'ascending',
-    'version': 'ascending',
-    'comments': 'ascending',
+    "name": "ascending",
+    "date-modified": "descending",
+    "date-created": "descending",
+    "date-added": "descending",
+    "date-last-opened": "descending",
+    "size": "descending",
+    "kind": "ascending",
+    "label": "ascending",
+    "version": "ascending",
+    "comments": "ascending",
 }
 
 # .. License configuration .....................................................
