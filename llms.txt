@@ -1,0 +1,5236 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+app/
+  dmgbuild_settings.py
+  featfreeze.iss
+  macdeploy
+  OTFeatureFreezer.py
+  pyinstaller-mac.spec
+  pyinstaller-win.spec
+src/
+  opentype_feature_freezer/
+    __init__.py
+    cli.py
+tests/
+  data/
+    Empty_OTF.ttx
+    Empty_TTF.ttx
+    EmptyNameID16_OTF.ttx
+    EmptyNameID16_TTF.ttx
+    OpenSans-Bold.subset_LICENSE.txt
+    OpenSans-Bold.subset.ttx
+    SubGlyphsWithoutUnicode.ttx
+  conftest.py
+  test_freeze.py
+  test_rename.py
+_config.yml
+.gitignore
+AUTHORS
+CONTRIBUTORS
+LICENSE
+mypy.ini
+pyproject.toml
+pytest.ini
+README.md
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="app/pyinstaller-win.spec">
+# -*- mode: python ; coding: utf-8 -*-
+
+import os
+
+import gooey
+from PyInstaller.building.api import EXE, PYZ, COLLECT
+from PyInstaller.building.build_main import Analysis
+from PyInstaller.building.datastruct import Tree
+from PyInstaller.building.osx import BUNDLE
+
+gooey_root = os.path.dirname(gooey.__file__)
+gooey_languages = Tree(os.path.join(
+    gooey_root, 'languages'), prefix='gooey/languages')
+gooey_images = Tree(os.path.join(gooey_root, 'images'), prefix='gooey/images')
+
+block_cipher = None
+
+# noinspection PyUnresolvedReferences
+a = Analysis(
+    ['OTFeatureFreezer.py'],
+    pathex=[os.path.join(os.path.abspath(SPECPATH), '..', 'src', 'opentype_feature_freezer')],
+    binaries=[],
+    datas=[],
+    hiddenimports=[],
+    hookspath=[],
+    runtime_hooks=[],
+    excludes=[],
+    win_no_prefer_redirects=False,
+    win_private_assemblies=False,
+    cipher=block_cipher
+)
+pyz = PYZ(
+    a.pure,
+    a.zipped_data,
+    cipher=block_cipher
+)
+exe = EXE(pyz,
+          a.scripts,
+          a.binaries,
+          a.zipfiles,
+          a.datas,
+          gooey_languages,
+          gooey_images,
+          [],
+          name='OTFeatureFreezer',
+          debug=False,
+          bootloader_ignore_signals=False,
+          strip=False,
+          upx=True,
+          upx_exclude=[],
+          runtime_tmpdir=None,
+          console=False)
+</file>
+
+<file path="tests/data/Empty_OTF.ttx">
+<?xml version="1.0" encoding="UTF-8"?>
+<ttFont sfntVersion="OTTO" ttLibVersion="4.0">
+
+  <GlyphOrder>
+    <!-- The 'id' attribute is only for humans; it is ignored when parsed. -->
+    <GlyphID id="0" name=".notdef"/>
+  </GlyphOrder>
+
+  <head>
+    <!-- Most of this table will be recalculated by the compiler -->
+    <tableVersion value="1.0"/>
+    <fontRevision value="1.001"/>
+    <checkSumAdjustment value="0x3f392be5"/>
+    <magicNumber value="0x5f0f3cf5"/>
+    <flags value="00000000 00000011"/>
+    <unitsPerEm value="1000"/>
+    <created value="Tue Oct 29 11:12:43 2019"/>
+    <modified value="Tue Oct 29 11:12:53 2019"/>
+    <xMin value="50"/>
+    <yMin value="-200"/>
+    <xMax value="450"/>
+    <yMax value="800"/>
+    <macStyle value="00000000 00000000"/>
+    <lowestRecPPEM value="6"/>
+    <fontDirectionHint value="2"/>
+    <indexToLocFormat value="0"/>
+    <glyphDataFormat value="0"/>
+  </head>
+
+  <hhea>
+    <tableVersion value="0x00010000"/>
+    <ascent value="1000"/>
+    <descent value="-200"/>
+    <lineGap value="0"/>
+    <advanceWidthMax value="500"/>
+    <minLeftSideBearing value="50"/>
+    <minRightSideBearing value="50"/>
+    <xMaxExtent value="450"/>
+    <caretSlopeRise value="1"/>
+    <caretSlopeRun value="0"/>
+    <caretOffset value="0"/>
+    <reserved0 value="0"/>
+    <reserved1 value="0"/>
+    <reserved2 value="0"/>
+    <reserved3 value="0"/>
+    <metricDataFormat value="0"/>
+    <numberOfHMetrics value="1"/>
+  </hhea>
+
+  <maxp>
+    <tableVersion value="0x5000"/>
+    <numGlyphs value="1"/>
+  </maxp>
+
+  <OS_2>
+    <!-- The fields 'usFirstCharIndex' and 'usLastCharIndex'
+         will be recalculated by the compiler -->
+    <version value="4"/>
+    <xAvgCharWidth value="500"/>
+    <usWeightClass value="400"/>
+    <usWidthClass value="5"/>
+    <fsType value="00000000 00000100"/>
+    <ySubscriptXSize value="650"/>
+    <ySubscriptYSize value="600"/>
+    <ySubscriptXOffset value="0"/>
+    <ySubscriptYOffset value="75"/>
+    <ySuperscriptXSize value="650"/>
+    <ySuperscriptYSize value="600"/>
+    <ySuperscriptXOffset value="0"/>
+    <ySuperscriptYOffset value="350"/>
+    <yStrikeoutSize value="50"/>
+    <yStrikeoutPosition value="300"/>
+    <sFamilyClass value="0"/>
+    <panose>
+      <bFamilyType value="0"/>
+      <bSerifStyle value="1"/>
+      <bWeight value="2"/>
+      <bProportion value="3"/>
+      <bContrast value="4"/>
+      <bStrokeVariation value="5"/>
+      <bArmStyle value="6"/>
+      <bLetterForm value="7"/>
+      <bMidline value="8"/>
+      <bXHeight value="9"/>
+    </panose>
+    <ulUnicodeRange1 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange2 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange3 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange4 value="00000000 00000000 00000000 00000000"/>
+    <achVendID value="NONE"/>
+    <fsSelection value="00000000 01000000"/>
+    <usFirstCharIndex value="65535"/>
+    <usLastCharIndex value="65535"/>
+    <sTypoAscender value="800"/>
+    <sTypoDescender value="-200"/>
+    <sTypoLineGap value="200"/>
+    <usWinAscent value="1000"/>
+    <usWinDescent value="200"/>
+    <ulCodePageRange1 value="00000000 00000000 00000000 00000001"/>
+    <ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>
+    <sxHeight value="500"/>
+    <sCapHeight value="700"/>
+    <usDefaultChar value="0"/>
+    <usBreakChar value="32"/>
+    <usMaxContext value="0"/>
+  </OS_2>
+
+  <name>
+    <namerecord nameID="0" platformID="3" platEncID="1" langID="0x409">
+      Test Corp
+    </namerecord>
+    <namerecord nameID="1" platformID="3" platEncID="1" langID="0x409">
+      Test
+    </namerecord>
+    <namerecord nameID="2" platformID="3" platEncID="1" langID="0x409">
+      Regular
+    </namerecord>
+    <namerecord nameID="3" platformID="3" platEncID="1" langID="0x409">
+      1.001;NONE;Test-Regular
+    </namerecord>
+    <namerecord nameID="4" platformID="3" platEncID="1" langID="0x409">
+      Test Regular
+    </namerecord>
+    <namerecord nameID="5" platformID="3" platEncID="1" langID="0x409">
+      Version 1.001
+    </namerecord>
+    <namerecord nameID="6" platformID="3" platEncID="1" langID="0x409">
+      Test-Regular
+    </namerecord>
+  </name>
+
+  <cmap>
+    <tableVersion version="0"/>
+    <cmap_format_4 platformID="0" platEncID="3" language="0">
+    </cmap_format_4>
+    <cmap_format_4 platformID="3" platEncID="1" language="0">
+    </cmap_format_4>
+  </cmap>
+
+  <post>
+    <formatType value="3.0"/>
+    <italicAngle value="0.0"/>
+    <underlinePosition value="-150"/>
+    <underlineThickness value="50"/>
+    <isFixedPitch value="0"/>
+    <minMemType42 value="0"/>
+    <maxMemType42 value="0"/>
+    <minMemType1 value="0"/>
+    <maxMemType1 value="0"/>
+  </post>
+
+  <CFF>
+    <major value="1"/>
+    <minor value="0"/>
+    <CFFFont name="Test-Regular">
+      <version value="1.1"/>
+      <Notice value=""/>
+      <Copyright value="Test Corp"/>
+      <FullName value="Test Regular"/>
+      <FamilyName value="Test"/>
+      <isFixedPitch value="0"/>
+      <ItalicAngle value="0"/>
+      <UnderlinePosition value="-150"/>
+      <UnderlineThickness value="50"/>
+      <PaintType value="0"/>
+      <CharstringType value="2"/>
+      <FontMatrix value="0.001 0 0 0.001 0 0"/>
+      <FontBBox value="50 -200 450 800"/>
+      <StrokeWidth value="0"/>
+      <!-- charset is dumped separately as the 'GlyphOrder' element -->
+      <Encoding name="StandardEncoding"/>
+      <Private>
+        <BlueScale value="0.039625"/>
+        <BlueShift value="7"/>
+        <BlueFuzz value="1"/>
+        <ForceBold value="0"/>
+        <LanguageGroup value="0"/>
+        <ExpansionFactor value="0.06"/>
+        <initialRandomSeed value="0"/>
+        <defaultWidthX value="500"/>
+        <nominalWidthX value="500"/>
+      </Private>
+      <CharStrings>
+        <CharString name=".notdef">
+          50 -200 rmoveto
+          400 1000 -400 -1000 hlineto
+          50 50 rmoveto
+          900 300 -900 -300 vlineto
+          endchar
+        </CharString>
+      </CharStrings>
+    </CFFFont>
+
+    <GlobalSubrs>
+      <!-- The 'index' attribute is only for humans; it is ignored when parsed. -->
+    </GlobalSubrs>
+  </CFF>
+
+  <hmtx>
+    <mtx name=".notdef" width="500" lsb="50"/>
+  </hmtx>
+
+</ttFont>
+</file>
+
+<file path="tests/data/Empty_TTF.ttx">
+<?xml version="1.0" encoding="UTF-8"?>
+<ttFont sfntVersion="\x00\x01\x00\x00" ttLibVersion="4.0">
+
+  <GlyphOrder>
+    <!-- The 'id' attribute is only for humans; it is ignored when parsed. -->
+    <GlyphID id="0" name=".notdef"/>
+  </GlyphOrder>
+
+  <head>
+    <!-- Most of this table will be recalculated by the compiler -->
+    <tableVersion value="1.0"/>
+    <fontRevision value="1.001"/>
+    <checkSumAdjustment value="0xbd94459d"/>
+    <magicNumber value="0x5f0f3cf5"/>
+    <flags value="00000000 00000011"/>
+    <unitsPerEm value="1000"/>
+    <created value="Mon Oct 28 12:37:30 2019"/>
+    <modified value="Mon Oct 28 12:37:47 2019"/>
+    <xMin value="50"/>
+    <yMin value="-200"/>
+    <xMax value="450"/>
+    <yMax value="800"/>
+    <macStyle value="00000000 00000000"/>
+    <lowestRecPPEM value="6"/>
+    <fontDirectionHint value="2"/>
+    <indexToLocFormat value="0"/>
+    <glyphDataFormat value="0"/>
+  </head>
+
+  <hhea>
+    <tableVersion value="0x00010000"/>
+    <ascent value="1000"/>
+    <descent value="-200"/>
+    <lineGap value="0"/>
+    <advanceWidthMax value="500"/>
+    <minLeftSideBearing value="50"/>
+    <minRightSideBearing value="50"/>
+    <xMaxExtent value="450"/>
+    <caretSlopeRise value="1"/>
+    <caretSlopeRun value="0"/>
+    <caretOffset value="0"/>
+    <reserved0 value="0"/>
+    <reserved1 value="0"/>
+    <reserved2 value="0"/>
+    <reserved3 value="0"/>
+    <metricDataFormat value="0"/>
+    <numberOfHMetrics value="1"/>
+  </hhea>
+
+  <maxp>
+    <!-- Most of this table will be recalculated by the compiler -->
+    <tableVersion value="0x10000"/>
+    <numGlyphs value="1"/>
+    <maxPoints value="8"/>
+    <maxContours value="2"/>
+    <maxCompositePoints value="0"/>
+    <maxCompositeContours value="0"/>
+    <maxZones value="1"/>
+    <maxTwilightPoints value="0"/>
+    <maxStorage value="0"/>
+    <maxFunctionDefs value="0"/>
+    <maxInstructionDefs value="0"/>
+    <maxStackElements value="0"/>
+    <maxSizeOfInstructions value="0"/>
+    <maxComponentElements value="0"/>
+    <maxComponentDepth value="0"/>
+  </maxp>
+
+  <OS_2>
+    <!-- The fields 'usFirstCharIndex' and 'usLastCharIndex'
+         will be recalculated by the compiler -->
+    <version value="4"/>
+    <xAvgCharWidth value="500"/>
+    <usWeightClass value="400"/>
+    <usWidthClass value="5"/>
+    <fsType value="00000000 00000100"/>
+    <ySubscriptXSize value="650"/>
+    <ySubscriptYSize value="600"/>
+    <ySubscriptXOffset value="0"/>
+    <ySubscriptYOffset value="75"/>
+    <ySuperscriptXSize value="650"/>
+    <ySuperscriptYSize value="600"/>
+    <ySuperscriptXOffset value="0"/>
+    <ySuperscriptYOffset value="350"/>
+    <yStrikeoutSize value="50"/>
+    <yStrikeoutPosition value="300"/>
+    <sFamilyClass value="0"/>
+    <panose>
+      <bFamilyType value="0"/>
+      <bSerifStyle value="1"/>
+      <bWeight value="2"/>
+      <bProportion value="3"/>
+      <bContrast value="4"/>
+      <bStrokeVariation value="5"/>
+      <bArmStyle value="6"/>
+      <bLetterForm value="7"/>
+      <bMidline value="8"/>
+      <bXHeight value="9"/>
+    </panose>
+    <ulUnicodeRange1 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange2 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange3 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange4 value="00000000 00000000 00000000 00000000"/>
+    <achVendID value="NONE"/>
+    <fsSelection value="00000000 01000000"/>
+    <usFirstCharIndex value="65535"/>
+    <usLastCharIndex value="65535"/>
+    <sTypoAscender value="800"/>
+    <sTypoDescender value="-200"/>
+    <sTypoLineGap value="200"/>
+    <usWinAscent value="1000"/>
+    <usWinDescent value="200"/>
+    <ulCodePageRange1 value="00000000 00000000 00000000 00000001"/>
+    <ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>
+    <sxHeight value="500"/>
+    <sCapHeight value="700"/>
+    <usDefaultChar value="0"/>
+    <usBreakChar value="32"/>
+    <usMaxContext value="0"/>
+  </OS_2>
+
+  <hmtx>
+    <mtx name=".notdef" width="500" lsb="50"/>
+  </hmtx>
+
+  <cmap>
+    <tableVersion version="0"/>
+    <cmap_format_4 platformID="0" platEncID="3" language="0">
+    </cmap_format_4>
+    <cmap_format_4 platformID="3" platEncID="1" language="0">
+    </cmap_format_4>
+  </cmap>
+
+  <loca>
+    <!-- The 'loca' table will be calculated by the compiler -->
+  </loca>
+
+  <glyf>
+
+    <!-- The xMin, yMin, xMax and yMax values
+         will be recalculated by the compiler. -->
+
+    <TTGlyph name=".notdef" xMin="50" yMin="-200" xMax="450" yMax="800">
+      <contour>
+        <pt x="50" y="-200" on="1"/>
+        <pt x="450" y="-200" on="1"/>
+        <pt x="450" y="800" on="1"/>
+        <pt x="50" y="800" on="1"/>
+      </contour>
+      <contour>
+        <pt x="100" y="-150" on="1"/>
+        <pt x="100" y="750" on="1"/>
+        <pt x="400" y="750" on="1"/>
+        <pt x="400" y="-150" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+  </glyf>
+
+  <name>
+    <namerecord nameID="0" platformID="3" platEncID="1" langID="0x409">
+      Test Corp
+    </namerecord>
+    <namerecord nameID="1" platformID="3" platEncID="1" langID="0x409">
+      Test
+    </namerecord>
+    <namerecord nameID="2" platformID="3" platEncID="1" langID="0x409">
+      Regular
+    </namerecord>
+    <namerecord nameID="3" platformID="3" platEncID="1" langID="0x409">
+      1.001;NONE;Test-Regular
+    </namerecord>
+    <namerecord nameID="4" platformID="3" platEncID="1" langID="0x409">
+      Test Regular
+    </namerecord>
+    <namerecord nameID="5" platformID="3" platEncID="1" langID="0x409">
+      Version 1.001
+    </namerecord>
+    <namerecord nameID="6" platformID="3" platEncID="1" langID="0x409">
+      Test-Regular
+    </namerecord>
+  </name>
+
+  <post>
+    <formatType value="2.0"/>
+    <italicAngle value="0.0"/>
+    <underlinePosition value="-150"/>
+    <underlineThickness value="50"/>
+    <isFixedPitch value="0"/>
+    <minMemType42 value="0"/>
+    <maxMemType42 value="0"/>
+    <minMemType1 value="0"/>
+    <maxMemType1 value="0"/>
+    <psNames>
+      <!-- This file uses unique glyph names based on the information
+           found in the 'post' table. Since these names might not be unique,
+           we have to invent artificial names in case of clashes. In order to
+           be able to retain the original information, we need a name to
+           ps name mapping for those cases where they differ. That's what
+           you see below.
+            -->
+    </psNames>
+    <extraNames>
+      <!-- following are the name that are not taken from the standard Mac glyph order -->
+    </extraNames>
+  </post>
+
+</ttFont>
+</file>
+
+<file path="tests/data/EmptyNameID16_OTF.ttx">
+<?xml version="1.0" encoding="UTF-8"?>
+<ttFont sfntVersion="OTTO" ttLibVersion="4.0">
+
+  <GlyphOrder>
+    <!-- The 'id' attribute is only for humans; it is ignored when parsed. -->
+    <GlyphID id="0" name=".notdef"/>
+  </GlyphOrder>
+
+  <head>
+    <!-- Most of this table will be recalculated by the compiler -->
+    <tableVersion value="1.0"/>
+    <fontRevision value="1.001"/>
+    <checkSumAdjustment value="0x1fa291d3"/>
+    <magicNumber value="0x5f0f3cf5"/>
+    <flags value="00000000 00000011"/>
+    <unitsPerEm value="1000"/>
+    <created value="Tue Oct 29 16:04:31 2019"/>
+    <modified value="Tue Oct 29 16:04:59 2019"/>
+    <xMin value="50"/>
+    <yMin value="-200"/>
+    <xMax value="450"/>
+    <yMax value="800"/>
+    <macStyle value="00000000 00000000"/>
+    <lowestRecPPEM value="6"/>
+    <fontDirectionHint value="2"/>
+    <indexToLocFormat value="0"/>
+    <glyphDataFormat value="0"/>
+  </head>
+
+  <hhea>
+    <tableVersion value="0x00010000"/>
+    <ascent value="1000"/>
+    <descent value="-200"/>
+    <lineGap value="0"/>
+    <advanceWidthMax value="500"/>
+    <minLeftSideBearing value="50"/>
+    <minRightSideBearing value="50"/>
+    <xMaxExtent value="450"/>
+    <caretSlopeRise value="1"/>
+    <caretSlopeRun value="0"/>
+    <caretOffset value="0"/>
+    <reserved0 value="0"/>
+    <reserved1 value="0"/>
+    <reserved2 value="0"/>
+    <reserved3 value="0"/>
+    <metricDataFormat value="0"/>
+    <numberOfHMetrics value="1"/>
+  </hhea>
+
+  <maxp>
+    <tableVersion value="0x5000"/>
+    <numGlyphs value="1"/>
+  </maxp>
+
+  <OS_2>
+    <!-- The fields 'usFirstCharIndex' and 'usLastCharIndex'
+         will be recalculated by the compiler -->
+    <version value="4"/>
+    <xAvgCharWidth value="500"/>
+    <usWeightClass value="400"/>
+    <usWidthClass value="5"/>
+    <fsType value="00000000 00000100"/>
+    <ySubscriptXSize value="650"/>
+    <ySubscriptYSize value="600"/>
+    <ySubscriptXOffset value="0"/>
+    <ySubscriptYOffset value="75"/>
+    <ySuperscriptXSize value="650"/>
+    <ySuperscriptYSize value="600"/>
+    <ySuperscriptXOffset value="0"/>
+    <ySuperscriptYOffset value="350"/>
+    <yStrikeoutSize value="50"/>
+    <yStrikeoutPosition value="300"/>
+    <sFamilyClass value="0"/>
+    <panose>
+      <bFamilyType value="0"/>
+      <bSerifStyle value="1"/>
+      <bWeight value="2"/>
+      <bProportion value="3"/>
+      <bContrast value="4"/>
+      <bStrokeVariation value="5"/>
+      <bArmStyle value="6"/>
+      <bLetterForm value="7"/>
+      <bMidline value="8"/>
+      <bXHeight value="9"/>
+    </panose>
+    <ulUnicodeRange1 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange2 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange3 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange4 value="00000000 00000000 00000000 00000000"/>
+    <achVendID value="NONE"/>
+    <fsSelection value="00000000 01000000"/>
+    <usFirstCharIndex value="65535"/>
+    <usLastCharIndex value="65535"/>
+    <sTypoAscender value="800"/>
+    <sTypoDescender value="-200"/>
+    <sTypoLineGap value="200"/>
+    <usWinAscent value="1000"/>
+    <usWinDescent value="200"/>
+    <ulCodePageRange1 value="00000000 00000000 00000000 00000001"/>
+    <ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>
+    <sxHeight value="500"/>
+    <sCapHeight value="700"/>
+    <usDefaultChar value="0"/>
+    <usBreakChar value="32"/>
+    <usMaxContext value="0"/>
+  </OS_2>
+
+  <name>
+    <namerecord nameID="0" platformID="3" platEncID="1" langID="0x409">
+      Test Corp
+    </namerecord>
+    <namerecord nameID="1" platformID="3" platEncID="1" langID="0x409">
+      Test zxcv
+    </namerecord>
+    <namerecord nameID="2" platformID="3" platEncID="1" langID="0x409">
+      Regular
+    </namerecord>
+    <namerecord nameID="3" platformID="3" platEncID="1" langID="0x409">
+      1.001;NONE;Test-zxcv
+    </namerecord>
+    <namerecord nameID="4" platformID="3" platEncID="1" langID="0x409">
+      Test zxcv
+    </namerecord>
+    <namerecord nameID="5" platformID="3" platEncID="1" langID="0x409">
+      Version 1.001
+    </namerecord>
+    <namerecord nameID="6" platformID="3" platEncID="1" langID="0x409">
+      Test-zxcv
+    </namerecord>
+    <namerecord nameID="16" platformID="3" platEncID="1" langID="0x409">
+      Test
+    </namerecord>
+    <namerecord nameID="17" platformID="3" platEncID="1" langID="0x409">
+      zxcv
+    </namerecord>
+  </name>
+
+  <cmap>
+    <tableVersion version="0"/>
+    <cmap_format_4 platformID="0" platEncID="3" language="0">
+    </cmap_format_4>
+    <cmap_format_4 platformID="3" platEncID="1" language="0">
+    </cmap_format_4>
+  </cmap>
+
+  <post>
+    <formatType value="3.0"/>
+    <italicAngle value="0.0"/>
+    <underlinePosition value="-150"/>
+    <underlineThickness value="50"/>
+    <isFixedPitch value="0"/>
+    <minMemType42 value="0"/>
+    <maxMemType42 value="0"/>
+    <minMemType1 value="0"/>
+    <maxMemType1 value="0"/>
+  </post>
+
+  <CFF>
+    <major value="1"/>
+    <minor value="0"/>
+    <CFFFont name="Test-zxcv">
+      <version value="1.1"/>
+      <Notice value=""/>
+      <Copyright value="Test Corp"/>
+      <FullName value="Test zxcv"/>
+      <FamilyName value="Test"/>
+      <isFixedPitch value="0"/>
+      <ItalicAngle value="0"/>
+      <UnderlinePosition value="-150"/>
+      <UnderlineThickness value="50"/>
+      <PaintType value="0"/>
+      <CharstringType value="2"/>
+      <FontMatrix value="0.001 0 0 0.001 0 0"/>
+      <FontBBox value="50 -200 450 800"/>
+      <StrokeWidth value="0"/>
+      <!-- charset is dumped separately as the 'GlyphOrder' element -->
+      <Encoding name="StandardEncoding"/>
+      <Private>
+        <BlueScale value="0.039625"/>
+        <BlueShift value="7"/>
+        <BlueFuzz value="1"/>
+        <ForceBold value="0"/>
+        <LanguageGroup value="0"/>
+        <ExpansionFactor value="0.06"/>
+        <initialRandomSeed value="0"/>
+        <defaultWidthX value="500"/>
+        <nominalWidthX value="500"/>
+      </Private>
+      <CharStrings>
+        <CharString name=".notdef">
+          50 -200 rmoveto
+          400 1000 -400 -1000 hlineto
+          50 50 rmoveto
+          900 300 -900 -300 vlineto
+          endchar
+        </CharString>
+      </CharStrings>
+    </CFFFont>
+
+    <GlobalSubrs>
+      <!-- The 'index' attribute is only for humans; it is ignored when parsed. -->
+    </GlobalSubrs>
+  </CFF>
+
+  <hmtx>
+    <mtx name=".notdef" width="500" lsb="50"/>
+  </hmtx>
+
+</ttFont>
+</file>
+
+<file path="tests/data/EmptyNameID16_TTF.ttx">
+<?xml version="1.0" encoding="UTF-8"?>
+<ttFont sfntVersion="\x00\x01\x00\x00" ttLibVersion="4.0">
+
+  <GlyphOrder>
+    <!-- The 'id' attribute is only for humans; it is ignored when parsed. -->
+    <GlyphID id="0" name=".notdef"/>
+  </GlyphOrder>
+
+  <head>
+    <!-- Most of this table will be recalculated by the compiler -->
+    <tableVersion value="1.0"/>
+    <fontRevision value="1.001"/>
+    <checkSumAdjustment value="0xbd268c6b"/>
+    <magicNumber value="0x5f0f3cf5"/>
+    <flags value="00000000 00000011"/>
+    <unitsPerEm value="1000"/>
+    <created value="Tue Oct 29 14:24:01 2019"/>
+    <modified value="Tue Oct 29 14:24:21 2019"/>
+    <xMin value="50"/>
+    <yMin value="-200"/>
+    <xMax value="450"/>
+    <yMax value="800"/>
+    <macStyle value="00000000 00000000"/>
+    <lowestRecPPEM value="6"/>
+    <fontDirectionHint value="2"/>
+    <indexToLocFormat value="0"/>
+    <glyphDataFormat value="0"/>
+  </head>
+
+  <hhea>
+    <tableVersion value="0x00010000"/>
+    <ascent value="1000"/>
+    <descent value="-200"/>
+    <lineGap value="0"/>
+    <advanceWidthMax value="500"/>
+    <minLeftSideBearing value="50"/>
+    <minRightSideBearing value="50"/>
+    <xMaxExtent value="450"/>
+    <caretSlopeRise value="1"/>
+    <caretSlopeRun value="0"/>
+    <caretOffset value="0"/>
+    <reserved0 value="0"/>
+    <reserved1 value="0"/>
+    <reserved2 value="0"/>
+    <reserved3 value="0"/>
+    <metricDataFormat value="0"/>
+    <numberOfHMetrics value="1"/>
+  </hhea>
+
+  <maxp>
+    <!-- Most of this table will be recalculated by the compiler -->
+    <tableVersion value="0x10000"/>
+    <numGlyphs value="1"/>
+    <maxPoints value="8"/>
+    <maxContours value="2"/>
+    <maxCompositePoints value="0"/>
+    <maxCompositeContours value="0"/>
+    <maxZones value="1"/>
+    <maxTwilightPoints value="0"/>
+    <maxStorage value="0"/>
+    <maxFunctionDefs value="0"/>
+    <maxInstructionDefs value="0"/>
+    <maxStackElements value="0"/>
+    <maxSizeOfInstructions value="0"/>
+    <maxComponentElements value="0"/>
+    <maxComponentDepth value="0"/>
+  </maxp>
+
+  <OS_2>
+    <!-- The fields 'usFirstCharIndex' and 'usLastCharIndex'
+         will be recalculated by the compiler -->
+    <version value="4"/>
+    <xAvgCharWidth value="500"/>
+    <usWeightClass value="400"/>
+    <usWidthClass value="5"/>
+    <fsType value="00000000 00000100"/>
+    <ySubscriptXSize value="650"/>
+    <ySubscriptYSize value="600"/>
+    <ySubscriptXOffset value="0"/>
+    <ySubscriptYOffset value="75"/>
+    <ySuperscriptXSize value="650"/>
+    <ySuperscriptYSize value="600"/>
+    <ySuperscriptXOffset value="0"/>
+    <ySuperscriptYOffset value="350"/>
+    <yStrikeoutSize value="50"/>
+    <yStrikeoutPosition value="300"/>
+    <sFamilyClass value="0"/>
+    <panose>
+      <bFamilyType value="0"/>
+      <bSerifStyle value="1"/>
+      <bWeight value="2"/>
+      <bProportion value="3"/>
+      <bContrast value="4"/>
+      <bStrokeVariation value="5"/>
+      <bArmStyle value="6"/>
+      <bLetterForm value="7"/>
+      <bMidline value="8"/>
+      <bXHeight value="9"/>
+    </panose>
+    <ulUnicodeRange1 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange2 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange3 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange4 value="00000000 00000000 00000000 00000000"/>
+    <achVendID value="NONE"/>
+    <fsSelection value="00000000 01000000"/>
+    <usFirstCharIndex value="65535"/>
+    <usLastCharIndex value="65535"/>
+    <sTypoAscender value="800"/>
+    <sTypoDescender value="-200"/>
+    <sTypoLineGap value="200"/>
+    <usWinAscent value="1000"/>
+    <usWinDescent value="200"/>
+    <ulCodePageRange1 value="00000000 00000000 00000000 00000001"/>
+    <ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>
+    <sxHeight value="500"/>
+    <sCapHeight value="700"/>
+    <usDefaultChar value="0"/>
+    <usBreakChar value="32"/>
+    <usMaxContext value="0"/>
+  </OS_2>
+
+  <hmtx>
+    <mtx name=".notdef" width="500" lsb="50"/>
+  </hmtx>
+
+  <cmap>
+    <tableVersion version="0"/>
+    <cmap_format_4 platformID="0" platEncID="3" language="0">
+    </cmap_format_4>
+    <cmap_format_4 platformID="3" platEncID="1" language="0">
+    </cmap_format_4>
+  </cmap>
+
+  <loca>
+    <!-- The 'loca' table will be calculated by the compiler -->
+  </loca>
+
+  <glyf>
+
+    <!-- The xMin, yMin, xMax and yMax values
+         will be recalculated by the compiler. -->
+
+    <TTGlyph name=".notdef" xMin="50" yMin="-200" xMax="450" yMax="800">
+      <contour>
+        <pt x="50" y="-200" on="1"/>
+        <pt x="450" y="-200" on="1"/>
+        <pt x="450" y="800" on="1"/>
+        <pt x="50" y="800" on="1"/>
+      </contour>
+      <contour>
+        <pt x="100" y="-150" on="1"/>
+        <pt x="100" y="750" on="1"/>
+        <pt x="400" y="750" on="1"/>
+        <pt x="400" y="-150" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+  </glyf>
+
+  <name>
+    <namerecord nameID="0" platformID="3" platEncID="1" langID="0x409">
+      Test Corp
+    </namerecord>
+    <namerecord nameID="1" platformID="3" platEncID="1" langID="0x409">
+      Test zxcv
+    </namerecord>
+    <namerecord nameID="2" platformID="3" platEncID="1" langID="0x409">
+      Regular
+    </namerecord>
+    <namerecord nameID="3" platformID="3" platEncID="1" langID="0x409">
+      1.001;NONE;Test-zxcv
+    </namerecord>
+    <namerecord nameID="4" platformID="3" platEncID="1" langID="0x409">
+      Test zxcv
+    </namerecord>
+    <namerecord nameID="5" platformID="3" platEncID="1" langID="0x409">
+      Version 1.001
+    </namerecord>
+    <namerecord nameID="6" platformID="3" platEncID="1" langID="0x409">
+      Test-zxcv
+    </namerecord>
+    <namerecord nameID="16" platformID="3" platEncID="1" langID="0x409">
+      Test
+    </namerecord>
+    <namerecord nameID="17" platformID="3" platEncID="1" langID="0x409">
+      zxcv
+    </namerecord>
+  </name>
+
+  <post>
+    <formatType value="2.0"/>
+    <italicAngle value="0.0"/>
+    <underlinePosition value="-150"/>
+    <underlineThickness value="50"/>
+    <isFixedPitch value="0"/>
+    <minMemType42 value="0"/>
+    <maxMemType42 value="0"/>
+    <minMemType1 value="0"/>
+    <maxMemType1 value="0"/>
+    <psNames>
+      <!-- This file uses unique glyph names based on the information
+           found in the 'post' table. Since these names might not be unique,
+           we have to invent artificial names in case of clashes. In order to
+           be able to retain the original information, we need a name to
+           ps name mapping for those cases where they differ. That's what
+           you see below.
+            -->
+    </psNames>
+    <extraNames>
+      <!-- following are the name that are not taken from the standard Mac glyph order -->
+    </extraNames>
+  </post>
+
+</ttFont>
+</file>
+
+<file path="tests/data/OpenSans-Bold.subset_LICENSE.txt">
+Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets "[]"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same "printed page" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright [yyyy] [name of copyright owner]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+</file>
+
+<file path="tests/data/OpenSans-Bold.subset.ttx">
+<?xml version="1.0" encoding="UTF-8"?>
+<ttFont sfntVersion="\x00\x01\x00\x00" ttLibVersion="3.41">
+
+  <GlyphOrder>
+    <!-- The 'id' attribute is only for humans; it is ignored when parsed. -->
+    <GlyphID id="0" name=".notdef"/>
+    <GlyphID id="1" name="zero"/>
+    <GlyphID id="2" name="one"/>
+    <GlyphID id="3" name="two"/>
+    <GlyphID id="4" name="three"/>
+    <GlyphID id="5" name="four"/>
+    <GlyphID id="6" name="five"/>
+    <GlyphID id="7" name="six"/>
+    <GlyphID id="8" name="seven"/>
+    <GlyphID id="9" name="eight"/>
+    <GlyphID id="10" name="nine"/>
+    <GlyphID id="11" name="a"/>
+    <GlyphID id="12" name="b"/>
+    <GlyphID id="13" name="c"/>
+    <GlyphID id="14" name="one.pnum"/>
+    <GlyphID id="15" name="zero.os"/>
+    <GlyphID id="16" name="one.os"/>
+    <GlyphID id="17" name="two.os"/>
+    <GlyphID id="18" name="three.os"/>
+    <GlyphID id="19" name="four.os"/>
+    <GlyphID id="20" name="five.os"/>
+    <GlyphID id="21" name="six.os"/>
+    <GlyphID id="22" name="seven.os"/>
+    <GlyphID id="23" name="eight.os"/>
+    <GlyphID id="24" name="nine.os"/>
+  </GlyphOrder>
+
+  <head>
+    <!-- Most of this table will be recalculated by the compiler -->
+    <tableVersion value="1.0"/>
+    <fontRevision value="1.101"/>
+    <checkSumAdjustment value="0x74fb590d"/>
+    <magicNumber value="0x5f0f3cf5"/>
+    <flags value="00000000 00001001"/>
+    <unitsPerEm value="2048"/>
+    <created value="Thu Dec 30 11:04:00 2010"/>
+    <modified value="Sun Apr 30 17:18:13 2017"/>
+    <xMin value="-1268"/>
+    <yMin value="-600"/>
+    <xMax value="2701"/>
+    <yMax value="2189"/>
+    <macStyle value="00000000 00000001"/>
+    <lowestRecPPEM value="9"/>
+    <fontDirectionHint value="2"/>
+    <indexToLocFormat value="0"/>
+    <glyphDataFormat value="0"/>
+  </head>
+
+  <hhea>
+    <tableVersion value="0x00010000"/>
+    <ascent value="2189"/>
+    <descent value="-600"/>
+    <lineGap value="0"/>
+    <advanceWidthMax value="2701"/>
+    <minLeftSideBearing value="-1268"/>
+    <minRightSideBearing value="-391"/>
+    <xMaxExtent value="2701"/>
+    <caretSlopeRise value="1"/>
+    <caretSlopeRun value="0"/>
+    <caretOffset value="0"/>
+    <reserved0 value="0"/>
+    <reserved1 value="0"/>
+    <reserved2 value="0"/>
+    <reserved3 value="0"/>
+    <metricDataFormat value="0"/>
+    <numberOfHMetrics value="18"/>
+  </hhea>
+
+  <maxp>
+    <!-- Most of this table will be recalculated by the compiler -->
+    <tableVersion value="0x10000"/>
+    <numGlyphs value="25"/>
+    <maxPoints value="138"/>
+    <maxContours value="22"/>
+    <maxCompositePoints value="88"/>
+    <maxCompositeContours value="5"/>
+    <maxZones value="1"/>
+    <maxTwilightPoints value="0"/>
+    <maxStorage value="0"/>
+    <maxFunctionDefs value="0"/>
+    <maxInstructionDefs value="0"/>
+    <maxStackElements value="0"/>
+    <maxSizeOfInstructions value="0"/>
+    <maxComponentElements value="3"/>
+    <maxComponentDepth value="1"/>
+  </maxp>
+
+  <OS_2>
+    <!-- The fields 'usFirstCharIndex' and 'usLastCharIndex'
+         will be recalculated by the compiler -->
+    <version value="3"/>
+    <xAvgCharWidth value="1295"/>
+    <usWeightClass value="700"/>
+    <usWidthClass value="5"/>
+    <fsType value="00000000 00000000"/>
+    <ySubscriptXSize value="1434"/>
+    <ySubscriptYSize value="1331"/>
+    <ySubscriptXOffset value="0"/>
+    <ySubscriptYOffset value="287"/>
+    <ySuperscriptXSize value="1434"/>
+    <ySuperscriptYSize value="1331"/>
+    <ySuperscriptXOffset value="0"/>
+    <ySuperscriptYOffset value="977"/>
+    <yStrikeoutSize value="102"/>
+    <yStrikeoutPosition value="508"/>
+    <sFamilyClass value="2050"/>
+    <panose>
+      <bFamilyType value="2"/>
+      <bSerifStyle value="11"/>
+      <bWeight value="8"/>
+      <bProportion value="6"/>
+      <bContrast value="3"/>
+      <bStrokeVariation value="5"/>
+      <bArmStyle value="4"/>
+      <bLetterForm value="2"/>
+      <bMidline value="2"/>
+      <bXHeight value="4"/>
+    </panose>
+    <ulUnicodeRange1 value="00000000 00000000 00000000 00000001"/>
+    <ulUnicodeRange2 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange3 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange4 value="00000000 00000000 00000000 00000000"/>
+    <achVendID value="1ASC"/>
+    <fsSelection value="00000000 00100000"/>
+    <usFirstCharIndex value="48"/>
+    <usLastCharIndex value="99"/>
+    <sTypoAscender value="1567"/>
+    <sTypoDescender value="-492"/>
+    <sTypoLineGap value="132"/>
+    <usWinAscent value="2189"/>
+    <usWinDescent value="600"/>
+    <ulCodePageRange1 value="00100000 00000000 00000001 10011111"/>
+    <ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>
+    <sxHeight value="1118"/>
+    <sCapHeight value="1462"/>
+    <usDefaultChar value="0"/>
+    <usBreakChar value="32"/>
+    <usMaxContext value="3"/>
+  </OS_2>
+
+  <hmtx>
+    <mtx name=".notdef" width="1229" lsb="193"/>
+    <mtx name="a" width="1237" lsb="86"/>
+    <mtx name="b" width="1296" lsb="160"/>
+    <mtx name="c" width="1053" lsb="92"/>
+    <mtx name="eight" width="1169" lsb="72"/>
+    <mtx name="eight.os" width="1169" lsb="72"/>
+    <mtx name="five" width="1169" lsb="100"/>
+    <mtx name="five.os" width="1169" lsb="100"/>
+    <mtx name="four" width="1169" lsb="35"/>
+    <mtx name="four.os" width="1169" lsb="23"/>
+    <mtx name="nine" width="1169" lsb="66"/>
+    <mtx name="nine.os" width="1169" lsb="66"/>
+    <mtx name="one" width="1169" lsb="121"/>
+    <mtx name="one.os" width="1008" lsb="61"/>
+    <mtx name="one.pnum" width="985" lsb="45"/>
+    <mtx name="seven" width="1169" lsb="55"/>
+    <mtx name="seven.os" width="1169" lsb="55"/>
+    <mtx name="six" width="1169" lsb="72"/>
+    <mtx name="six.os" width="1169" lsb="72"/>
+    <mtx name="three" width="1169" lsb="78"/>
+    <mtx name="three.os" width="1169" lsb="78"/>
+    <mtx name="two" width="1169" lsb="78"/>
+    <mtx name="two.os" width="1169" lsb="66"/>
+    <mtx name="zero" width="1169" lsb="74"/>
+    <mtx name="zero.os" width="1247" lsb="102"/>
+  </hmtx>
+
+  <cmap>
+    <tableVersion version="0"/>
+    <cmap_format_4 platformID="3" platEncID="1" language="0">
+      <map code="0x30" name="zero"/><!-- DIGIT ZERO -->
+      <map code="0x31" name="one"/><!-- DIGIT ONE -->
+      <map code="0x32" name="two"/><!-- DIGIT TWO -->
+      <map code="0x33" name="three"/><!-- DIGIT THREE -->
+      <map code="0x34" name="four"/><!-- DIGIT FOUR -->
+      <map code="0x35" name="five"/><!-- DIGIT FIVE -->
+      <map code="0x36" name="six"/><!-- DIGIT SIX -->
+      <map code="0x37" name="seven"/><!-- DIGIT SEVEN -->
+      <map code="0x38" name="eight"/><!-- DIGIT EIGHT -->
+      <map code="0x39" name="nine"/><!-- DIGIT NINE -->
+      <map code="0x61" name="a"/><!-- LATIN SMALL LETTER A -->
+      <map code="0x62" name="b"/><!-- LATIN SMALL LETTER B -->
+      <map code="0x63" name="c"/><!-- LATIN SMALL LETTER C -->
+    </cmap_format_4>
+  </cmap>
+
+  <loca>
+    <!-- The 'loca' table will be calculated by the compiler -->
+  </loca>
+
+  <glyf>
+
+    <!-- The xMin, yMin, xMax and yMax values
+         will be recalculated by the compiler. -->
+
+    <TTGlyph name=".notdef"/><!-- contains no outline data -->
+
+    <TTGlyph name="a" xMin="86" yMin="-20" xMax="1083" yMax="1141">
+      <contour>
+        <pt x="870" y="0" on="1"/>
+        <pt x="811" y="152" on="1"/>
+        <pt x="803" y="152" on="1"/>
+        <pt x="726" y="55" on="0"/>
+        <pt x="563" y="-20" on="0"/>
+        <pt x="432" y="-20" on="1"/>
+        <pt x="271" y="-20" on="0"/>
+        <pt x="86" y="164" on="0"/>
+        <pt x="86" y="334" on="1"/>
+        <pt x="86" y="512" on="0"/>
+        <pt x="335" y="681" on="0"/>
+        <pt x="586" y="690" on="1"/>
+        <pt x="780" y="696" on="1"/>
+        <pt x="780" y="745" on="1"/>
+        <pt x="780" y="915" on="0"/>
+        <pt x="606" y="915" on="1"/>
+        <pt x="472" y="915" on="0"/>
+        <pt x="291" y="834" on="1"/>
+        <pt x="190" y="1040" on="1"/>
+        <pt x="383" y="1141" on="0"/>
+        <pt x="618" y="1141" on="1"/>
+        <pt x="843" y="1141" on="0"/>
+        <pt x="1083" y="945" on="0"/>
+        <pt x="1083" y="745" on="1"/>
+        <pt x="1083" y="0" on="1"/>
+      </contour>
+      <contour>
+        <pt x="780" y="518" on="1"/>
+        <pt x="662" y="514" on="1"/>
+        <pt x="529" y="510" on="0"/>
+        <pt x="399" y="422" on="0"/>
+        <pt x="399" y="332" on="1"/>
+        <pt x="399" y="203" on="0"/>
+        <pt x="547" y="203" on="1"/>
+        <pt x="653" y="203" on="0"/>
+        <pt x="780" y="325" on="0"/>
+        <pt x="780" y="426" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="b" xMin="160" yMin="-20" xMax="1204" yMax="1556">
+      <contour>
+        <pt x="782" y="1139" on="1"/>
+        <pt x="980" y="1139" on="0"/>
+        <pt x="1204" y="830" on="0"/>
+        <pt x="1204" y="561" on="1"/>
+        <pt x="1204" y="284" on="0"/>
+        <pt x="973" y="-20" on="0"/>
+        <pt x="774" y="-20" on="1"/>
+        <pt x="577" y="-20" on="0"/>
+        <pt x="465" y="123" on="1"/>
+        <pt x="444" y="123" on="1"/>
+        <pt x="393" y="0" on="1"/>
+        <pt x="160" y="0" on="1"/>
+        <pt x="160" y="1556" on="1"/>
+        <pt x="465" y="1556" on="1"/>
+        <pt x="465" y="1194" on="1"/>
+        <pt x="465" y="1125" on="0"/>
+        <pt x="453" y="973" on="1"/>
+        <pt x="465" y="973" on="1"/>
+        <pt x="572" y="1139" on="0"/>
+      </contour>
+      <contour>
+        <pt x="684" y="895" on="1"/>
+        <pt x="571" y="895" on="0"/>
+        <pt x="467" y="756" on="0"/>
+        <pt x="465" y="596" on="1"/>
+        <pt x="465" y="563" on="1"/>
+        <pt x="465" y="383" on="0"/>
+        <pt x="572" y="227" on="0"/>
+        <pt x="688" y="227" on="1"/>
+        <pt x="782" y="227" on="0"/>
+        <pt x="893" y="400" on="0"/>
+        <pt x="893" y="565" on="1"/>
+        <pt x="893" y="730" on="0"/>
+        <pt x="781" y="895" on="0"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="c" xMin="92" yMin="-20" xMax="989" yMax="1139">
+      <contour>
+        <pt x="614" y="-20" on="1"/>
+        <pt x="92" y="-20" on="0"/>
+        <pt x="92" y="553" on="1"/>
+        <pt x="92" y="838" on="0"/>
+        <pt x="376" y="1139" on="0"/>
+        <pt x="641" y="1139" on="1"/>
+        <pt x="835" y="1139" on="0"/>
+        <pt x="989" y="1063" on="1"/>
+        <pt x="899" y="827" on="1"/>
+        <pt x="827" y="856" on="0"/>
+        <pt x="703" y="893" on="0"/>
+        <pt x="641" y="893" on="1"/>
+        <pt x="403" y="893" on="0"/>
+        <pt x="403" y="555" on="1"/>
+        <pt x="403" y="227" on="0"/>
+        <pt x="641" y="227" on="1"/>
+        <pt x="729" y="227" on="0"/>
+        <pt x="879" y="274" on="0"/>
+        <pt x="954" y="324" on="1"/>
+        <pt x="954" y="63" on="1"/>
+        <pt x="880" y="16" on="0"/>
+        <pt x="729" y="-20" on="0"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="eight" xMin="72" yMin="-20" xMax="1098" yMax="1481">
+      <contour>
+        <pt x="586" y="1481" on="1"/>
+        <pt x="796" y="1481" on="0"/>
+        <pt x="1053" y="1290" on="0"/>
+        <pt x="1053" y="1128" on="1"/>
+        <pt x="1053" y="1016" on="0"/>
+        <pt x="929" y="841" on="0"/>
+        <pt x="791" y="772" on="1"/>
+        <pt x="955" y="684" on="0"/>
+        <pt x="1098" y="493" on="0"/>
+        <pt x="1098" y="379" on="1"/>
+        <pt x="1098" y="199" on="0"/>
+        <pt x="816" y="-20" on="0"/>
+        <pt x="586" y="-20" on="1"/>
+        <pt x="346" y="-20" on="0"/>
+        <pt x="72" y="184" on="0"/>
+        <pt x="72" y="371" on="1"/>
+        <pt x="72" y="496" on="0"/>
+        <pt x="205" y="690" on="0"/>
+        <pt x="352" y="764" on="1"/>
+        <pt x="227" y="843" on="0"/>
+        <pt x="117" y="1023" on="0"/>
+        <pt x="117" y="1130" on="1"/>
+        <pt x="117" y="1287" on="0"/>
+        <pt x="377" y="1481" on="0"/>
+      </contour>
+      <contour>
+        <pt x="358" y="389" on="1"/>
+        <pt x="358" y="303" on="0"/>
+        <pt x="478" y="207" on="0"/>
+        <pt x="582" y="207" on="1"/>
+        <pt x="697" y="207" on="0"/>
+        <pt x="811" y="306" on="0"/>
+        <pt x="811" y="387" on="1"/>
+        <pt x="811" y="454" on="0"/>
+        <pt x="698" y="571" on="0"/>
+        <pt x="571" y="637" on="1"/>
+        <pt x="358" y="539" on="0"/>
+      </contour>
+      <contour>
+        <pt x="584" y="1255" on="1"/>
+        <pt x="505" y="1255" on="0"/>
+        <pt x="408" y="1174" on="0"/>
+        <pt x="408" y="1106" on="1"/>
+        <pt x="408" y="1046" on="0"/>
+        <pt x="485" y="951" on="0"/>
+        <pt x="586" y="901" on="1"/>
+        <pt x="684" y="947" on="0"/>
+        <pt x="762" y="1043" on="0"/>
+        <pt x="762" y="1106" on="1"/>
+        <pt x="762" y="1175" on="0"/>
+        <pt x="662" y="1255" on="0"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="eight.os" xMin="72" yMin="-20" xMax="1098" yMax="1481">
+      <component glyphName="eight" x="0" y="0" flags="0x204"/>
+    </TTGlyph>
+
+    <TTGlyph name="five" xMin="100" yMin="-20" xMax="1077" yMax="1462">
+      <contour>
+        <pt x="614" y="934" on="1"/>
+        <pt x="826" y="934" on="0"/>
+        <pt x="1077" y="696" on="0"/>
+        <pt x="1077" y="489" on="1"/>
+        <pt x="1077" y="244" on="0"/>
+        <pt x="775" y="-20" on="0"/>
+        <pt x="494" y="-20" on="1"/>
+        <pt x="250" y="-20" on="0"/>
+        <pt x="100" y="59" on="1"/>
+        <pt x="100" y="326" on="1"/>
+        <pt x="179" y="284" on="0"/>
+        <pt x="389" y="231" on="0"/>
+        <pt x="483" y="231" on="1"/>
+        <pt x="766" y="231" on="0"/>
+        <pt x="766" y="463" on="1"/>
+        <pt x="766" y="684" on="0"/>
+        <pt x="473" y="684" on="1"/>
+        <pt x="420" y="684" on="0"/>
+        <pt x="292" y="663" on="0"/>
+        <pt x="252" y="651" on="1"/>
+        <pt x="129" y="717" on="1"/>
+        <pt x="184" y="1462" on="1"/>
+        <pt x="977" y="1462" on="1"/>
+        <pt x="977" y="1200" on="1"/>
+        <pt x="455" y="1200" on="1"/>
+        <pt x="428" y="913" on="1"/>
+        <pt x="463" y="920" on="1"/>
+        <pt x="524" y="934" on="0"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="five.os" xMin="100" yMin="-344" xMax="1077" yMax="1138">
+      <contour>
+        <pt x="614" y="610" on="1"/>
+        <pt x="826" y="610" on="0"/>
+        <pt x="1077" y="372" on="0"/>
+        <pt x="1077" y="165" on="1"/>
+        <pt x="1077" y="-80" on="0"/>
+        <pt x="775" y="-344" on="0"/>
+        <pt x="494" y="-344" on="1"/>
+        <pt x="250" y="-344" on="0"/>
+        <pt x="100" y="-265" on="1"/>
+        <pt x="100" y="2" on="1"/>
+        <pt x="179" y="-40" on="0"/>
+        <pt x="389" y="-93" on="0"/>
+        <pt x="483" y="-93" on="1"/>
+        <pt x="766" y="-93" on="0"/>
+        <pt x="766" y="139" on="1"/>
+        <pt x="766" y="360" on="0"/>
+        <pt x="473" y="360" on="1"/>
+        <pt x="420" y="360" on="0"/>
+        <pt x="292" y="339" on="0"/>
+        <pt x="252" y="327" on="1"/>
+        <pt x="129" y="393" on="1"/>
+        <pt x="184" y="1138" on="1"/>
+        <pt x="977" y="1138" on="1"/>
+        <pt x="977" y="876" on="1"/>
+        <pt x="455" y="876" on="1"/>
+        <pt x="428" y="589" on="1"/>
+        <pt x="463" y="596" on="1"/>
+        <pt x="524" y="610" on="0"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="four" xMin="35" yMin="0" xMax="1137" yMax="1462">
+      <contour>
+        <pt x="1137" y="303" on="1"/>
+        <pt x="961" y="303" on="1"/>
+        <pt x="961" y="0" on="1"/>
+        <pt x="659" y="0" on="1"/>
+        <pt x="659" y="303" on="1"/>
+        <pt x="35" y="303" on="1"/>
+        <pt x="35" y="518" on="1"/>
+        <pt x="676" y="1462" on="1"/>
+        <pt x="961" y="1462" on="1"/>
+        <pt x="961" y="543" on="1"/>
+        <pt x="1137" y="543" on="1"/>
+      </contour>
+      <contour>
+        <pt x="659" y="543" on="1"/>
+        <pt x="659" y="791" on="1"/>
+        <pt x="659" y="853" on="0"/>
+        <pt x="669" y="1089" on="0"/>
+        <pt x="672" y="1108" on="1"/>
+        <pt x="664" y="1108" on="1"/>
+        <pt x="627" y="1026" on="0"/>
+        <pt x="575" y="948" on="1"/>
+        <pt x="307" y="543" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="four.os" xMin="23" yMin="-344" xMax="1145" yMax="1139">
+      <contour>
+        <pt x="1145" y="27" on="1"/>
+        <pt x="969" y="27" on="1"/>
+        <pt x="969" y="-344" on="1"/>
+        <pt x="653" y="-344" on="1"/>
+        <pt x="653" y="27" on="1"/>
+        <pt x="23" y="27" on="1"/>
+        <pt x="23" y="231" on="1"/>
+        <pt x="684" y="1139" on="1"/>
+        <pt x="969" y="1139" on="1"/>
+        <pt x="969" y="266" on="1"/>
+        <pt x="1145" y="266" on="1"/>
+      </contour>
+      <contour>
+        <pt x="668" y="266" on="1"/>
+        <pt x="668" y="485" on="1"/>
+        <pt x="668" y="535" on="0"/>
+        <pt x="676" y="754" on="0"/>
+        <pt x="680" y="788" on="1"/>
+        <pt x="672" y="788" on="1"/>
+        <pt x="647" y="740" on="0"/>
+        <pt x="561" y="606" on="0"/>
+        <pt x="532" y="569" on="1"/>
+        <pt x="299" y="266" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="nine" xMin="66" yMin="-20" xMax="1098" yMax="1479">
+      <contour>
+        <pt x="1098" y="838" on="1"/>
+        <pt x="1098" y="406" on="0"/>
+        <pt x="734" y="-20" on="0"/>
+        <pt x="365" y="-20" on="1"/>
+        <pt x="235" y="-20" on="0"/>
+        <pt x="168" y="-6" on="1"/>
+        <pt x="168" y="242" on="1"/>
+        <pt x="252" y="221" on="0"/>
+        <pt x="344" y="221" on="1"/>
+        <pt x="499" y="221" on="0"/>
+        <pt x="699" y="312" on="0"/>
+        <pt x="805" y="507" on="0"/>
+        <pt x="813" y="678" on="1"/>
+        <pt x="801" y="678" on="1"/>
+        <pt x="743" y="584" on="0"/>
+        <pt x="591" y="508" on="0"/>
+        <pt x="477" y="508" on="1"/>
+        <pt x="286" y="508" on="0"/>
+        <pt x="66" y="753" on="0"/>
+        <pt x="66" y="971" on="1"/>
+        <pt x="66" y="1206" on="0"/>
+        <pt x="333" y="1479" on="0"/>
+        <pt x="563" y="1479" on="1"/>
+        <pt x="725" y="1479" on="0"/>
+        <pt x="968" y="1327" on="0"/>
+        <pt x="1098" y="1038" on="0"/>
+      </contour>
+      <contour>
+        <pt x="569" y="1231" on="1"/>
+        <pt x="473" y="1231" on="0"/>
+        <pt x="365" y="1099" on="0"/>
+        <pt x="365" y="975" on="1"/>
+        <pt x="365" y="869" on="0"/>
+        <pt x="463" y="745" on="0"/>
+        <pt x="563" y="745" on="1"/>
+        <pt x="657" y="745" on="0"/>
+        <pt x="791" y="868" on="0"/>
+        <pt x="791" y="948" on="1"/>
+        <pt x="791" y="1067" on="0"/>
+        <pt x="666" y="1231" on="0"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="nine.os" xMin="66" yMin="-342" xMax="1098" yMax="1157">
+      <contour>
+        <pt x="1098" y="516" on="1"/>
+        <pt x="1098" y="84" on="0"/>
+        <pt x="734" y="-342" on="0"/>
+        <pt x="365" y="-342" on="1"/>
+        <pt x="235" y="-342" on="0"/>
+        <pt x="168" y="-328" on="1"/>
+        <pt x="168" y="-80" on="1"/>
+        <pt x="252" y="-101" on="0"/>
+        <pt x="344" y="-101" on="1"/>
+        <pt x="499" y="-101" on="0"/>
+        <pt x="699" y="-10" on="0"/>
+        <pt x="805" y="185" on="0"/>
+        <pt x="813" y="356" on="1"/>
+        <pt x="801" y="356" on="1"/>
+        <pt x="743" y="262" on="0"/>
+        <pt x="591" y="186" on="0"/>
+        <pt x="477" y="186" on="1"/>
+        <pt x="286" y="186" on="0"/>
+        <pt x="66" y="431" on="0"/>
+        <pt x="66" y="649" on="1"/>
+        <pt x="66" y="884" on="0"/>
+        <pt x="333" y="1157" on="0"/>
+        <pt x="563" y="1157" on="1"/>
+        <pt x="725" y="1157" on="0"/>
+        <pt x="968" y="1005" on="0"/>
+        <pt x="1098" y="716" on="0"/>
+      </contour>
+      <contour>
+        <pt x="569" y="909" on="1"/>
+        <pt x="473" y="909" on="0"/>
+        <pt x="365" y="777" on="0"/>
+        <pt x="365" y="653" on="1"/>
+        <pt x="365" y="547" on="0"/>
+        <pt x="463" y="423" on="0"/>
+        <pt x="563" y="423" on="1"/>
+        <pt x="657" y="423" on="0"/>
+        <pt x="791" y="546" on="0"/>
+        <pt x="791" y="626" on="1"/>
+        <pt x="791" y="745" on="0"/>
+        <pt x="666" y="909" on="0"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="one" xMin="121" yMin="0" xMax="846" yMax="1462">
+      <contour>
+        <pt x="846" y="0" on="1"/>
+        <pt x="537" y="0" on="1"/>
+        <pt x="537" y="846" on="1"/>
+        <pt x="540" y="985" on="1"/>
+        <pt x="545" y="1137" on="1"/>
+        <pt x="468" y="1060" on="0"/>
+        <pt x="438" y="1036" on="1"/>
+        <pt x="270" y="901" on="1"/>
+        <pt x="121" y="1087" on="1"/>
+        <pt x="592" y="1462" on="1"/>
+        <pt x="846" y="1462" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="one.os" xMin="61" yMin="0" xMax="823" yMax="1139">
+      <contour>
+        <pt x="823" y="0" on="1"/>
+        <pt x="518" y="0" on="1"/>
+        <pt x="518" y="522" on="1"/>
+        <pt x="521" y="661" on="1"/>
+        <pt x="526" y="813" on="1"/>
+        <pt x="513" y="798" on="0"/>
+        <pt x="430" y="730" on="0"/>
+        <pt x="406" y="713" on="1"/>
+        <pt x="211" y="578" on="1"/>
+        <pt x="61" y="764" on="1"/>
+        <pt x="559" y="1139" on="1"/>
+        <pt x="823" y="1139" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="one.pnum" xMin="45" yMin="0" xMax="770" yMax="1462">
+      <contour>
+        <pt x="770" y="0" on="1"/>
+        <pt x="461" y="0" on="1"/>
+        <pt x="461" y="846" on="1"/>
+        <pt x="464" y="985" on="1"/>
+        <pt x="469" y="1137" on="1"/>
+        <pt x="463" y="1129" on="0"/>
+        <pt x="418" y="1086" on="0"/>
+        <pt x="382" y="1053" on="0"/>
+        <pt x="195" y="901" on="1"/>
+        <pt x="45" y="1087" on="1"/>
+        <pt x="516" y="1462" on="1"/>
+        <pt x="770" y="1462" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="seven" xMin="55" yMin="0" xMax="1104" yMax="1460">
+      <contour>
+        <pt x="227" y="0" on="1"/>
+        <pt x="776" y="1200" on="1"/>
+        <pt x="55" y="1200" on="1"/>
+        <pt x="55" y="1460" on="1"/>
+        <pt x="1104" y="1460" on="1"/>
+        <pt x="1104" y="1266" on="1"/>
+        <pt x="551" y="0" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="seven.os" xMin="55" yMin="-324" xMax="1104" yMax="1136">
+      <contour>
+        <pt x="227" y="-324" on="1"/>
+        <pt x="776" y="876" on="1"/>
+        <pt x="55" y="876" on="1"/>
+        <pt x="55" y="1136" on="1"/>
+        <pt x="1104" y="1136" on="1"/>
+        <pt x="1104" y="942" on="1"/>
+        <pt x="551" y="-324" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="six" xMin="72" yMin="-20" xMax="1104" yMax="1479">
+      <contour>
+        <pt x="72" y="621" on="1"/>
+        <pt x="72" y="1055" on="0"/>
+        <pt x="439" y="1479" on="0"/>
+        <pt x="805" y="1479" on="1"/>
+        <pt x="930" y="1479" on="0"/>
+        <pt x="1001" y="1464" on="1"/>
+        <pt x="1001" y="1217" on="1"/>
+        <pt x="912" y="1237" on="0"/>
+        <pt x="825" y="1237" on="1"/>
+        <pt x="666" y="1237" on="0"/>
+        <pt x="465" y="1141" on="0"/>
+        <pt x="365" y="953" on="0"/>
+        <pt x="356" y="780" on="1"/>
+        <pt x="369" y="780" on="1"/>
+        <pt x="468" y="950" on="0"/>
+        <pt x="686" y="950" on="1"/>
+        <pt x="882" y="950" on="0"/>
+        <pt x="1104" y="704" on="0"/>
+        <pt x="1104" y="487" on="1"/>
+        <pt x="1104" y="253" on="0"/>
+        <pt x="840" y="-20" on="0"/>
+        <pt x="606" y="-20" on="1"/>
+        <pt x="444" y="-20" on="0"/>
+        <pt x="203" y="130" on="0"/>
+        <pt x="72" y="418" on="0"/>
+      </contour>
+      <contour>
+        <pt x="600" y="227" on="1"/>
+        <pt x="699" y="227" on="0"/>
+        <pt x="805" y="360" on="0"/>
+        <pt x="805" y="483" on="1"/>
+        <pt x="805" y="590" on="0"/>
+        <pt x="706" y="713" on="0"/>
+        <pt x="606" y="713" on="1"/>
+        <pt x="512" y="713" on="0"/>
+        <pt x="379" y="591" on="0"/>
+        <pt x="379" y="510" on="1"/>
+        <pt x="379" y="391" on="0"/>
+        <pt x="504" y="227" on="0"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="six.os" xMin="72" yMin="-20" xMax="1104" yMax="1479">
+      <component glyphName="six" x="0" y="0" flags="0x204"/>
+    </TTGlyph>
+
+    <TTGlyph name="three" xMin="78" yMin="-20" xMax="1090" yMax="1483">
+      <contour>
+        <pt x="1047" y="1135" on="1"/>
+        <pt x="1047" y="998" on="0"/>
+        <pt x="881" y="806" on="0"/>
+        <pt x="731" y="770" on="1"/>
+        <pt x="731" y="764" on="1"/>
+        <pt x="908" y="742" on="0"/>
+        <pt x="1090" y="571" on="0"/>
+        <pt x="1090" y="426" on="1"/>
+        <pt x="1090" y="215" on="0"/>
+        <pt x="784" y="-20" on="0"/>
+        <pt x="500" y="-20" on="1"/>
+        <pt x="262" y="-20" on="0"/>
+        <pt x="78" y="59" on="1"/>
+        <pt x="78" y="322" on="1"/>
+        <pt x="163" y="279" on="0"/>
+        <pt x="367" y="225" on="0"/>
+        <pt x="467" y="225" on="1"/>
+        <pt x="620" y="225" on="0"/>
+        <pt x="766" y="329" on="0"/>
+        <pt x="766" y="444" on="1"/>
+        <pt x="766" y="547" on="0"/>
+        <pt x="598" y="633" on="0"/>
+        <pt x="414" y="633" on="1"/>
+        <pt x="303" y="633" on="1"/>
+        <pt x="303" y="870" on="1"/>
+        <pt x="416" y="870" on="1"/>
+        <pt x="586" y="870" on="0"/>
+        <pt x="743" y="959" on="0"/>
+        <pt x="743" y="1067" on="1"/>
+        <pt x="743" y="1233" on="0"/>
+        <pt x="535" y="1233" on="1"/>
+        <pt x="463" y="1233" on="0"/>
+        <pt x="314" y="1185" on="0"/>
+        <pt x="223" y="1126" on="1"/>
+        <pt x="80" y="1339" on="1"/>
+        <pt x="280" y="1483" on="0"/>
+        <pt x="557" y="1483" on="1"/>
+        <pt x="784" y="1483" on="0"/>
+        <pt x="1047" y="1299" on="0"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="three.os" xMin="78" yMin="-344" xMax="1090" yMax="1159">
+      <contour>
+        <pt x="1047" y="811" on="1"/>
+        <pt x="1047" y="674" on="0"/>
+        <pt x="881" y="482" on="0"/>
+        <pt x="731" y="446" on="1"/>
+        <pt x="731" y="440" on="1"/>
+        <pt x="908" y="418" on="0"/>
+        <pt x="1090" y="247" on="0"/>
+        <pt x="1090" y="102" on="1"/>
+        <pt x="1090" y="-109" on="0"/>
+        <pt x="784" y="-344" on="0"/>
+        <pt x="500" y="-344" on="1"/>
+        <pt x="262" y="-344" on="0"/>
+        <pt x="78" y="-265" on="1"/>
+        <pt x="78" y="-2" on="1"/>
+        <pt x="163" y="-45" on="0"/>
+        <pt x="367" y="-99" on="0"/>
+        <pt x="467" y="-99" on="1"/>
+        <pt x="620" y="-99" on="0"/>
+        <pt x="766" y="5" on="0"/>
+        <pt x="766" y="120" on="1"/>
+        <pt x="766" y="223" on="0"/>
+        <pt x="598" y="309" on="0"/>
+        <pt x="414" y="309" on="1"/>
+        <pt x="303" y="309" on="1"/>
+        <pt x="303" y="546" on="1"/>
+        <pt x="416" y="546" on="1"/>
+        <pt x="586" y="546" on="0"/>
+        <pt x="743" y="635" on="0"/>
+        <pt x="743" y="743" on="1"/>
+        <pt x="743" y="909" on="0"/>
+        <pt x="535" y="909" on="1"/>
+        <pt x="463" y="909" on="0"/>
+        <pt x="314" y="861" on="0"/>
+        <pt x="223" y="802" on="1"/>
+        <pt x="80" y="1015" on="1"/>
+        <pt x="280" y="1159" on="0"/>
+        <pt x="557" y="1159" on="1"/>
+        <pt x="784" y="1159" on="0"/>
+        <pt x="1047" y="975" on="0"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="two" xMin="78" yMin="0" xMax="1104" yMax="1483">
+      <contour>
+        <pt x="1104" y="0" on="1"/>
+        <pt x="82" y="0" on="1"/>
+        <pt x="82" y="215" on="1"/>
+        <pt x="449" y="586" on="1"/>
+        <pt x="612" y="753" on="0"/>
+        <pt x="712" y="882" on="0"/>
+        <pt x="756" y="992" on="0"/>
+        <pt x="756" y="1051" on="1"/>
+        <pt x="756" y="1139" on="0"/>
+        <pt x="659" y="1225" on="0"/>
+        <pt x="578" y="1225" on="1"/>
+        <pt x="493" y="1225" on="0"/>
+        <pt x="333" y="1147" on="0"/>
+        <pt x="246" y="1075" on="1"/>
+        <pt x="78" y="1274" on="1"/>
+        <pt x="186" y="1366" on="0"/>
+        <pt x="328" y="1442" on="0"/>
+        <pt x="496" y="1483" on="0"/>
+        <pt x="600" y="1483" on="1"/>
+        <pt x="737" y="1483" on="0"/>
+        <pt x="947" y="1383" on="0"/>
+        <pt x="1063" y="1203" on="0"/>
+        <pt x="1063" y="1087" on="1"/>
+        <pt x="1063" y="986" on="0"/>
+        <pt x="992" y="809" on="0"/>
+        <pt x="843" y="623" on="0"/>
+        <pt x="655" y="451" on="1"/>
+        <pt x="467" y="274" on="1"/>
+        <pt x="467" y="260" on="1"/>
+        <pt x="1104" y="260" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="two.os" xMin="66" yMin="0" xMax="1087" yMax="1159">
+      <contour>
+        <pt x="1087" y="0" on="1"/>
+        <pt x="66" y="0" on="1"/>
+        <pt x="66" y="207" on="1"/>
+        <pt x="434" y="465" on="1"/>
+        <pt x="591" y="574" on="0"/>
+        <pt x="681" y="658" on="0"/>
+        <pt x="725" y="738" on="0"/>
+        <pt x="725" y="786" on="1"/>
+        <pt x="725" y="837" on="0"/>
+        <pt x="645" y="901" on="0"/>
+        <pt x="561" y="901" on="1"/>
+        <pt x="477" y="901" on="0"/>
+        <pt x="317" y="824" on="0"/>
+        <pt x="229" y="752" on="1"/>
+        <pt x="68" y="950" on="1"/>
+        <pt x="205" y="1069" on="0"/>
+        <pt x="440" y="1159" on="0"/>
+        <pt x="575" y="1159" on="1"/>
+        <pt x="790" y="1159" on="0"/>
+        <pt x="1032" y="983" on="0"/>
+        <pt x="1032" y="823" on="1"/>
+        <pt x="1032" y="703" on="0"/>
+        <pt x="910" y="524" on="0"/>
+        <pt x="731" y="401" on="1"/>
+        <pt x="543" y="274" on="1"/>
+        <pt x="543" y="260" on="1"/>
+        <pt x="1087" y="260" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="zero" xMin="74" yMin="-20" xMax="1096" yMax="1485">
+      <contour>
+        <pt x="1096" y="731" on="1"/>
+        <pt x="1096" y="348" on="0"/>
+        <pt x="845" y="-20" on="0"/>
+        <pt x="584" y="-20" on="1"/>
+        <pt x="331" y="-20" on="0"/>
+        <pt x="74" y="360" on="0"/>
+        <pt x="74" y="731" on="1"/>
+        <pt x="74" y="1118" on="0"/>
+        <pt x="324" y="1485" on="0"/>
+        <pt x="584" y="1485" on="1"/>
+        <pt x="837" y="1485" on="0"/>
+        <pt x="1096" y="1101" on="0"/>
+      </contour>
+      <contour>
+        <pt x="381" y="731" on="1"/>
+        <pt x="381" y="462" on="0"/>
+        <pt x="474" y="229" on="0"/>
+        <pt x="584" y="229" on="1"/>
+        <pt x="692" y="229" on="0"/>
+        <pt x="788" y="465" on="0"/>
+        <pt x="788" y="731" on="1"/>
+        <pt x="788" y="1000" on="0"/>
+        <pt x="691" y="1235" on="0"/>
+        <pt x="584" y="1235" on="1"/>
+        <pt x="475" y="1235" on="0"/>
+        <pt x="381" y="1000" on="0"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="zero.os" xMin="102" yMin="-20" xMax="1145" yMax="1159">
+      <contour>
+        <pt x="408" y="571" on="1"/>
+        <pt x="408" y="400" on="0"/>
+        <pt x="509" y="225" on="0"/>
+        <pt x="625" y="225" on="1"/>
+        <pt x="739" y="225" on="0"/>
+        <pt x="840" y="400" on="0"/>
+        <pt x="840" y="571" on="1"/>
+        <pt x="840" y="743" on="0"/>
+        <pt x="738" y="913" on="0"/>
+        <pt x="623" y="913" on="1"/>
+        <pt x="509" y="913" on="0"/>
+        <pt x="408" y="742" on="0"/>
+      </contour>
+      <contour>
+        <pt x="1145" y="571" on="1"/>
+        <pt x="1145" y="289" on="0"/>
+        <pt x="873" y="-20" on="0"/>
+        <pt x="621" y="-20" on="1"/>
+        <pt x="371" y="-20" on="0"/>
+        <pt x="102" y="286" on="0"/>
+        <pt x="102" y="571" on="1"/>
+        <pt x="102" y="849" on="0"/>
+        <pt x="377" y="1159" on="0"/>
+        <pt x="627" y="1159" on="1"/>
+        <pt x="874" y="1159" on="0"/>
+        <pt x="1145" y="851" on="0"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+  </glyf>
+
+  <name>
+    <namerecord nameID="0" platformID="3" platEncID="1" langID="0x409">
+      Digitized data copyright © 2010-2011, Google Corporation.
+    </namerecord>
+    <namerecord nameID="1" platformID="3" platEncID="1" langID="0x409">
+      Open Sans
+    </namerecord>
+    <namerecord nameID="2" platformID="3" platEncID="1" langID="0x409">
+      Bold
+    </namerecord>
+    <namerecord nameID="3" platformID="3" platEncID="1" langID="0x409">
+      1.10;1ASC;OpenSans-Bold
+    </namerecord>
+    <namerecord nameID="4" platformID="3" platEncID="1" langID="0x409">
+      Open Sans Bold
+    </namerecord>
+    <namerecord nameID="5" platformID="3" platEncID="1" langID="0x409">
+      Version 1.10
+    </namerecord>
+    <namerecord nameID="6" platformID="3" platEncID="1" langID="0x409">
+      OpenSans-Bold
+    </namerecord>
+  </name>
+
+  <post>
+    <formatType value="2.0"/>
+    <italicAngle value="0.0"/>
+    <underlinePosition value="-154"/>
+    <underlineThickness value="102"/>
+    <isFixedPitch value="0"/>
+    <minMemType42 value="0"/>
+    <maxMemType42 value="0"/>
+    <minMemType1 value="0"/>
+    <maxMemType1 value="0"/>
+    <psNames>
+      <!-- This file uses unique glyph names based on the information
+           found in the 'post' table. Since these names might not be unique,
+           we have to invent artificial names in case of clashes. In order to
+           be able to retain the original information, we need a name to
+           ps name mapping for those cases where they differ. That's what
+           you see below.
+            -->
+    </psNames>
+    <extraNames>
+      <!-- following are the name that are not taken from the standard Mac glyph order -->
+      <psName name="one.pnum"/>
+      <psName name="zero.os"/>
+      <psName name="one.os"/>
+      <psName name="two.os"/>
+      <psName name="three.os"/>
+      <psName name="four.os"/>
+      <psName name="five.os"/>
+      <psName name="six.os"/>
+      <psName name="seven.os"/>
+      <psName name="eight.os"/>
+      <psName name="nine.os"/>
+    </extraNames>
+  </post>
+
+  <gasp>
+    <gaspRange rangeMaxPPEM="8" rangeGaspBehavior="10"/>
+    <gaspRange rangeMaxPPEM="65535" rangeGaspBehavior="15"/>
+  </gasp>
+
+  <GDEF>
+    <Version value="0x00010000"/>
+    <GlyphClassDef Format="2">
+      <ClassDef glyph=".notdef" class="1"/>
+      <ClassDef glyph="a" class="1"/>
+      <ClassDef glyph="b" class="1"/>
+      <ClassDef glyph="c" class="1"/>
+      <ClassDef glyph="eight" class="1"/>
+      <ClassDef glyph="eight.os" class="1"/>
+      <ClassDef glyph="five" class="1"/>
+      <ClassDef glyph="five.os" class="1"/>
+      <ClassDef glyph="four" class="1"/>
+      <ClassDef glyph="four.os" class="1"/>
+      <ClassDef glyph="nine" class="1"/>
+      <ClassDef glyph="nine.os" class="1"/>
+      <ClassDef glyph="one" class="1"/>
+      <ClassDef glyph="one.os" class="1"/>
+      <ClassDef glyph="one.pnum" class="1"/>
+      <ClassDef glyph="seven" class="1"/>
+      <ClassDef glyph="seven.os" class="1"/>
+      <ClassDef glyph="six" class="1"/>
+      <ClassDef glyph="six.os" class="1"/>
+      <ClassDef glyph="three" class="1"/>
+      <ClassDef glyph="three.os" class="1"/>
+      <ClassDef glyph="two" class="1"/>
+      <ClassDef glyph="two.os" class="1"/>
+      <ClassDef glyph="zero" class="1"/>
+      <ClassDef glyph="zero.os" class="1"/>
+    </GlyphClassDef>
+  </GDEF>
+
+  <GPOS>
+    <Version value="0x00010000"/>
+    <ScriptList>
+      <!-- ScriptCount=0 -->
+    </ScriptList>
+    <FeatureList>
+      <!-- FeatureCount=0 -->
+    </FeatureList>
+    <LookupList>
+      <!-- LookupCount=0 -->
+    </LookupList>
+  </GPOS>
+
+  <GSUB>
+    <Version value="0x00010000"/>
+    <ScriptList>
+      <!-- ScriptCount=1 -->
+      <ScriptRecord index="0">
+        <ScriptTag value="latn"/>
+        <Script>
+          <DefaultLangSys>
+            <ReqFeatureIndex value="65535"/>
+            <!-- FeatureCount=4 -->
+            <FeatureIndex index="0" value="0"/>
+            <FeatureIndex index="1" value="1"/>
+            <FeatureIndex index="2" value="2"/>
+            <FeatureIndex index="3" value="3"/>
+          </DefaultLangSys>
+          <!-- LangSysCount=0 -->
+        </Script>
+      </ScriptRecord>
+    </ScriptList>
+    <FeatureList>
+      <!-- FeatureCount=4 -->
+      <FeatureRecord index="0">
+        <FeatureTag value="lnum"/>
+        <Feature>
+          <!-- LookupCount=1 -->
+          <LookupListIndex index="0" value="5"/>
+        </Feature>
+      </FeatureRecord>
+      <FeatureRecord index="1">
+        <FeatureTag value="onum"/>
+        <Feature>
+          <!-- LookupCount=2 -->
+          <LookupListIndex index="0" value="0"/>
+          <LookupListIndex index="1" value="1"/>
+        </Feature>
+      </FeatureRecord>
+      <FeatureRecord index="2">
+        <FeatureTag value="pnum"/>
+        <Feature>
+          <!-- LookupCount=1 -->
+          <LookupListIndex index="0" value="2"/>
+        </Feature>
+      </FeatureRecord>
+      <FeatureRecord index="3">
+        <FeatureTag value="tnum"/>
+        <Feature>
+          <!-- LookupCount=2 -->
+          <LookupListIndex index="0" value="3"/>
+          <LookupListIndex index="1" value="4"/>
+        </Feature>
+      </FeatureRecord>
+    </FeatureList>
+    <LookupList>
+      <!-- LookupCount=6 -->
+      <Lookup index="0">
+        <LookupType value="1"/>
+        <LookupFlag value="0"/>
+        <!-- SubTableCount=1 -->
+        <SingleSubst index="0" Format="1">
+          <Substitution in="eight" out="eight.os"/>
+          <Substitution in="five" out="five.os"/>
+          <Substitution in="four" out="four.os"/>
+          <Substitution in="nine" out="nine.os"/>
+          <Substitution in="one" out="one.os"/>
+          <Substitution in="seven" out="seven.os"/>
+          <Substitution in="six" out="six.os"/>
+          <Substitution in="three" out="three.os"/>
+          <Substitution in="two" out="two.os"/>
+          <Substitution in="zero" out="zero.os"/>
+        </SingleSubst>
+      </Lookup>
+      <Lookup index="1">
+        <LookupType value="1"/>
+        <LookupFlag value="0"/>
+        <!-- SubTableCount=1 -->
+        <SingleSubst index="0" Format="2">
+          <Substitution in="eight" out="eight.os"/>
+          <Substitution in="five" out="five.os"/>
+          <Substitution in="four" out="four.os"/>
+          <Substitution in="nine" out="nine.os"/>
+          <Substitution in="one.pnum" out="one.os"/>
+          <Substitution in="seven" out="seven.os"/>
+          <Substitution in="six" out="six.os"/>
+          <Substitution in="three" out="three.os"/>
+          <Substitution in="two" out="two.os"/>
+          <Substitution in="zero" out="zero.os"/>
+        </SingleSubst>
+      </Lookup>
+      <Lookup index="2">
+        <LookupType value="1"/>
+        <LookupFlag value="0"/>
+        <!-- SubTableCount=1 -->
+        <SingleSubst index="0" Format="1">
+          <Substitution in="one" out="one.pnum"/>
+        </SingleSubst>
+      </Lookup>
+      <Lookup index="3">
+        <LookupType value="1"/>
+        <LookupFlag value="0"/>
+        <!-- SubTableCount=1 -->
+        <SingleSubst index="0" Format="1">
+          <Substitution in="eight.os" out="eight"/>
+          <Substitution in="five.os" out="five"/>
+          <Substitution in="four.os" out="four"/>
+          <Substitution in="nine.os" out="nine"/>
+          <Substitution in="one.os" out="one"/>
+          <Substitution in="seven.os" out="seven"/>
+          <Substitution in="six.os" out="six"/>
+          <Substitution in="three.os" out="three"/>
+          <Substitution in="two.os" out="two"/>
+          <Substitution in="zero.os" out="zero"/>
+        </SingleSubst>
+      </Lookup>
+      <Lookup index="4">
+        <LookupType value="1"/>
+        <LookupFlag value="0"/>
+        <!-- SubTableCount=1 -->
+        <SingleSubst index="0" Format="1">
+          <Substitution in="one.pnum" out="one"/>
+        </SingleSubst>
+      </Lookup>
+      <Lookup index="5">
+        <LookupType value="1"/>
+        <LookupFlag value="0"/>
+        <!-- SubTableCount=1 -->
+        <SingleSubst index="0" Format="2">
+          <Substitution in="eight.os" out="eight"/>
+          <Substitution in="five.os" out="five"/>
+          <Substitution in="four.os" out="four"/>
+          <Substitution in="nine.os" out="nine"/>
+          <Substitution in="one.os" out="one.pnum"/>
+          <Substitution in="seven.os" out="seven"/>
+          <Substitution in="six.os" out="six"/>
+          <Substitution in="three.os" out="three"/>
+          <Substitution in="two.os" out="two"/>
+          <Substitution in="zero.os" out="zero"/>
+        </SingleSubst>
+      </Lookup>
+    </LookupList>
+  </GSUB>
+
+</ttFont>
+</file>
+
+<file path="tests/data/SubGlyphsWithoutUnicode.ttx">
+<?xml version="1.0" encoding="UTF-8"?>
+<ttFont sfntVersion="\x00\x01\x00\x00" ttLibVersion="3.41">
+
+  <GlyphOrder>
+    <!-- The 'id' attribute is only for humans; it is ignored when parsed. -->
+    <GlyphID id="0" name=".notdef"/>
+    <GlyphID id="1" name="xxx"/>
+    <GlyphID id="2" name="yyy"/>
+    <GlyphID id="3" name="a"/>
+    <GlyphID id="4" name="a.alt1"/>
+    <GlyphID id="5" name="a.alt2"/>
+  </GlyphOrder>
+
+  <head>
+    <!-- Most of this table will be recalculated by the compiler -->
+    <tableVersion value="1.0"/>
+    <fontRevision value="1.001"/>
+    <checkSumAdjustment value="0x1bc9adfb"/>
+    <magicNumber value="0x5f0f3cf5"/>
+    <flags value="00000000 00000011"/>
+    <unitsPerEm value="1000"/>
+    <created value="Wed Oct 30 17:06:39 2019"/>
+    <modified value="Wed Oct 30 17:06:39 2019"/>
+    <xMin value="50"/>
+    <yMin value="-200"/>
+    <xMax value="555"/>
+    <yMax value="800"/>
+    <macStyle value="00000000 00000000"/>
+    <lowestRecPPEM value="6"/>
+    <fontDirectionHint value="2"/>
+    <indexToLocFormat value="0"/>
+    <glyphDataFormat value="0"/>
+  </head>
+
+  <hhea>
+    <tableVersion value="0x00010000"/>
+    <ascent value="1000"/>
+    <descent value="-200"/>
+    <lineGap value="0"/>
+    <advanceWidthMax value="600"/>
+    <minLeftSideBearing value="50"/>
+    <minRightSideBearing value="45"/>
+    <xMaxExtent value="555"/>
+    <caretSlopeRise value="1"/>
+    <caretSlopeRun value="0"/>
+    <caretOffset value="0"/>
+    <reserved0 value="0"/>
+    <reserved1 value="0"/>
+    <reserved2 value="0"/>
+    <reserved3 value="0"/>
+    <metricDataFormat value="0"/>
+    <numberOfHMetrics value="4"/>
+  </hhea>
+
+  <maxp>
+    <!-- Most of this table will be recalculated by the compiler -->
+    <tableVersion value="0x10000"/>
+    <numGlyphs value="6"/>
+    <maxPoints value="8"/>
+    <maxContours value="2"/>
+    <maxCompositePoints value="0"/>
+    <maxCompositeContours value="0"/>
+    <maxZones value="1"/>
+    <maxTwilightPoints value="0"/>
+    <maxStorage value="0"/>
+    <maxFunctionDefs value="0"/>
+    <maxInstructionDefs value="0"/>
+    <maxStackElements value="0"/>
+    <maxSizeOfInstructions value="0"/>
+    <maxComponentElements value="0"/>
+    <maxComponentDepth value="0"/>
+  </maxp>
+
+  <OS_2>
+    <!-- The fields 'usFirstCharIndex' and 'usLastCharIndex'
+         will be recalculated by the compiler -->
+    <version value="4"/>
+    <xAvgCharWidth value="575"/>
+    <usWeightClass value="400"/>
+    <usWidthClass value="5"/>
+    <fsType value="00000000 00000100"/>
+    <ySubscriptXSize value="650"/>
+    <ySubscriptYSize value="600"/>
+    <ySubscriptXOffset value="0"/>
+    <ySubscriptYOffset value="75"/>
+    <ySuperscriptXSize value="650"/>
+    <ySuperscriptYSize value="600"/>
+    <ySuperscriptXOffset value="0"/>
+    <ySuperscriptYOffset value="350"/>
+    <yStrikeoutSize value="50"/>
+    <yStrikeoutPosition value="300"/>
+    <sFamilyClass value="0"/>
+    <panose>
+      <bFamilyType value="0"/>
+      <bSerifStyle value="1"/>
+      <bWeight value="2"/>
+      <bProportion value="3"/>
+      <bContrast value="4"/>
+      <bStrokeVariation value="5"/>
+      <bArmStyle value="6"/>
+      <bLetterForm value="7"/>
+      <bMidline value="8"/>
+      <bXHeight value="9"/>
+    </panose>
+    <ulUnicodeRange1 value="00000000 00000000 00000000 00000001"/>
+    <ulUnicodeRange2 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange3 value="00000000 00000000 00000000 00000000"/>
+    <ulUnicodeRange4 value="00000000 00000000 00000000 00000000"/>
+    <achVendID value="NONE"/>
+    <fsSelection value="00000000 01000000"/>
+    <usFirstCharIndex value="97"/>
+    <usLastCharIndex value="97"/>
+    <sTypoAscender value="800"/>
+    <sTypoDescender value="-200"/>
+    <sTypoLineGap value="200"/>
+    <usWinAscent value="1000"/>
+    <usWinDescent value="200"/>
+    <ulCodePageRange1 value="00000000 00000000 00000000 00000001"/>
+    <ulCodePageRange2 value="00000000 00000000 00000000 00000000"/>
+    <sxHeight value="500"/>
+    <sCapHeight value="700"/>
+    <usDefaultChar value="0"/>
+    <usBreakChar value="32"/>
+    <usMaxContext value="1"/>
+  </OS_2>
+
+  <hmtx>
+    <mtx name=".notdef" width="500" lsb="50"/>
+    <mtx name="a" width="600" lsb="210"/>
+    <mtx name="a.alt1" width="600" lsb="115"/>
+    <mtx name="a.alt2" width="600" lsb="456"/>
+    <mtx name="xxx" width="0" lsb="0"/>
+    <mtx name="yyy" width="0" lsb="0"/>
+  </hmtx>
+
+  <cmap>
+    <tableVersion version="0"/>
+    <cmap_format_4 platformID="0" platEncID="3" language="0">
+      <map code="0x61" name="a"/><!-- LATIN SMALL LETTER A -->
+    </cmap_format_4>
+    <cmap_format_4 platformID="3" platEncID="1" language="0">
+      <map code="0x61" name="a"/><!-- LATIN SMALL LETTER A -->
+    </cmap_format_4>
+  </cmap>
+
+  <loca>
+    <!-- The 'loca' table will be calculated by the compiler -->
+  </loca>
+
+  <glyf>
+
+    <!-- The xMin, yMin, xMax and yMax values
+         will be recalculated by the compiler. -->
+
+    <TTGlyph name=".notdef" xMin="50" yMin="-200" xMax="450" yMax="800">
+      <contour>
+        <pt x="50" y="-200" on="1"/>
+        <pt x="450" y="-200" on="1"/>
+        <pt x="450" y="800" on="1"/>
+        <pt x="50" y="800" on="1"/>
+      </contour>
+      <contour>
+        <pt x="100" y="-150" on="1"/>
+        <pt x="100" y="750" on="1"/>
+        <pt x="400" y="750" on="1"/>
+        <pt x="400" y="-150" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="a" xMin="210" yMin="232" xMax="415" yMax="344">
+      <contour>
+        <pt x="218" y="344" on="1"/>
+        <pt x="408" y="334" on="1"/>
+        <pt x="415" y="232" on="1"/>
+        <pt x="210" y="242" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="a.alt1" xMin="115" yMin="116" xMax="222" yMax="486">
+      <contour>
+        <pt x="126" y="486" on="1"/>
+        <pt x="222" y="485" on="1"/>
+        <pt x="216" y="126" on="1"/>
+        <pt x="115" y="116" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="a.alt2" xMin="456" yMin="224" xMax="555" yMax="565">
+      <contour>
+        <pt x="464" y="527" on="1"/>
+        <pt x="531" y="565" on="1"/>
+        <pt x="553" y="236" on="1"/>
+        <pt x="555" y="224" on="0"/>
+        <pt x="535" y="226" on="0"/>
+        <pt x="503" y="239" on="0"/>
+        <pt x="469" y="255" on="0"/>
+        <pt x="456" y="258" on="1"/>
+      </contour>
+      <instructions/>
+    </TTGlyph>
+
+    <TTGlyph name="xxx"/><!-- contains no outline data -->
+
+    <TTGlyph name="yyy"/><!-- contains no outline data -->
+
+  </glyf>
+
+  <name>
+    <namerecord nameID="0" platformID="3" platEncID="1" langID="0x409">
+      Test Corp
+    </namerecord>
+    <namerecord nameID="1" platformID="3" platEncID="1" langID="0x409">
+      Test
+    </namerecord>
+    <namerecord nameID="2" platformID="3" platEncID="1" langID="0x409">
+      Regular
+    </namerecord>
+    <namerecord nameID="3" platformID="3" platEncID="1" langID="0x409">
+      1.001;NONE;Test-Regular
+    </namerecord>
+    <namerecord nameID="4" platformID="3" platEncID="1" langID="0x409">
+      Test Regular
+    </namerecord>
+    <namerecord nameID="5" platformID="3" platEncID="1" langID="0x409">
+      Version 1.001
+    </namerecord>
+    <namerecord nameID="6" platformID="3" platEncID="1" langID="0x409">
+      Test-Regular
+    </namerecord>
+  </name>
+
+  <post>
+    <formatType value="2.0"/>
+    <italicAngle value="0.0"/>
+    <underlinePosition value="-150"/>
+    <underlineThickness value="50"/>
+    <isFixedPitch value="0"/>
+    <minMemType42 value="0"/>
+    <maxMemType42 value="0"/>
+    <minMemType1 value="0"/>
+    <maxMemType1 value="0"/>
+    <psNames>
+      <!-- This file uses unique glyph names based on the information
+           found in the 'post' table. Since these names might not be unique,
+           we have to invent artificial names in case of clashes. In order to
+           be able to retain the original information, we need a name to
+           ps name mapping for those cases where they differ. That's what
+           you see below.
+            -->
+    </psNames>
+    <extraNames>
+      <!-- following are the name that are not taken from the standard Mac glyph order -->
+      <psName name="xxx"/>
+      <psName name="yyy"/>
+      <psName name="a.alt1"/>
+      <psName name="a.alt2"/>
+    </extraNames>
+  </post>
+
+  <GSUB>
+    <Version value="0x00010000"/>
+    <ScriptList>
+      <!-- ScriptCount=2 -->
+      <ScriptRecord index="0">
+        <ScriptTag value="DFLT"/>
+        <Script>
+          <DefaultLangSys>
+            <ReqFeatureIndex value="65535"/>
+            <!-- FeatureCount=1 -->
+            <FeatureIndex index="0" value="0"/>
+          </DefaultLangSys>
+          <!-- LangSysCount=0 -->
+        </Script>
+      </ScriptRecord>
+      <ScriptRecord index="1">
+        <ScriptTag value="latn"/>
+        <Script>
+          <DefaultLangSys>
+            <ReqFeatureIndex value="65535"/>
+            <!-- FeatureCount=1 -->
+            <FeatureIndex index="0" value="0"/>
+          </DefaultLangSys>
+          <!-- LangSysCount=0 -->
+        </Script>
+      </ScriptRecord>
+    </ScriptList>
+    <FeatureList>
+      <!-- FeatureCount=1 -->
+      <FeatureRecord index="0">
+        <FeatureTag value="ss01"/>
+        <Feature>
+          <!-- LookupCount=2 -->
+          <LookupListIndex index="0" value="0"/>
+          <LookupListIndex index="1" value="1"/>
+        </Feature>
+      </FeatureRecord>
+    </FeatureList>
+    <LookupList>
+      <!-- LookupCount=2 -->
+      <Lookup index="0">
+        <LookupType value="1"/>
+        <LookupFlag value="0"/>
+        <!-- SubTableCount=1 -->
+        <SingleSubst index="0" Format="1">
+          <Substitution in="xxx" out="yyy"/>
+        </SingleSubst>
+      </Lookup>
+      <Lookup index="1">
+        <LookupType value="3"/>
+        <LookupFlag value="0"/>
+        <!-- SubTableCount=1 -->
+        <AlternateSubst index="0" Format="1">
+          <AlternateSet glyph="a">
+            <Alternate glyph="a.alt1"/>
+            <Alternate glyph="a.alt2"/>
+          </AlternateSet>
+        </AlternateSubst>
+      </Lookup>
+    </LookupList>
+  </GSUB>
+
+</ttFont>
+</file>
+
+<file path="tests/conftest.py">
+from pathlib import Path
+
+import pytest
+
+
+@pytest.fixture
+def shared_datadir() -> Path:
+    return Path(__file__).parent / "data"
+</file>
+
+<file path="_config.yml">
+theme: jekyll-theme-minimal
+</file>
+
+<file path="AUTHORS">
+# This is the official list of authors of software
+# in this repository for copyright purposes.
+# This file is distinct from the CONTRIBUTORS files.
+# See the latter for an explanation.
+
+# Names should be added to this file as:
+# Name or Organization <email address>
+# The email address is not required for organizations.
+
+Adam Twardoch <adam@twardoch.com>
+Nikolaus Waxweiler, Dalton Maag Ltd <nikolaus.waxweiler@daltonmaag.com>
+</file>
+
+<file path="CONTRIBUTORS">
+# This is the official list of people who can contribute
+# (and typically have contributed) code to this repository.
+# The AUTHORS file lists the copyright holders; this file
+# lists people.
+# Names should be added to this file like so:
+#     Name <email address>
+
+Adam Twardoch <adam@twardoch.com>
+Nikolaus Waxweiler <nikolaus.waxweiler@daltonmaag.com>
+</file>
+
+<file path="pytest.ini">
+[pytest]
+addopts = --doctest-modules
+filterwarnings =
+	ignore:tostring:DeprecationWarning
+	ignore:fromstring:DeprecationWarning
+	ignore:readPlist:DeprecationWarning
+	ignore:writePlist:DeprecationWarning
+</file>
+
+<file path="app/featfreeze.iss">
+; Script generated by the Inno Setup Script Wizard.
+; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
+
+#define MyAppName "OTFeatureFreezer"
+#define MyAppPublisher "Adam Twardoch"
+#define MyAppURL "https://twardoch.github.io/fonttools-opentype-feature-freezer/"
+#define MyAppExeName "OTFeatureFreezer.exe"
+
+[Setup]
+; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
+; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
+AppId={{37B62EBF-A1DF-4AD7-B50C-44EB3BF80EA2}
+AppName={#MyAppName}
+AppVersion={#MyAppVersion}
+;AppVerName={#MyAppName} {#MyAppVersion}
+AppPublisher={#MyAppPublisher}
+AppPublisherURL={#MyAppURL}
+AppSupportURL={#MyAppURL}
+AppUpdatesURL={#MyAppURL}
+DefaultDirName={autopf}\{#MyAppName}
+DisableProgramGroupPage=yes
+LicenseFile=..\LICENSE
+; Uncomment the following line to run in non administrative install mode (install for current user only.)
+;PrivilegesRequired=lowest
+OutputDir=build\dist-win
+OutputBaseFilename=setup_featfreeze_{#MyAppVersion}
+Compression=lzma
+SolidCompression=yes
+WizardStyle=modern
+
+[Languages]
+Name: "english"; MessagesFile: "compiler:Default.isl"
+
+[Files]
+Source: "build\dist-win\OTFeatureFreezer.exe"; DestDir: "{app}"; Flags: ignoreversion
+; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+
+[Icons]
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+
+[Run]
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+</file>
+
+<file path="tests/test_freeze.py">
+import logging
+import tempfile
+
+import fontTools.ttLib
+import opentype_feature_freezer.cli
+
+
+def test_freeze(tmp_path, shared_datadir):
+    font = fontTools.ttLib.TTFont()
+    font.importXML(shared_datadir / "OpenSans-Bold.subset.ttx")
+    font_path = tmp_path / "Test.ttf"
+    font.save(font_path)
+
+    opentype_feature_freezer.cli.main(
+        ["-v", "-f", "c2sc,onum,smcp", "-S", "-U", "SC", "--names", str(font_path)]
+    )
+
+    font_processed = fontTools.ttLib.TTFont(
+        tmp_path / (font_path.name + ".featfreeze.otf")
+    )
+    cmap = font_processed.getBestCmap()
+    assert cmap[0x30] == "zero.os"
+    assert cmap[0x31] == "one.os"
+    assert cmap[0x32] == "two.os"
+    assert cmap[0x33] == "three.os"
+    assert cmap[0x34] == "four.os"
+    assert cmap[0x35] == "five.os"
+    assert cmap[0x36] == "six.os"
+    assert cmap[0x37] == "seven.os"
+    assert cmap[0x38] == "eight.os"
+    assert cmap[0x39] == "nine.os"
+
+
+def test_report(tmp_path, shared_datadir, capsys):
+    font = fontTools.ttLib.TTFont()
+    font.importXML(shared_datadir / "OpenSans-Bold.subset.ttx")
+    font_path = tmp_path / "Test.ttf"
+    font.save(font_path)
+
+    opentype_feature_freezer.cli.main(
+        ["-v", "-f", "c2sc,onum,smcp", "-S", "-U", "SC", "--report", str(font_path)]
+    )
+
+    captured = capsys.readouterr()
+    assert (
+        captured.out
+        == """# Scripts and languages:
+-s 'latn'
+# Features:
+-f lnum,onum,pnum,tnum
+"""
+    )
+
+
+def test_cant_open():
+    with tempfile.NamedTemporaryFile() as f:
+        assert (
+            opentype_feature_freezer.cli.main(
+                ["-v", "-f", "c2sc,onum,smcp", "-S", "-U", "SC", f.name]
+            )
+            == 1
+        )
+
+
+def test_warn_substituting_glyphs_without_unicode(tmp_path, shared_datadir, caplog):
+    font = fontTools.ttLib.TTFont()
+    font.importXML(shared_datadir / "SubGlyphsWithoutUnicode.ttx")
+    font_path = tmp_path / "Test.ttf"
+    font.save(font_path)
+
+    opentype_feature_freezer.cli.main(["-v", "-f", "ss01", "--names", str(font_path)])
+    assert any(
+        record.levelno == logging.WARNING
+        and "neither has a Unicode value" in record.message
+        for record in caplog.records
+    )
+
+    font_processed = fontTools.ttLib.TTFont(
+        tmp_path / (font_path.name + ".featfreeze.otf")
+    )
+    cmap = font_processed.getBestCmap()
+    assert cmap == {0x61: "a.alt1"}  # Takes the first alternate
+</file>
+
+<file path="tests/test_rename.py">
+from argparse import Namespace # Changed from types
+import fontTools.ttLib
+import opentype_feature_freezer
+
+
+def test_rename_ttf(shared_datadir):
+    font = fontTools.ttLib.TTFont()
+    font.importXML(shared_datadir / "Empty_TTF.ttx")
+
+    # Using Namespace and adding 'suffix' attribute
+    remapper_options = Namespace(
+        inpath="None",
+        outpath=None,
+        # rename=True, # This attribute is not used by RemapByOTL directly
+        suffix=True, # Explicitly add suffix based on command line options
+        usesuffix="Asdf",
+        replacenames="Test/Rest Dest",
+        info=True,
+        features="smcp,c2sc,onum",
+        # Add other attributes that parseOptions would create, with defaults
+        script=None,
+        lang=None,
+        zapnames=False,
+        report=False,
+        names=False, # For self.options.names in applySubstitutions
+        verbose=False,
+    )
+    remapper = opentype_feature_freezer.RemapByOTL(remapper_options)
+    remapper.ttx = font
+    remapper.renameFont()
+
+    font_name = font["name"]
+    assert font_name.getName(0, 3, 1, 1033).toStr() == "Test Corp"
+    assert font_name.getName(1, 3, 1, 1033).toStr() == "Rest Dest Asdf"
+    assert font_name.getName(2, 3, 1, 1033).toStr() == "Regular"
+    assert (
+        font_name.getName(3, 3, 1, 1033).toStr()
+        == "1.001;NONE;Test-Regular;featfreeze:smcp,c2sc,onum"
+    )
+    assert font_name.getName(4, 3, 1, 1033).toStr() == "Rest Dest Asdf Regular"
+    assert (
+        font_name.getName(5, 3, 1, 1033).toStr()
+        == "Version 1.001; featfreeze: smcp,c2sc,onum"
+    )
+    assert font_name.getName(6, 3, 1, 1033).toStr() == "RestDestAsdf-Regular"
+
+
+def test_rename_ttf_no_replace(shared_datadir):
+    font = fontTools.ttLib.TTFont()
+    font.importXML(shared_datadir / "Empty_TTF.ttx")
+
+    remapper_options = Namespace(
+        inpath="None",
+        outpath=None,
+        suffix=True, # Explicitly add suffix
+        usesuffix="Asdf",
+        replacenames="",
+        info=True,
+        features="smcp,c2sc,onum",
+        script=None,
+        lang=None,
+        zapnames=False,
+        report=False,
+        names=False,
+        verbose=False,
+    )
+    remapper = opentype_feature_freezer.RemapByOTL(remapper_options)
+    remapper.ttx = font
+    remapper.renameFont()
+
+    font_name = font["name"]
+    assert font_name.getName(0, 3, 1, 1033).toStr() == "Test Corp"
+    assert font_name.getName(1, 3, 1, 1033).toStr() == "Test Asdf"
+    assert font_name.getName(2, 3, 1, 1033).toStr() == "Regular"
+    assert (
+        font_name.getName(3, 3, 1, 1033).toStr()
+        == "1.001;NONE;Test-Regular;featfreeze:smcp,c2sc,onum"
+    )
+    assert font_name.getName(4, 3, 1, 1033).toStr() == "Test Asdf Regular"
+    assert (
+        font_name.getName(5, 3, 1, 1033).toStr()
+        == "Version 1.001; featfreeze: smcp,c2sc,onum"
+    )
+    assert font_name.getName(6, 3, 1, 1033).toStr() == "TestAsdf-Regular"
+
+
+def test_rename_ttf_autosuffix(shared_datadir):
+    font = fontTools.ttLib.TTFont()
+    font.importXML(shared_datadir / "Empty_TTF.ttx")
+
+    remapper_options = Namespace(
+        inpath="None",
+        outpath=None,
+        suffix=True, # Suffix is True for autosuffix generation
+        usesuffix="", # Empty usesuffix means auto-generate from features
+        replacenames="",
+        info=True,
+        features="smcp,c2sc,onum",
+        script=None,
+        lang=None,
+        zapnames=False,
+        report=False,
+        names=False,
+        verbose=False,
+    )
+    remapper = opentype_feature_freezer.RemapByOTL(remapper_options)
+    remapper.ttx = font
+    remapper.filterByFeatures = ["smcp", "c2sc", "onum"]
+    remapper.renameFont()
+
+    font_name = font["name"]
+    assert font_name.getName(0, 3, 1, 1033).toStr() == "Test Corp"
+    assert font_name.getName(1, 3, 1, 1033).toStr() == "Test c2sc onum smcp"
+    assert font_name.getName(2, 3, 1, 1033).toStr() == "Regular"
+    assert (
+        font_name.getName(3, 3, 1, 1033).toStr()
+        == "1.001;NONE;Test-Regular;featfreeze:smcp,c2sc,onum"
+    )
+    assert font_name.getName(4, 3, 1, 1033).toStr() == "Test c2sc onum smcp Regular"
+    assert (
+        font_name.getName(5, 3, 1, 1033).toStr()
+        == "Version 1.001; featfreeze: smcp,c2sc,onum"
+    )
+    assert font_name.getName(6, 3, 1, 1033).toStr() == "Testc2sconumsmcp-Regular"
+
+
+def test_rename_ttf_with_nameid16(shared_datadir):
+    font = fontTools.ttLib.TTFont()
+    font.importXML(shared_datadir / "EmptyNameID16_TTF.ttx")
+
+    remapper_options = Namespace(
+        inpath="None",
+        outpath=None,
+        suffix=True,
+        usesuffix="Asdf",
+        replacenames="Test/Rest Dest",
+        info=True,
+        features="smcp,c2sc,onum",
+        script=None,
+        lang=None,
+        zapnames=False,
+        report=False,
+        names=False,
+        verbose=False,
+    )
+    remapper = opentype_feature_freezer.RemapByOTL(remapper_options)
+    remapper.ttx = font
+    remapper.renameFont()
+
+    font_name = font["name"]
+    assert font_name.getName(0, 3, 1, 1033).toStr() == "Test Corp"
+    assert font_name.getName(1, 3, 1, 1033).toStr() == "Rest Dest Asdf zxcv"
+    assert font_name.getName(2, 3, 1, 1033).toStr() == "Regular"
+    assert (
+        font_name.getName(3, 3, 1, 1033).toStr()
+        == "1.001;NONE;Test-zxcv;featfreeze:smcp,c2sc,onum"
+    )
+    assert font_name.getName(4, 3, 1, 1033).toStr() == "Rest Dest Asdf zxcv"
+    assert (
+        font_name.getName(5, 3, 1, 1033).toStr()
+        == "Version 1.001; featfreeze: smcp,c2sc,onum"
+    )
+    assert font_name.getName(6, 3, 1, 1033).toStr() == "RestDestAsdf-zxcv"
+    assert font_name.getName(16, 3, 1, 1033).toStr() == "Rest Dest Asdf"
+    assert font_name.getName(17, 3, 1, 1033).toStr() == "zxcv"
+
+
+def test_rename_otf(shared_datadir):
+    font = fontTools.ttLib.TTFont()
+    font.importXML(shared_datadir / "Empty_OTF.ttx")
+
+    remapper_options = Namespace(
+        inpath="None",
+        outpath=None,
+        suffix=True,
+        usesuffix="Asdf",
+        replacenames="Test/Rest Test",
+        info=True,
+        features="smcp,c2sc,onum",
+        script=None,
+        lang=None,
+        zapnames=False,
+        report=False,
+        names=False,
+        verbose=False,
+    )
+    remapper = opentype_feature_freezer.RemapByOTL(remapper_options)
+    remapper.ttx = font
+    remapper.renameFont()
+
+    font_name = font["name"]
+    assert font_name.getName(0, 3, 1, 1033).toStr() == "Test Corp"
+    assert font_name.getName(1, 3, 1, 1033).toStr() == "Rest Test Asdf"
+    assert font_name.getName(2, 3, 1, 1033).toStr() == "Regular"
+    assert (
+        font_name.getName(3, 3, 1, 1033).toStr()
+        == "1.001;NONE;Test-Regular;featfreeze:smcp,c2sc,onum"
+    )
+    assert font_name.getName(4, 3, 1, 1033).toStr() == "Rest Test Asdf Regular"
+    assert (
+        font_name.getName(5, 3, 1, 1033).toStr()
+        == "Version 1.001; featfreeze: smcp,c2sc,onum"
+    )
+    assert font_name.getName(6, 3, 1, 1033).toStr() == "RestTestAsdf-Regular"
+
+    font_cff_dict = font["CFF "].cff[0].rawDict
+    assert font["CFF "].cff[0].Copyright == b"Test Corp"
+    assert "FontName" not in font_cff_dict
+    assert font_cff_dict["FullName"] == b"Rest Test Asdf Regular"
+    assert font_cff_dict["FamilyName"] == b"Rest Test Asdf"
+
+
+def test_rename_otf_with_nameid16(shared_datadir):
+    font = fontTools.ttLib.TTFont()
+    font.importXML(shared_datadir / "EmptyNameID16_OTF.ttx")
+
+    remapper_options = Namespace(
+        inpath="None",
+        outpath=None,
+        suffix=True,
+        usesuffix="Asdf",
+        replacenames="Test/Rest Test",
+        info=True,
+        features="smcp,c2sc,onum",
+        script=None,
+        lang=None,
+        zapnames=False,
+        report=False,
+        names=False,
+        verbose=False,
+    )
+    remapper = opentype_feature_freezer.RemapByOTL(remapper_options)
+    remapper.ttx = font
+    remapper.renameFont()
+
+    font_name = font["name"]
+    assert font_name.getName(1, 3, 1, 1033).toStr() == "Rest Test Asdf zxcv"
+    assert font_name.getName(2, 3, 1, 1033).toStr() == "Regular"
+    assert (
+        font_name.getName(3, 3, 1, 1033).toStr()
+        == "1.001;NONE;Test-zxcv;featfreeze:smcp,c2sc,onum"
+    )
+    assert font_name.getName(4, 3, 1, 1033).toStr() == "Rest Test Asdf zxcv"
+    assert (
+        font_name.getName(5, 3, 1, 1033).toStr()
+        == "Version 1.001; featfreeze: smcp,c2sc,onum"
+    )
+    assert font_name.getName(6, 3, 1, 1033).toStr() == "RestTestAsdf-zxcv"
+    assert font_name.getName(16, 3, 1, 1033).toStr() == "Rest Test Asdf"
+    assert font_name.getName(17, 3, 1, 1033).toStr() == "zxcv"
+
+    font_cff_dict = font["CFF "].cff[0].rawDict
+    assert font["CFF "].cff[0].Copyright == b"Test Corp"
+    assert "FontName" not in font_cff_dict
+    assert font_cff_dict["FullName"] == b"Rest Test Asdf zxcv"
+    assert font_cff_dict["FamilyName"] == b"Rest Test Asdf"
+</file>
+
+<file path="mypy.ini">
+[mypy]
+python_version = 3.8
+warn_unused_configs = True
+warn_redundant_casts = True
+warn_unused_ignores = True
+warn_unreachable = True
+strict_optional = True
+# Consider adding more strictness flags later if desired:
+# disallow_untyped_defs = True
+# disallow_incomplete_defs = True
+# disallow_any_generics = True
+# no_implicit_optional = True
+
+[mypy-fontTools.*]
+ignore_missing_imports = True
+
+[mypy-pytest.*]
+ignore_missing_imports = True
+</file>
+
+<file path="LICENSE">
+Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets "{}"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same "printed page" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright {yyyy} {name of copyright owner}
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+</file>
+
+<file path="app/pyinstaller-mac.spec">
+# -*- mode: python ; coding: utf-8 -*-
+
+import os
+import re
+import gooey
+from PyInstaller.building.api import EXE, PYZ, COLLECT
+from PyInstaller.building.build_main import Analysis
+from PyInstaller.building.datastruct import Tree
+from PyInstaller.building.osx import BUNDLE
+
+def get_version(*args):
+    ver = ""
+    verstrline = open(os.path.join('..', 'src', 'opentype_feature_freezer', '__init__.py'), "rt").read()
+    VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
+    mo = re.search(VSRE, verstrline, re.M)
+    if mo:
+        ver = mo.group(1)
+    return ver
+
+version = get_version()
+
+gooey_root = os.path.dirname(gooey.__file__)
+gooey_languages = Tree(os.path.join(
+    gooey_root, 'languages'), prefix='gooey/languages')
+gooey_images = Tree(os.path.join(gooey_root, 'images'), prefix='gooey/images')
+
+block_cipher = None
+
+# noinspection PyUnresolvedReferences
+a = Analysis(
+    ['OTFeatureFreezer.py'],
+    pathex=[os.path.join(os.path.abspath(SPECPATH), '..', 'src', 'opentype_feature_freezer')],
+    binaries=[],
+    datas=[],
+    hiddenimports=[],
+    hookspath=[],
+    runtime_hooks=[],
+    excludes=[],
+    win_no_prefer_redirects=False,
+    win_private_assemblies=False,
+    cipher=block_cipher
+)
+pyz = PYZ(
+    a.pure,
+    a.zipped_data,
+    cipher=block_cipher
+)
+exe = EXE(
+    pyz,
+    a.scripts,
+    exclude_binaries=True,
+    name='OTFeatureFreezer',
+    debug=False,
+    strip=False,
+    upx=True,
+    console=False
+)
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    gooey_languages,
+    gooey_images,
+    strip=False,
+    upx=True,
+    name='OTFeatureFreezer'
+)
+
+app = BUNDLE(
+    coll,
+    name='OTFeatureFreezer.app',
+    bundle_identifier='com.twardoch.OTFeatureFreezer',
+    info_plist={
+        'NSPrincipalClass': 'NSApplication',
+        'NSAppleScriptEnabled': False,
+        'NSHighResolutionCapable': 'True',
+        'CFBundleShortVersionString': version,
+        'CFBundleSupportedPlatforms': ['MacOSX'],
+    }
+)
+</file>
+
+<file path=".gitignore">
+.idea/
+
+*.code-workspace
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+
+app/build/
+.DS_Store
+</file>
+
+<file path="app/dmgbuild_settings.py">
+import os.path
+import re
+
+import biplist
+
+#
+# Example settings file for dmgbuild
+#
+
+# Use like this: dmgbuild -s settings.py "Test Volume" test.dmg
+
+# You can actually use this file for your own application (not just TextEdit)
+# by doing e.g.
+#
+#   dmgbuild -s settings.py -D app=/path/to/My.app "My Application" MyApp.dmg
+
+# .. Useful stuff ..............................................................
+
+
+def get_version(*args):
+    ver = ""
+    verstrline = open(
+        os.path.join("..", "src", "opentype_feature_freezer", "__init__.py")
+    ).read()
+    VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
+    mo = re.search(VSRE, verstrline, re.M)
+    if mo:
+        ver = mo.group(1)
+    return ver
+
+
+application = defines.get(
+    "app", os.path.join("build", "dist-mac", "OTFeatureFreezer.app")
+)
+appname = os.path.basename(application)
+
+
+def icon_from_app(app_path):
+    plist_path = os.path.join(app_path, "Contents", "Info.plist")
+    plist = biplist.readPlist(plist_path)
+    icon_name = plist["CFBundleIconFile"]
+    icon_root, icon_ext = os.path.splitext(icon_name)
+    if not icon_ext:
+        icon_ext = ".icns"
+    icon_name = icon_root + icon_ext
+    return os.path.join(app_path, "Contents", "Resources", icon_name)
+
+
+# .. Basics ....................................................................
+
+# Uncomment to override the output filename
+filename = "../download/OTFeatureFreezer.dmg"
+
+# Uncomment to override the output volume name
+volume_name = "OTFeatureFreezer %s" % (get_version())
+
+# Volume format (see hdiutil create -help)
+format = defines.get("format", "UDBZ")
+
+# Volume size
+size = defines.get("size", None)
+
+# Files to include
+files = [application]
+
+# Symlinks to create
+symlinks = {"Applications": "/Applications"}
+
+# Volume icon
+#
+# You can either define icon, in which case that icon file will be copied to the
+# image, *or* you can define badge_icon, in which case the icon file you specify
+# will be used to badge the system's Removable Disk icon
+#
+# icon = '/path/to/icon.icns'
+badge_icon = icon_from_app(application)
+
+# Where to put the icons
+icon_locations = {appname: (140, 120), "Applications": (500, 120)}
+
+# .. Window configuration ......................................................
+
+# Background
+#
+# This is a STRING containing any of the following:
+#
+#    #3344ff          - web-style RGB color
+#    #34f             - web-style RGB color, short form (#34f == #3344ff)
+#    rgb(1,0,0)       - RGB color, each value is between 0 and 1
+#    hsl(120,1,.5)    - HSL (hue saturation lightness) color
+#    hwb(300,0,0)     - HWB (hue whiteness blackness) color
+#    cmyk(0,1,0,0)    - CMYK color
+#    goldenrod        - X11/SVG named color
+#    builtin-arrow    - A simple built-in background with a blue arrow
+#    /foo/bar/baz.png - The path to an image file
+#
+# The hue component in hsl() and hwb() may include a unit; it defaults to
+# degrees ('deg'), but also supports radians ('rad') and gradians ('grad'
+# or 'gon').
+#
+# Other color components may be expressed either in the range 0 to 1, or
+# as percentages (e.g. 60% is equivalent to 0.6).
+background = "builtin-arrow"
+
+show_status_bar = False
+show_tab_view = False
+show_toolbar = False
+show_pathbar = False
+show_sidebar = False
+sidebar_width = 180
+
+# Window position in ((x, y), (w, h)) format
+window_rect = ((100, 100), (640, 280))
+
+# Select the default view; must be one of
+#
+#    'icon-view'
+#    'list-view'
+#    'column-view'
+#    'coverflow'
+#
+default_view = "icon-view"
+
+# General view configuration
+show_icon_preview = False
+
+# Set these to True to force inclusion of icon/list view settings (otherwise
+# we only include settings for the default view)
+include_icon_view_settings = "auto"
+include_list_view_settings = "auto"
+
+# .. Icon view configuration ...................................................
+
+arrange_by = None
+grid_offset = (0, 0)
+grid_spacing = 100
+scroll_position = (0, 0)
+label_pos = "bottom"  # or 'right'
+text_size = 16
+icon_size = 128
+
+# .. List view configuration ...................................................
+
+# Column names are as follows:
+#
+#   name
+#   date-modified
+#   date-created
+#   date-added
+#   date-last-opened
+#   size
+#   kind
+#   label
+#   version
+#   comments
+#
+list_icon_size = 16
+list_text_size = 12
+list_scroll_position = (0, 0)
+list_sort_by = "name"
+list_use_relative_dates = True
+list_calculate_all_sizes = (False,)
+list_columns = ("name", "date-modified", "size", "kind", "date-added")
+list_column_widths = {
+    "name": 300,
+    "date-modified": 181,
+    "date-created": 181,
+    "date-added": 181,
+    "date-last-opened": 181,
+    "size": 97,
+    "kind": 115,
+    "label": 100,
+    "version": 75,
+    "comments": 300,
+}
+list_column_sort_directions = {
+    "name": "ascending",
+    "date-modified": "descending",
+    "date-created": "descending",
+    "date-added": "descending",
+    "date-last-opened": "descending",
+    "size": "descending",
+    "kind": "ascending",
+    "label": "ascending",
+    "version": "ascending",
+    "comments": "ascending",
+}
+
+# .. License configuration .....................................................
+
+# Text in the license configuration is stored in the resources, which means
+# it gets stored in a legacy Mac encoding according to the language.  dmgbuild
+# will *try* to convert Unicode strings to the appropriate encoding, *but*
+# you should be aware that Python doesn't support all of the necessary encodings;
+# in many cases you will need to encode the text yourself and use byte strings
+# instead here.
+
+# Recognized language names are:
+#
+#  af_ZA, ar, be_BY, bg_BG, bn, bo, br, ca_ES, cs_CZ, cy, da_DK, de_AT, de_CH,
+#  de_DE, dz_BT, el_CY, el_GR, en_AU, en_CA, en_GB, en_IE, en_SG, en_US, eo,
+#  es_419, es_ES, et_EE, fa_IR, fi_FI, fo_FO, fr_001, fr_BE, fr_CA, fr_CH,
+#  fr_FR, ga-Latg_IE, ga_IE, gd, grc, gu_IN, gv, he_IL, hi_IN, hr_HR, hu_HU,
+#  hy_AM, is_IS, it_CH, it_IT, iu_CA, ja_JP, ka_GE, kl, ko_KR, lt_LT, lv_LV,
+#  mk_MK, mr_IN, mt_MT, nb_NO, ne_NP, nl_BE, nl_NL, nn_NO, pa, pl_PL, pt_BR,
+#  pt_PT, ro_RO, ru_RU, se, sk_SK, sl_SI, sr_RS, sv_SE, th_TH, to_TO, tr_TR,
+#  uk_UA, ur_IN, ur_PK, uz_UZ, vi_VN, zh_CN, zh_TW
+
+# license = {
+#     'default-language': 'en_US',
+#     'licenses': {
+#         # For each language, the text of the license.  This can be plain text,
+#         # RTF (in which case it must start "{\rtf1"), or a path to a file
+#         # containing the license text.  If you're using RTF,
+#         # watch out for Python escaping (or read it from a file).
+#         'English': b'''{\\rtf1\\ansi\\ansicpg1252\\cocoartf1504\\cocoasubrtf820
+# {\\fonttbl\\f0\\fnil\\fcharset0 Helvetica-Bold;\\f1\\fnil\\fcharset0 Helvetica;}
+# {\\colortbl;\\red255\\green255\\blue255;\\red0\\green0\\blue0;}
+# {\\*\\expandedcolortbl;;\\cssrgb\\c0\\c0\\c0;}
+# \\paperw11905\\paperh16837\\margl1133\\margr1133\\margb1133\\margt1133
+# \\deftab720
+# \\pard\\pardeftab720\\sa160\\partightenfactor0
+
+# \\f0\\b\\fs60 \\cf2 \\expnd0\\expndtw0\\kerning0
+# \\up0 \\nosupersub \\ulnone \\outl0\\strokewidth0 \\strokec2 Test License\\
+# \\pard\\pardeftab720\\sa160\\partightenfactor0
+
+# \\fs36 \\cf2 \\strokec2 What is this?\\
+# \\pard\\pardeftab720\\sa160\\partightenfactor0
+
+# \\f1\\b0\\fs22 \\cf2 \\strokec2 This is the English license. It says what you are allowed to do with this software.\\
+# \\
+# }''',
+#     },
+#     'buttons': {
+#         # For each language, text for the buttons on the licensing window.
+#         #
+#         # Default buttons and text are built-in for the following languages:
+#         #
+#         #   English (en_US), German (de_DE), Spanish (es_ES), French (fr_FR),
+#         #   Italian (it_IT), Japanese (ja_JP), Dutch (nl_NL), Swedish (sv_SE),
+#         #   Brazilian Portuguese (pt_BR), Simplified Chinese (zh_CN),
+#         #   Traditional Chinese (zh_TW), Danish (da_DK), Finnish (fi_FI),
+#         #   Korean (ko_KR), Norwegian (nb_NO)
+#         #
+#         # You don't need to specify them for those languages; if you fail to
+#         # specify them for some other language, English will be used instead.
+
+#         'en_US': (
+#             b'English',
+#             b'Agree',
+#             b'Disagree',
+#             b'Print',
+#             b'Save',
+#             b'If you agree with the terms of this license, press "Agree" to '
+#             b'install the software.  If you do not agree, press "Disagree".'
+#         ),
+#     },
+# }
+</file>
+
+<file path="src/opentype_feature_freezer/__init__.py">
+import logging
+import os
+from collections.abc import Mapping, MutableMapping
+from types import SimpleNamespace
+from typing import List, Optional, Set
+
+import fontTools.ttLib as ttLib
+
+__version__ = "1.32.2"
+
+
+logger = logging.getLogger(__name__)
+
+
+class RemapByOTL:
+    def __init__(self, options: Namespace):  # Changed SimpleNamespace to Namespace
+        self.inpath: os.PathLike = options.inpath
+        self.outpath: os.PathLike = options.outpath
+        if not self.outpath:
+            self.outpath = os.fspath(self.inpath) + ".featfreeze.otf"
+        self.FeatureIndex = None
+        self.filterByFeatures = None
+        self.filterByLangSys = None
+        self.filterByScript = None
+        self.LookupList = None
+        self.names: list[str] = []
+        self.options: SimpleNamespace = options
+        self.reportFeature: list[str] = []
+        self.reportLangSys: list[str] = []
+        self.subs0: list[str] = []
+        self.subs1: list[str] = []
+        self.substitution_mapping: MutableMapping[str, str] = {}
+        self.success: bool = True
+        self.ttx: ttLib.TTFont | None = None
+        logger.info("[RemapByOTL] Running with options: %s", self.options)
+
+    def openFont(self):
+        self.success = True
+        self._openFontTTX()
+        if not self.ttx:
+            self.success = False
+        if self.success:
+            logger.info(f"[openFont] Opened font: {self.inpath}")
+
+    def _openFontTTX(self):
+        self.success = True
+        if self.inpath:
+            try:
+                self.ttx = ttLib.TTFont(self.inpath, 0, recalcBBoxes=False)
+            except Exception as e:
+                logger.warning("[_openFontTTX] TTX cannot open %s: %s", self.inpath, e)
+                self.success = False
+                self.ttx = None
+
+    def saveFont(self):
+        if self.options.report:
+            self._reportFont()
+        else:
+            if self.options.zapnames:
+                assert self.ttx is not None  # Ensured by successful openFont
+                self.ttx["post"].formatType = 3.0
+            self._saveFontTTX()
+            if self.success:
+                logger.info(f"[saveFont] Saved font: {self.outpath}")
+
+    def _reportFont(self):
+        self.success = True
+        print(
+            "# Scripts and languages:\n%s"
+            % ("\n".join(sorted(list(set(self.reportLangSys)))))
+        )
+        print("# Features:\n-f %s" % (",".join(sorted(list(set(self.reportFeature))))))
+
+    def _saveFontTTX(self):
+        self.success = True
+        outpath = self.outpath
+        try:
+            assert self.ttx is not None  # Ensured by successful openFont
+            self.ttx.save(outpath)
+        except Exception as e:
+            logger.warning(f"[_saveFontTTX] TTX cannot save {outpath}: {e}")
+            self.success = False
+
+    def closeFont(self):
+        self.success = True
+        self._closeFontTTX()
+
+    def _closeFontTTX(self):
+        self.success = True
+        if self.ttx:
+            self.ttx.close()
+
+    def initSubs(self):
+        self.success = True
+        self.subs0 = list(self.ttx.getGlyphOrder())
+        self.subs1 = list(self.ttx.getGlyphOrder())
+
+    def filterFeatureIndex(self):
+        self.success = True
+        assert self.ttx is not None  # Ensured by successful openFont
+        self.filterByScript = self.options.script
+        self.filterByLangSys = self.options.lang
+        if "GSUB" not in self.ttx:
+            logger.warning("No 'GSUB' table found in %s, nothing to do!", self.inpath)
+            self.success = True
+            return
+
+        gsub = self.ttx["GSUB"].table
+        feature_index_set: Set[int] = set()  # More precise type
+        for ScriptRecord in gsub.ScriptList.ScriptRecord:
+            if self.options.report:
+                self.reportLangSys.append(f"-s '{ScriptRecord.ScriptTag}'")
+                for LangSysRecord in ScriptRecord.Script.LangSysRecord:
+                    self.reportLangSys.append(
+                        f"-s '{ScriptRecord.ScriptTag}' -l '{LangSysRecord.LangSysTag}'"
+                    )
+            if (
+                ScriptRecord.ScriptTag == self.filterByScript
+            ) or not self.filterByScript:
+                if self.filterByLangSys:
+                    for LangSysRecord in ScriptRecord.Script.LangSysRecord:
+                        if LangSysRecord.LangSysTag == self.filterByLangSys:
+                            feature_index_set.update(LangSysRecord.LangSys.FeatureIndex)
+                else:
+                    feature_index_set.update(
+                        ScriptRecord.Script.DefaultLangSys.FeatureIndex
+                    )
+            self.FeatureIndex: List[int] = sorted(
+                feature_index_set
+            )  # Keep as List[int]
+        logger.info(f"[filterFeatureIndex] FeatureIndex: {self.FeatureIndex}")
+
+    def filterLookupList(self):
+        self.success = True
+        assert self.ttx is not None  # Ensured by successful openFont
+        self.filterByFeatures = self.options.features.split(",")
+        logger.info("[filterLookupList] Features to apply: %s", self.filterByFeatures)
+        if "GSUB" not in self.ttx:
+            self.success = True
+            return
+
+        gsub = self.ttx["GSUB"].table
+        lookup_list_set: Set[int] = set()  # More precise type
+        if self.options.report:
+            for FeatureRecord in gsub.FeatureList.FeatureRecord:
+                self.reportFeature.append(FeatureRecord.FeatureTag)
+
+        assert (
+            self.FeatureIndex is not None
+        )  # Should be populated by filterFeatureIndex
+        for fi in self.FeatureIndex:
+            if gsub.FeatureList.FeatureRecord[fi].FeatureTag in self.filterByFeatures:
+                lookup_list_set.update(
+                    gsub.FeatureList.FeatureRecord[fi].Feature.LookupListIndex
+                )
+        self.LookupList: List[int] = sorted(lookup_list_set)  # Keep as List[int]
+        logger.info(f"[filterLookupList] Lookups: {self.LookupList}")
+
+    def applySubstitutions(self):
+        self.success = True
+        assert self.ttx is not None  # Ensured by successful openFont
+        if "GSUB" not in self.ttx:
+            self.success = True
+            return
+
+        # Determine which glyphs have any Unicode value attached at all, to warn the
+        # user when trying to freeze glyph substitutions where neither has a Unicode
+        # value and therefore nothing will happen.
+        glyphs_with_unicode_value: set[str] = {
+            glyph_name
+            for cmap_table in self.ttx["cmap"].tables
+            for glyph_name in cmap_table.cmap.values()
+        }
+
+        # Work out the substitutions.
+        gsub = self.ttx["GSUB"].table
+        assert self.LookupList is not None  # Should be populated by filterLookupList
+        for LookupID in self.LookupList:
+            Lookup = gsub.LookupList.Lookup[LookupID]
+            for Subtable in Lookup.SubTable:
+                if Subtable.LookupType not in {1, 3, 7}:
+                    continue  # Can't handle anything else.
+
+                mapping: Mapping[str, str] = {}
+                alternates: Mapping[str, List[str]] = {}  # Type for alternates
+
+                if Subtable.LookupType == 1:
+                    mapping = Subtable.mapping
+                elif Subtable.LookupType == 3:
+                    alternates = Subtable.alternates
+                elif Subtable.LookupType == 7:  # Extension lookup
+                    ExtSubTable = Subtable.ExtSubTable
+                    if ExtSubTable.LookupType == 1:
+                        mapping = ExtSubTable.mapping
+                    elif ExtSubTable.LookupType == 3:
+                        alternates = ExtSubTable.alternates
+
+                for sub_in, sub_out in mapping.items():
+                    for i, current_glyph in enumerate(self.subs1):
+                        if current_glyph == sub_in:
+                            self.subs1[i] = sub_out
+
+                # Always take the first alternate.
+                for sub_in, sub_out_glyph_list in alternates.items():
+                    if sub_out_glyph_list:  # Ensure there is at least one alternate
+                        sub_out_first = sub_out_glyph_list[0]
+                        for i, current_glyph in enumerate(self.subs1):
+                            if current_glyph == sub_in:
+                                self.subs1[i] = sub_out_first
+
+        if len(self.subs0) != len(self.subs1):
+            raise RuntimeError("Internal error: Substitution mapping out of sync.")
+
+        # Zip the above mappings together.
+        for sub_in, sub_out in zip(self.subs0, self.subs1):
+            self.substitution_mapping[sub_in] = sub_out
+            if sub_in != sub_out:
+                if (
+                    sub_in not in glyphs_with_unicode_value
+                    and sub_out not in glyphs_with_unicode_value
+                ):
+                    logger.warning(
+                        f"[applySubstitutions] Cannot remap '{sub_in}' -> '{sub_out}' "
+                        "because neither has a Unicode value assigned in any of the "
+                        "cmap tables."
+                    )
+                    continue
+
+                if self.options.names:
+                    self.names.append(sub_out)
+
+                logger.info("[applySubstitutions] Remap: '%s' -> '%s'", sub_in, sub_out)
+
+    def remapCmaps(self):
+        self.success = True
+        assert self.ttx is not None  # Ensured by successful openFont
+        cmap = self.ttx["cmap"]
+        for cmaptable in cmap.tables:
+            # Mypy needs help understanding cmaptable.cmap is a MutableMapping[int, str]
+            current_cmap: MutableMapping[int, str] = cmaptable.cmap
+            for u_code, glyph_name in list(
+                current_cmap.items()
+            ):  # Iterate over a copy for modification
+                current_cmap[u_code] = self.substitution_mapping.get(
+                    glyph_name, glyph_name
+                )
+
+    def renameFont(self):
+        self.success = True
+        assert self.ttx is not None  # Ensured by successful openFont
+        if not self.options.suffix and not self.options.replacenames:
+            return self.success  # Return True explicitly
+
+        name_table: ttLib.tables._n_a_m_e.table__n_a_m_e = self.ttx["name"]
+
+        # First, determine the canonical family name. Assume that the font is storing
+        # its primary name records for the Windows platform with the Unicode BMP
+        # encoding. Take it from the first language we find. Disregard the WWS Family
+        # Name, as it is little used. Assume that the family name is the same for all
+        # languages.
+        name_record_16 = name_table.getName(16, 3, 1)
+        name_record_1 = name_table.getName(1, 3, 1)
+        primary_name_record = name_record_16 if name_record_16 else name_record_1
+
+        if not primary_name_record:
+            # Fallback or error if no primary name record is found
+            logger.error("Could not determine primary family name from name table.")
+            # Attempt to use the first available family name or a default
+            family_name = "UnknownFamily"
+            for record in name_table.names:
+                if record.nameID == 1:  # NameID 1: Family Name
+                    family_name = record.toStr()
+                    break
+        else:
+            family_name = primary_name_record.toStr()
+
+        family_name_old = family_name
+        family_name_no_space = family_name.replace(" ", "")
+        family_name_no_space_old = family_name_no_space
+
+        # Mutate the family name, e.g. for fulfilling the OFL Reserved Font
+        # Name(s) clause.
+        if self.options.replacenames:
+            # Ensure replacenames is a string before splitting
+            replace_items_str = self.options.replacenames or ""
+            for item in replace_items_str.split(","):
+                if not item:
+                    continue
+                parts = item.split("/", 1)  # Ensure splitting only once
+                if len(parts) == 2:
+                    search, replace = parts
+                    family_name = family_name.replace(search, replace)
+                else:
+                    logger.warning(
+                        f"Invalid format in replacenames: '{item}'. "
+                        "Expected 'search/replace'."
+                    )
+
+        # A suffix to appended to a family name. Use the provided one, otherwise
+        # generate it from the selected features.
+        suffix_str = ""
+        if self.options.usesuffix:
+            suffix_str = f" {self.options.usesuffix}"
+        elif self.options.suffix:
+            # filterByFeatures should be List[str] as per earlier logic,
+            # ensure it's not None
+            features_for_suffix = self.filterByFeatures or []
+            if features_for_suffix:
+                # Sort features for consistent suffix generation
+                suffix_str = " " + " ".join(sorted(features_for_suffix)) # Added space
+
+        family_name_new = f"{family_name}{suffix_str}"
+        family_name_new_no_space = family_name_new.replace(" ", "")
+
+        for record in name_table.names:
+            record_str = record.toStr()  # Cache to avoid multiple calls
+            if record.nameID in {
+                1,
+                4,
+                16,
+                18,
+                21,
+            }:  # Family, Full, WWS Family, WWS Subfamily, Light Background Palette
+                record.string = record_str.replace(family_name_old, family_name_new)
+            elif record.nameID == 3:  # Unique ID
+                record.string = f"{record_str};featfreeze:{self.options.features}"
+            elif record.nameID == 5 and self.options.info:  # Version string
+                record.string = f"{record_str}; featfreeze: {self.options.features}"
+            elif record.nameID in {
+                6,
+                20,
+            }:  # PostScript name, PostScript CID findfont name
+                record.string = record_str.replace(
+                    family_name_no_space_old, family_name_new_no_space
+                )
+
+        # Re-fetch potentially changed names for CFF table
+        full_name_new_obj = name_table.getName(4, 3, 1)
+        postscript_name_new_obj = name_table.getName(6, 3, 1)
+
+        full_name_new = (
+            full_name_new_obj.toStr() if full_name_new_obj else family_name_new
+        )
+        postscript_name_new = (
+            postscript_name_new_obj.toStr()
+            if postscript_name_new_obj
+            else family_name_new_no_space
+        )
+
+        if "CFF " in self.ttx:
+            cff_table = self.ttx["CFF "].cff  # Corrected to cff_table
+            if len(cff_table.fontNames) > 1:
+                logger.warning(
+                    "Font has multiple CFF font entries. Renaming only the first one."
+                )
+
+            top_dict = cff[0].rawDict
+            top_dict["FamilyName"] = family_name_new.encode("utf-8")
+            top_dict["FullName"] = full_name_new.encode("utf-8")
+            cff.fontNames[0] = postscript_name_new.encode("utf-8")
+
+        logger.info("[renameFont] New family name: '%s'", family_name_new)
+        logger.info("[renameFont] New full name: '%s'", full_name_new)
+        logger.info("[renameFont] New PostScript name: '%s'", postscript_name_new)
+
+        return self.success
+
+    def remapByOTL(self):
+        # No specific changes needed here, logic is sequential calls.
+        # self.success is checked by each called method.
+        self.success = True  # Start with success
+        self.initSubs()
+        if not self.success:
+            return
+
+        self.filterFeatureIndex()
+        if not self.success:
+            return
+
+        self.filterLookupList()
+        if not self.success:
+            return
+
+        self.applySubstitutions()
+        if not self.success:
+            return
+
+        self.remapCmaps()
+        if not self.success:
+            return
+
+        if self.options.names:  # This check can remain as is
+            # Ensure self.names is not None if used, though it's initialized as []
+            print(" ".join(self.names or []))
+
+    def run(self):
+        # Logic is sequential, driven by self.success flag.
+        # This structure is clear and fine.
+        self.openFont()
+        if not self.success:
+            logger.error("Failed to open font. Aborting.")
+            return
+
+        self.remapByOTL()
+        if not self.success:
+            logger.error("Failed during OpenType Layout remapping. Aborting.")
+            return
+
+        self.renameFont()
+        if not self.success:
+            logger.error("Failed during font renaming. Aborting.")
+            return
+
+        self.saveFont()
+        if not self.success:
+            logger.error("Failed to save font.")
+            # self.closeFont() will still be called after this block
+
+        self.closeFont()  # Ideally in a finally block
+</file>
+
+<file path="src/opentype_feature_freezer/cli.py">
+import logging
+import os
+import sys
+from argparse import ArgumentParser
+from collections.abc import Callable
+
+import opentype_feature_freezer
+
+
+def parseOptions(args: Optional[Sequence[str]] = None) -> Namespace:
+    parser = ArgumentParser(
+        description=(
+            'With %(prog)s you can "freeze" some OpenType features into a font. '
+            'These features are then "on by default", even in apps that don\'t '
+            'support OpenType features. Internally, the tool remaps the "cmap" '
+            "table of the font by applying the specified GSUB features. Only "
+            "single and alternate substitutions are supported."
+        ),
+        epilog=(
+            "Examples: "
+            "%(prog)s -f 'c2sc,smcp' -S -U SC OpenSans.ttf OpenSansSC.ttf "
+            "%(prog)s -R 'Lato/Otal' Lato-Regular.ttf Otal-Regular.ttf"
+        ),
+    )
+
+    parser.add_argument("inpath", help="input .otf or .ttf font file")
+    parser.add_argument(
+        "outpath",
+        nargs="?",
+        default=None,
+        help="output .otf or .ttf font file (optional)",
+    )
+
+    group_freezing = parser.add_argument_group("options to control feature freezing")
+    group_freezing.add_argument(
+        "-f",
+        "--features",
+        action="store",
+        dest="features",
+        type=str,
+        default="",
+        help="comma-separated list of OpenType feature tags, e.g. 'smcp,c2sc,onum'",
+    )
+    group_freezing.add_argument(
+        "-s",
+        "--script",
+        action="store",
+        dest="script",
+        type=str,
+        default=None,
+        help="OpenType script tag, e.g. 'cyrl' (optional)",
+    )
+    group_freezing.add_argument(
+        "-l",
+        "--lang",
+        action="store",
+        dest="lang",
+        type=str,
+        default=None,
+        help="OpenType language tag, e.g. 'SRB ' (optional)",
+    )
+    group_freezing.add_argument(
+        "-z",
+        "--zapnames",
+        action="store_true",
+        dest="zapnames",
+        help="zap glyphnames from the font ('post' table version 3, .ttf only)",
+    )
+
+    group_renaming = parser.add_argument_group("options to control font renaming")
+    group_renaming.add_argument(
+        "-S",
+        "--suffix",
+        action="store_true",
+        dest="suffix",
+        help=(
+            "add a suffix to the font family name (by default, the suffix will be "
+            "constructed from the OpenType feature tags)"
+        ),
+    )
+    group_renaming.add_argument(
+        "-U",
+        "--usesuffix",
+        action="store",
+        dest="usesuffix",
+        default="",
+        help="use a custom suffix when --suffix is enabled",
+    )
+    group_renaming.add_argument(
+        "-R",
+        "--replacenames",
+        action="store",
+        dest="replacenames",
+        default="",
+        help=(
+            "search for strings in the font naming tables and replace them, format is "
+            "'search1/replace1,search2/replace2,...'"
+        ),
+    )
+    group_renaming.add_argument(
+        "-i",
+        "--info",
+        action="store_true",
+        dest="info",
+        help="update font version string",
+    )
+
+    group_reporting = parser.add_argument_group("reporting options")
+    group_reporting.add_argument(
+        "-r",
+        "--report",
+        action="store_true",
+        dest="report",
+        help="report languages, scripts and features in font",
+    )
+    group_reporting.add_argument(
+        "-n",
+        "--names",
+        action="store_true",
+        dest="names",
+        help="output names of remapped glyphs during processing",
+    )
+    group_reporting.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        dest="verbose",
+        help="print additional information during processing",
+    )
+    group_reporting.add_argument(
+        "-V",
+        "--version",
+        action="version",
+        version=opentype_feature_freezer.__version__,
+    )
+
+    return parser.parse_args(args)
+
+
+def main(
+    args: list[str] | None = None,
+    parser: Callable[[list], ArgumentParser] | None = None,
+) -> int:
+    logging.basicConfig(format="%(levelname)s: %(message)s")
+
+    current_parser_func = parser_func if parser_func else parseOptions
+    # args_parsed will be of type Namespace (or the return type of current_parser_func)
+    args_parsed: Namespace = current_parser_func(args)
+
+    if not Path(args_parsed.inpath).exists():
+        logging.error("Input file does not exist.")
+        return 1
+
+    if args_parsed.verbose:
+        logging.getLogger().setLevel(logging.INFO)
+
+    # argparse.Namespace is structurally compatible with types.SimpleNamespace.
+    # RemapByOTL expects argparse.Namespace (updated in __init__.py).
+    # A more robust solution might involve a Protocol.
+    p = opentype_feature_freezer.RemapByOTL(args_parsed)
+    try:
+        p.run()
+    except RuntimeError as e:
+        logging.error(e)
+        return 1
+    if p.success:
+        logging.info("Finished processing.")
+        return 0
+
+    logging.warning("Errors during processing.")
+    return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+</file>
+
+<file path="pyproject.toml">
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "opentype-feature-freezer"
+version = "1.32.2" # Will be replaced by hatch-vcs later
+description = "Turns OpenType features 'on' by default in a font: reassigns the font's Unicode-to-glyph mapping fo permanently 'freeze' the 1-to-1 substitution features, and creates a new font."
+readme = "README.md"
+requires-python = ">=3.8" # Modernizing to Python 3.8+
+license = "Apache-2.0"
+authors = [
+    { name = "Adam Twardoch", email = "adam@twardoch.com" },
+    { name = "Nikolaus Waxweiler", email = "nikolaus.waxweiler@daltonmaag.com" },
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing :: Fonts",
+]
+
+dependencies = [
+    "fonttools>=4.0",
+]
+
+[project.scripts]
+pyftfeatfreeze = "opentype_feature_freezer.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/twardoch/fonttools-opentype-feature-freezer"
+Documentation = "https://github.com/twardoch/fonttools-opentype-feature-freezer#documentation"
+Repository = "https://github.com/twardoch/fonttools-opentype-feature-freezer"
+Issues = "https://github.com/twardoch/fonttools-opentype-feature-freezer/issues"
+
+[tool.hatch.version]
+# This section will be used for hatch-vcs later
+path = "src/opentype_feature_freezer/__init__.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "pytest",
+  "pytest-cov",
+  "ruff",
+  "mypy", # Added mypy
+  "pytest-mypy", # Added pytest-mypy for running mypy via pytest if desired
+]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/opentype_feature_freezer --cov=tests {args}"
+lint = "ruff check src tests"
+format = "ruff format src tests"
+typecheck = "mypy src tests" # Added mypy script
+# Add other scripts as needed
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "A", "C4", "ARG", "SIM", "PTH", "TCH"] # Common useful rules
+ignore = []
+# Add isort configuration if needed, e.g.
+# known-first-party = ["opentype_feature_freezer"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.coverage.run]
+source = ["opentype_feature_freezer"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",  # Fixed escape sequence
+    "@(abc\\.)?abstractmethod", # Fixed escape sequence
+]
+</file>
+
+<file path="app/OTFeatureFreezer.py">
+#!/usr/bin/env python3
+
+import sys
+
+import opentype_feature_freezer
+from opentype_feature_freezer.cli import main
+
+from ezgooey.ez import *
+
+version = opentype_feature_freezer.__version__
+
+GUI_NAME = "OTFeatureFreezer %s" % (version)
+DESCRIPTION = "Freeze some OpenType features into a font, see Help › %s Help." % (
+    GUI_NAME
+)
+
+
+@ezgooey(
+    advanced=True,
+    auto_start=False,
+    default_size=(800, 600),
+    disable_progress_bar_animation=False,
+    disable_stop_button=False,
+    group_by_type=True,
+    header_show_title=True,
+    header_height=80,
+    hide_progress_msg=False,
+    optional_cols=2,
+    program_description=DESCRIPTION,
+    program_name=GUI_NAME,
+    progress_expr=None,
+    progress_regex=None,
+    required_cols=1,
+    richtext_controls=True,
+    show_failure_modal=True,
+    show_success_modal=False,
+    suppress_gooey_flag=True,
+    tabbed_groups=False,
+    target=None,
+    use_legacy_titles=True,
+    menu=[
+        {
+            "name": "Help",
+            "items": [
+                {
+                    "type": "AboutDialog",
+                    "menuTitle": "About",
+                    "name": GUI_NAME,
+                    "description": "Click the link for more info",
+                    "website": "https://twardoch.github.io/fonttools-opentype-feature-freezer/",
+                    "license": "Apache 2",
+                },
+                {
+                    "type": "Link",
+                    "menuTitle": "%s Help" % (GUI_NAME),
+                    "url": "https://twardoch.github.io/fonttools-opentype-feature-freezer/",
+                },
+            ],
+        }
+    ],
+)
+def parseGuiOptions(args=None):
+    parser = ArgumentParser(
+        description=(
+            'With %(prog)s you can "freeze" some OpenType features into a font. '
+            'These features are then "on by default", even in apps that don\'t '
+            'support OpenType features. Internally, the tool remaps the "cmap" '
+            "table of the font by applying the specified GSUB features. Only "
+            "single and alternate substitutions are supported."
+        ),
+        epilog=(
+            "Examples: "
+            "%(prog)s -f 'c2sc,smcp' -S -U SC OpenSans.ttf OpenSansSC.ttf "
+            "%(prog)s -R 'Lato/Otal' Lato-Regular.ttf Otal-Regular.ttf"
+        ),
+    )
+
+    parser.add_argument(
+        "inpath",
+        help="input .otf or .ttf font file",
+        widget="FileChooser",
+    )
+    parser.add_argument(
+        "-o",
+        "--outpath",
+        nargs="?",
+        default=None,
+        help="output .otf or .ttf font file (optional)",
+        widget="FileSaver",
+    )
+
+    group_freezing = parser.add_argument_group("options to control feature freezing")
+    group_freezing.add_argument(
+        "-f",
+        "--features",
+        action="store",
+        dest="features",
+        type=str,
+        default="",
+        help="comma-separated list of OpenType feature tags, e.g. 'smcp,c2sc,onum'",
+    )
+    group_freezing.add_argument(
+        "-s",
+        "--script",
+        action="store",
+        dest="script",
+        type=str,
+        default=None,
+        help="OpenType script tag, e.g. 'cyrl' (optional)",
+    )
+    group_freezing.add_argument(
+        "-l",
+        "--lang",
+        action="store",
+        dest="lang",
+        type=str,
+        default=None,
+        help="OpenType language tag, e.g. 'SRB ' (optional)",
+    )
+    group_freezing.add_argument(
+        "-z",
+        "--zapnames",
+        action="store_true",
+        dest="zapnames",
+        help="zap glyphnames from the font ('post' table version 3, .ttf only)",
+    )
+
+    group_renaming = parser.add_argument_group("options to control font renaming")
+    group_renaming.add_argument(
+        "-S",
+        "--suffix",
+        action="store_true",
+        dest="suffix",
+        help="add a suffix to the font family name (by default, the suffix will be constructed from the OpenType "
+        "feature tags)",
+    )
+    group_renaming.add_argument(
+        "-U",
+        "--usesuffix",
+        action="store",
+        dest="usesuffix",
+        default="",
+        help="use a custom suffix when suffix is enabled",
+    )
+    group_renaming.add_argument(
+        "-R",
+        "--replacenames",
+        action="store",
+        dest="replacenames",
+        default="",
+        help="search for strings in the font naming tables and replace them, format is 'search1/replace1,"
+        "search2/replace2,...'",
+    )
+    group_renaming.add_argument(
+        "-i",
+        "--info",
+        action="store_true",
+        dest="info",
+        help="update font version string",
+    )
+
+    group_reporting = parser.add_argument_group("reporting options")
+    group_reporting.add_argument(
+        "-r",
+        "--report",
+        action="store_true",
+        dest="report",
+        help="report languages, scripts and features in font",
+    )
+    group_reporting.add_argument(
+        "-n",
+        "--names",
+        action="store_const",
+        const=True,
+        default=True,
+        dest="names",
+        help="output names of remapped glyphs during processing",
+    )
+    group_reporting.add_argument(
+        "-v",
+        "--verbose",
+        action="store_const",
+        const=True,
+        default=True,
+        dest="verbose",
+        help="print additional information during processing",
+    )
+
+    return parser.parse_args(args)
+
+
+if __name__ == "__main__":
+    sys.exit(main(parser=parseGuiOptions))
+</file>
+
+<file path="app/macdeploy">
+#!/usr/bin/env bash
+dir=${0%/*}
+if [ "$dir" = "$0" ]; then dir="."; fi
+cd "$dir" || exit
+
+export WINEDEBUG="fixme-all,err-all"
+PYEXE="$HOME/.wine/drive_c/windows/py.exe"
+ISSEXE="$HOME/.wine/drive_c/Program Files (x86)/Inno Setup 6/ISCC.exe"
+PYMAC="python3"
+PYWIN="wine py"
+VER=$(
+  perl -lne \
+    "print \$1 if /^__version__ = ['\"]([^'\"]*)['\"]/" \
+    "../src/opentype_feature_freezer/__init__.py"
+)
+
+function pp() {
+  echo
+  echo -e "[dist] $1"
+  echo
+}
+
+function pins() {
+  pp "Installing $1..."
+}
+
+function pup() {
+  pp "Updating $1..."
+}
+
+function pok() {
+  echo
+  echo -e "\e[92m[dist] $1"
+  echo
+}
+
+function perr() {
+  echo
+  echo -e "\e[91m[dist][ERROR] $1"
+  echo
+  exit
+}
+
+function pwarn() {
+  echo
+  echo -e "\e[91m[dist][WARNING] $1"
+  echo
+}
+
+function insbrew() {
+  if [ ! -x "$(command -v brew)" ]; then
+    pins "brew"
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
+}
+
+function pkgbrew() {
+  # Install package if not installed
+  # $ pkgbrew go
+  if [ -z "$1" ]; then return; else local pkg=$@; fi
+  insbrew
+  if [ -x "$(touch $(brew --prefix)/var/testX6mg87lk)" ]; then
+    pwarn "$(brew) needs to fix permissions, enter your administrator password:"
+    sudo chown -R $(whoami) $(brew --prefix)/*
+    sudo chown $(whoami) $(brew --prefix)/*
+    brew list -1 | while read pkg; do
+      brew unlink "$pkg"
+      brew link "$pkg"
+    done
+  else
+    rm "$(brew --prefix)/var/testX6mg87lk"
+  fi
+  if [ "$1" == "cask" ]; then
+    local brewins="brew cask install"
+    local brewupg="brew upgrade --cask"
+    local brewlist="brew list --cask"
+    local pkg=${@:2}
+  else
+    local brewins="brew install"
+    local brewupg="brew upgrade"
+    local brewlist="brew list"
+  fi
+  if $brewlist --versions "$pkg" >/dev/null; then
+    pup "$brewupg:$pkg"
+    HOMEBREW_NO_AUTO_UPDATE=1 $brewupg "$pkg"
+  else
+    pins "$brewins:$pkg"
+    HOMEBREW_NO_AUTO_UPDATE=1 $brewins "$pkg"
+  fi
+}
+
+function brewapp() {
+  # $ brewapp package # if command=package
+  # $ brewapp command package # if command!=package
+  if [ -z "$1" ]; then return; else local cmd="$1"; fi
+  if [ -z "$2" ]; then local pkg="$cmd"; else local pkg=${@:2}; fi
+  pkgbrew $pkg && return 1
+}
+
+function getapp() {
+  if [ -z "$1" ]; then
+    return 2
+  else
+    command -v "$1" && return 0
+  fi
+}
+
+function preppy() {
+  pins "Python Mac packages"
+  $PYMAC -m pip install --user --upgrade setuptools wheel pip
+  $PYMAC -m pip install --user --upgrade ..
+  $PYMAC -m pip install --user --upgrade poetry
+  $PYMAC -m pip install --user --upgrade pyinstaller
+  $PYMAC -m pip install --user --upgrade dmgbuild
+  pins "Python Win packages"
+  $PYWIN -m pip install --user --upgrade setuptools wheel pip
+  $PYWIN -m pip install --user --upgrade ..
+  $PYWIN -m pip install --user --upgrade poetry
+  $PYWIN -m pip install --user --upgrade pyinstaller
+}
+
+function prep() {
+  brewapp wine cask wine-staging
+  if [ ! -f "$PYEXE" ]; then
+    pins "wine py"
+    curl -L -o "$TMPDIR/python.exe" https://www.python.org/ftp/python/3.8.5/python-3.8.5-amd64.exe &&
+      wine "$TMPDIR/python.exe" /quiet &&
+      rm "$TMPDIR/python.exe"
+  fi
+  if [ ! -f "$ISSEXE" ]; then
+    pins "wine iss"
+    curl -L -o "$TMPDIR/iss.exe" https://jrsoftware.org/download.php/is.exe &&
+      wine "$TMPDIR/iss.exe" /VERYSILENT &&
+      rm "$TMPDIR/iss.exe"
+  fi
+  brewapp upx
+  brewapp grealpath coreutils
+  brewapp python3 python
+  preppy
+}
+
+function install() {
+  pp "## Installing"
+  $PYMAC -m pip install --user --upgrade ..
+}
+
+function buildmacdmg() {
+  pp "## Building Mac DMG"
+  dmgbuild -s "dmgbuild_settings.py" "" ""
+}
+
+function buildmac() {
+  pp "## Building Mac APP"
+  $PYMAC -m PyInstaller \
+    --distpath="$cwd/build/dist-mac" \
+    --workpath="$cwd/build" \
+    -y "pyinstaller-mac.spec"
+  buildmacdmg
+  #rm -rf "$cwd/build/dist-mac"
+}
+
+function buildwiniss() {
+  pp "## Building Win EXE installer"
+  wine "$ISSEXE" /dMyAppVersion="$VER" featfreeze.iss /Q
+}
+
+function buildwinzip() {
+  pp "## Building Win ZIP"
+  rm -rf "../download/OTFeatureFreezer.zip" && zip -j \
+    "../download/OTFeatureFreezer.zip" \
+    "build/dist-win/setup_featfreeze_$VER.exe"
+}
+
+function buildwin() {
+  pp "## Building Win EXE"
+  $PYWIN -m pip install --user --upgrade .
+  $PYWIN -m PyInstaller \
+    --distpath="$cwd/build/dist-win" \
+    --workpath="$cwd/build" \
+    -y "pyinstaller-win.spec"
+  buildwiniss
+  buildwinzip
+}
+
+function buildpy() {
+  pp "## Building wheel"
+  cd ..
+  poetry build
+  cd "$dir"
+}
+
+function build() {
+  echo "## Committing to git"
+  git add --all
+  git commit -am "Building: v$VER"
+  mkdir -p "../download"
+  buildpy
+  buildmac
+  buildwin
+  echo "## Committing to git"
+  git add --all
+  git commit -am "Built: v$VER"
+}
+
+function publish() {
+  echo "## Pushing to Github"
+  git add --all
+  git commit -am "Published: v$VER"
+  git pull
+  git push
+  cd ..
+  poetry publish
+  cd "$dir"
+}
+
+function init() {
+  upx=$(getapp upx) || prep
+  grealpath=$(getapp grealpath) || prep
+  python3=$(getapp "$PYMAC") || prep
+  cwd=$("$grealpath" "$dir")
+}
+
+function clean() {
+  echo rm -rf "$cwd/../build/*"
+  echo rm -rf "$cwd/../dist/*"
+  echo rm -rf "$cwd/../app/build/*"
+}
+
+function usage() {
+  echo "Usage: $0 command. Commands:"
+  echo "prep: install prerequisites for building on macOS"
+  echo "install: install the Python package"
+  echo "buildmac: build the Mac distributable"
+  echo "buildwin: build the Win distributable (uses Wine on macOS)"
+  echo "build: build the Mac and Win distributables"
+  echo "publish: publish a release (for maintainers only)"
+  echo "all: prep, install, build"
+}
+
+function all() {
+  prep
+  install
+  clean
+  build
+}
+
+function main() {
+  init
+  if [ $# -eq 0 ]; then
+    usage
+    exit $?
+  fi
+
+  case $1 in
+  help)
+    usage
+    exit $?
+    ;;
+  init) init ;;
+  prep) prep ;;
+  clean) clean ;;
+  preppy) preppy ;;
+  install) install ;;
+  build) build ;;
+  buildpy) buildpy ;;
+  buildmacdmg) buildmacdmg ;;
+  buildmac) buildmac ;;
+  buildwiniss) buildwiniss ;;
+  buildwinzip) buildwinzip ;;
+  buildwin) buildwin ;;
+  publish) publish $@ ;;
+  all) all $@ ;;
+  esac
+}
+
+main $@
+</file>
+
+<file path="README.md">
+# OpenType Feature Freezer
+
+With **[OpenType Feature Freezer](https://twardoch.github.io/fonttools-opentype-feature-freezer/)**, you can “freeze” some OpenType features into a font.
+
+These features are then “on by default”, so characters previously accessible through OpenType features only (such as smallcaps, oldstyle numerals or localized forms) will now be accessible even in apps that don’t support OpenType features, such as LibreOffice, OpenOffice, or in apps that don’t support a particular feature, such as Microsoft Office in case of smallcaps.
+
+_Note: This tool actually remaps the `cmap` table of the font by applying the specified `GSUB` features. It will not work for substitutions where neither glyph has any `cmap` entries. Only single and alternate substitutions are supported._
+
+This tool comes in two versions: **OTFeatureFreezer**: a simple GUI (graphical) app for macOS and Windows that you can download and run without any special perparations, and **pyftfeatfreeze**: a CLI (command-line) app that required Python 3.6 or newer to be installed on your computer.
+
+Current version: **[1.32](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#changelog)**
+
+- [Download and install](https://twardoch.github.io/fonttools-opentype-feature-freezer/)
+- [Documentation](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#documentation)
+- [Source code](https://github.com/twardoch/fonttools-opentype-feature-freezer/)
+- [Issues](https://github.com/twardoch/fonttools-opentype-feature-freezer/issues) for problem reporting
+
+# Installation
+
+## Install the OTFeatureFreezer GUI app for macOS
+
+### <a class="github-button btn btn-primary" href="https://github.com/twardoch/fonttools-opentype-feature-freezer/raw/master/download/OTFeatureFreezer.dmg" data-color-scheme="no-preference: dark; light: dark; dark: dark;" data-icon="octicon-download" data-size="large" aria-label="Download DMG for macOS">Download DMG for macOS</a>
+
+1. On **macOS**, click the **Download** link above.
+2. **Ctrl+click** the downloaded DMG, choose **Open**, then **Open** again.
+3. Drag the _OTFeatureFreezer.app_ icon to your **/Applications** folder.
+4. When you **run the app for the first time**, **Ctrl+click** the _OTFeatureFreezer.app_, choose **Open**, then click **Open**.
+5. Later, you can just double-click the icon to run the app. If the app does not run, double-click again.
+6. See the [Documentation](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#documentation) for info about how to use the GUI app. The GUI corresponds to the command-line options.
+
+## Install the OTFeatureFreezer GUI app for Windows (64-bit)
+
+### <a class="github-button btn btn-primary" href="https://github.com/twardoch/fonttools-opentype-feature-freezer/raw/master/download/OTFeatureFreezer.zip" data-color-scheme="no-preference: dark; light: dark; dark: dark;" data-icon="octicon-download" data-size="large" aria-label="Download ZIP for Windows">Download ZIP for Windows</a>
+
+1. You need a **64-bit** version of **Windows**, 7 or newer. 32-bit Windows is not supported.
+2. Click the **Download** link above.
+3. Unzip the downloaded ZIP.
+4. Double-click the _setup_featfreeze.exe_ icon to install the app.
+5. Run _OTFeatureFreezer_ from your Start menu.
+6. See the [Documentation](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/README.md#documentation) for info about how to use the GUI app. The GUI corresponds to the command-line options.
+
+## Install the pyftfeatfreeze CLI app
+
+This tool requires Python 3.6 or above to be installed first. Get it from https://www.python.org or your package manager.
+
+### Recommended
+
+We recommend using [pipx](https://pypi.org/project/pipx/) to install Python command line tools. Pipx tucks them away neatly on your computer and gives you an easy way to add, update and remove Python tools on all platforms, without leaving a mess in your Python installation.
+
+```
+pipx install opentype-feature-freezer
+```
+
+### Other methods
+
+Install it with `pip`, as any other Python package.
+
+```
+# This is best done inside a virtual environment, so you don't pollute
+# your Python installation and need no special privileges to install anything.
+
+pip install --upgrade opentype-feature-freezer
+```
+
+If this does not work, try:
+
+```
+python3 -m pip install --user --upgrade opentype-feature-freezer
+```
+
+### Development version
+
+```
+pip install --upgrade git+https://github.com/twardoch/fonttools-opentype-feature-freezer
+```
+
+If this does not work, use:
+
+```
+python3 -m pip install --user --upgrade git+https://github.com/twardoch/fonttools-opentype-feature-freezer
+```
+
+- You may need to do `pip install --upgrade configparser` before installing
+
+# Documentation
+
+## Examples
+
+Let’s say you have the font *CharisSIL-R.ttf* (with the menu name “Charis SIL”), and this font includes true smallcaps accessible via the OpenType Layout features `c2sc` (for uppercase) and `smcp` (for lowercase). Let’s say that you’d like to make a second font where the **true smallcaps** are available by default. Just run:
+
+```
+pyftfeatfreeze -f 'c2sc,smcp' -S -U SC -R 'Charis SIL/Charix,CharisSIL/Charix' CharisSIL-R.ttf CharixSC-R.ttf
+```
+
+You’ll get a new font *CharisSIL-R.ttf* (with the menu name “Charix SC”). This font will have smallcaps instead of the lowercase and uppercase letters, available in all apps.
+
+Since the “Charis SIL” font is licensed under the OFL, and uses the Reserved Font Names “Charis” and “SIL”, I’ve specified the `-R` option to replace the name strings `Charis SIL` and `CharisSIL` with `Charix`. This way, the modified font is compliant with the OFL and I can distribute it.
+
+The following example remaps the font so that the **Bulgarian localized forms** are available by default in all apps (the suffix “BG” will be added to the menu name):
+
+```
+pyftfeatfreeze -f 'locl' -s 'cyrl' -l 'BGR ' -S -U BG SomeFont.ttf SomeFontBG.ttf
+```
+
+*Note: To remap features from multiple scripts or languagesystems, run the tool multiple times (taking the previous run’s output as input). Use the `-S` option only on the final run.*
+
+The following replaces the string `Lato` by `Otal` in all internal font names (in the `name` and `CFF ` tables), without doing any “feature freezing”. This can be used to quickly change some internal font names:
+
+```
+pyftfeatfreeze -R 'Lato/Otal' Lato-Regular.ttf Otal-Regular.ttf
+```
+
+
+## Command-line syntax
+
+```
+usage: pyftfeatfreeze [-h] [-f FEATURES] [-s SCRIPT] [-l LANG] [-z] [-S]
+                      [-U USESUFFIX] [-R REPLACENAMES] [-i] [-r] [-n] [-v]
+                      [-V]
+                      inpath [outpath]
+
+With pyftfeatfreeze you can "freeze" some OpenType features into a font. These
+features are then "on by default", even in apps that don't support OpenType
+features. Internally, the tool remaps the "cmap" table of the font by applying
+the specified GSUB features. Only single and alternate substitutions are
+supported.
+
+positional arguments:
+  inpath                input .otf or .ttf font file
+  outpath               output .otf or .ttf font file (optional)
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+options to control feature freezing:
+  -f FEATURES, --features FEATURES
+                        comma-separated list of OpenType feature tags, e.g.
+                        'smcp,c2sc,onum'
+  -s SCRIPT, --script SCRIPT
+                        OpenType script tag, e.g. 'cyrl' (default: 'latn')
+  -l LANG, --lang LANG  OpenType language tag, e.g. 'SRB ' (optional)
+  -z, --zapnames        zap glyphnames from the font ('post' table version 3,
+                        .ttf only)
+
+options to control font renaming:
+  -S, --suffix          add a suffix to the font family name (by default, the
+                        suffix will be constructed from the OpenType feature
+                        tags)
+  -U USESUFFIX, --usesuffix USESUFFIX
+                        use a custom suffix when --suffix is provided
+  -R REPLACENAMES, --replacenames REPLACENAMES
+                        search for strings in the font naming tables and
+                        replace them, format is
+                        'search1/replace1,search2/replace2,...'
+  -i, --info            update font version string
+
+reporting options:
+  -r, --report          report languages, scripts and features in font
+  -n, --names           output names of remapped glyphs during processing
+  -v, --verbose         print additional information during processing
+  -V, --version         show program's version number and exit
+
+Examples: pyftfeatfreeze -f 'c2sc,smcp' -S -U SC OpenSans.ttf OpenSansSC.ttf
+pyftfeatfreeze -R 'Lato/Otal' Lato-Regular.ttf Otal-Regular.ttf
+```
+
+*Tip: the `-n` option outputs a space-separated list of “frozen” glyphs. If you redirect it to a file, you can use this list as input for `pyftsubset` to create a small font that only includes the “frozen” glyphs.*
+
+## Other
+
+### Problem reporting
+
+To report a problem, open an **[issue](https://github.com/twardoch/fonttools-opentype-feature-freezer/issues)**. You need a Github account.
+
+### Software license and disclaimer
+
+This tool is licensed “as is” under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). By using the tool, you accept all conditions of the license, including Disclaimer of Warranty and Limitation of Liability. **If you use this tool, please consult if your font’s EULA allows modifications. If the font is licensed under the OFL and uses the Reserved Font Name, please use the `-R` option to change the Reserved Font Name to something else.**
+
+
+### Requirements
+
+This tool is written for Python 3.6+, and uses [fontTools/TTX](https://github.com/fonttools/fonttools/).
+
+
+### Changelog
+
+- **1.32**: Changes the `-s` (script) option so that if it’s not provided, the remapping is in all scripts.
+- **1.31**: Changes the `-S` (suffix) option so that if it’s not provided, no sufix is added, and added the GUI apps.
+- Previously, this tool was published as a sub-tool in a [fonttools-utils](https://github.com/twardoch/fonttools-utils/tree/master/pyftfeatfreeze) repo
+- The other tools of the `fonttools-utils` repo are now at [fonttools-ttxjson](https://github.com/twardoch/fonttools-ttxjson) and [mac-os-x-system-font-replacer](https://github.com/twardoch/mac-os-x-system-font-replacer)
+
+### Building
+
+#### Python
+
+To build the Python package, install [Poetry](https://python-poetry.org/):
+
+```
+pip install poetry
+```
+
+or
+
+```
+python3 -m install --user --upgrade poetry
+```
+
+then in the main folder of the project run:
+
+```
+poetry build
+```
+
+#### DMG & EXE
+
+To build the DMG & EXE, you need macOS. In the [app](https://github.com/twardoch/fonttools-opentype-feature-freezer/tree/master/app) subfolder, run `./macdeploy all`
+
+### Credits
+
+* Code by [Adam Twardoch and others](https://raw.githubusercontent.com/twardoch/fonttools-opentype-feature-freezer/master/AUTHORS)
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+</file>
+
+</files>
