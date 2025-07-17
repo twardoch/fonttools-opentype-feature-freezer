@@ -82,6 +82,8 @@ git push origin v1.33.0
 
 ## CI/CD Pipeline
 
+> **⚠️ IMPORTANT**: Before using the CI/CD pipeline, you must activate the GitHub Actions workflows. See `WORKFLOW_SETUP.md` for instructions.
+
 ### GitHub Actions Workflows
 
 #### 1. CI Workflow (`.github/workflows/ci.yml`)
