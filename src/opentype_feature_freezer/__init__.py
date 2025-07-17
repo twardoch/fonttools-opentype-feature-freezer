@@ -6,14 +6,17 @@ from typing import List, Optional, Set
 
 import fontTools.ttLib as ttLib
 
-__version__ = "1.32.2"
+try:
+    from ._version import version as __version__
+except ImportError:
+    __version__ = "0.0.0+unknown"
 
 
 logger = logging.getLogger(__name__)
 
 
 class RemapByOTL:
-    def __init__(self, options: Namespace):  # Changed SimpleNamespace to Namespace
+    def __init__(self, options: SimpleNamespace):
         self.inpath: os.PathLike = options.inpath
         self.outpath: os.PathLike = options.outpath
         if not self.outpath:

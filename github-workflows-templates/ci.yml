@@ -1,0 +1,140 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Needed for hatch-vcs
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install hatch
+    
+    - name: Run linting
+      run: |
+        hatch run lint
+    
+    - name: Run type checking
+      run: |
+        hatch run typecheck
+    
+    - name: Run tests
+      run: |
+        hatch run test
+    
+    - name: Run coverage
+      run: |
+        hatch run cov
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage.xml
+        fail_ci_if_error: true
+
+  build:
+    needs: test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Needed for hatch-vcs
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install hatch
+    
+    - name: Build package
+      run: |
+        hatch build
+    
+    - name: Upload wheel artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: wheel-${{ matrix.os }}
+        path: dist/*.whl
+    
+    - name: Upload source distribution artifact
+      uses: actions/upload-artifact@v3
+      if: matrix.os == 'ubuntu-latest'
+      with:
+        name: sdist
+        path: dist/*.tar.gz
+
+  build-gui:
+    needs: test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            artifact-name: gui-windows
+            spec-file: pyinstaller-win.spec
+          - os: macos-latest
+            artifact-name: gui-macos
+            spec-file: pyinstaller-mac.spec
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Needed for hatch-vcs
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install hatch pyinstaller
+    
+    - name: Install package in development mode
+      run: |
+        python -m pip install -e .
+    
+    - name: Install GUI dependencies
+      run: |
+        python -m pip install ezgooey
+    
+    - name: Build GUI executable
+      run: |
+        cd app
+        pyinstaller --clean ${{ matrix.spec-file }}
+    
+    - name: Upload GUI artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.artifact-name }}
+        path: app/dist/
