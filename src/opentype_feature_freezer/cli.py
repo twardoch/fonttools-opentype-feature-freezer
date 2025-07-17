@@ -1,8 +1,9 @@
 import logging
 import os
 import sys
-from argparse import ArgumentParser
-from collections.abc import Callable
+from argparse import ArgumentParser, Namespace
+from collections.abc import Callable, Sequence
+from typing import Optional
 
 import opentype_feature_freezer
 
@@ -143,7 +144,7 @@ def main(
 ) -> int:
     logging.basicConfig(format="%(levelname)s: %(message)s")
 
-    current_parser_func = parser_func if parser_func else parseOptions
+    current_parser_func = parser if parser else parseOptions
     # args_parsed will be of type Namespace (or the return type of current_parser_func)
     args_parsed: Namespace = current_parser_func(args)
 

@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
 name = "opentype-feature-freezer"
-version = "1.32.2" # Will be replaced by hatch-vcs later
+dynamic = ["version"]
 description = "Turns OpenType features 'on' by default in a font: reassigns the font's Unicode-to-glyph mapping fo permanently 'freeze' the 1-to-1 substitution features, and creates a new font."
 readme = "README.md"
 requires-python = ">=3.8" # Modernizing to Python 3.8+
@@ -42,25 +42,44 @@ Repository = "https://github.com/twardoch/fonttools-opentype-feature-freezer"
 Issues = "https://github.com/twardoch/fonttools-opentype-feature-freezer/issues"
 
 [tool.hatch.version]
-# This section will be used for hatch-vcs later
-path = "src/opentype_feature_freezer/__init__.py"
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/opentype_feature_freezer/_version.py"
 
 [tool.hatch.envs.default]
 dependencies = [
-  "pytest",
-  "pytest-cov",
-  "ruff",
-  "mypy", # Added mypy
-  "pytest-mypy", # Added pytest-mypy for running mypy via pytest if desired
+  "pytest>=7.0",
+  "pytest-cov>=4.0",
+  "pytest-mock>=3.10",
+  "ruff>=0.1.0",
+  "mypy>=1.5",
+  "coverage[toml]>=7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.0",
+  "pytest-cov>=4.0",
+  "pytest-mock>=3.10",
+  "ruff>=0.1.0",
+  "mypy>=1.5",
+  "coverage[toml]>=7.0",
+]
+gui = [
+  "ezgooey",
 ]
 
 [tool.hatch.envs.default.scripts]
 test = "pytest {args:tests}"
-cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/opentype_feature_freezer --cov=tests {args}"
+cov = "pytest --cov-report=term-missing --cov-report=xml --cov-config=pyproject.toml --cov=src/opentype_feature_freezer --cov=tests {args}"
 lint = "ruff check src tests"
+lint-fix = "ruff check --fix src tests"
 format = "ruff format src tests"
-typecheck = "mypy src tests" # Added mypy script
-# Add other scripts as needed
+format-check = "ruff format --check src tests"
+typecheck = "mypy src tests"
+test-all = ["lint", "format-check", "typecheck", "cov"]
+clean = "rm -rf dist/ build/ .coverage htmlcov/ .pytest_cache/ .mypy_cache/ .ruff_cache/"
 
 [tool.ruff]
 line-length = 88

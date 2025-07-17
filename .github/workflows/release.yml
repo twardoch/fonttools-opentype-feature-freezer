@@ -1,0 +1,233 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install hatch
+    
+    - name: Run tests
+      run: |
+        hatch run test
+
+  build-python:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install hatch
+    
+    - name: Build package
+      run: |
+        hatch build
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: python-package
+        path: dist/
+
+  build-gui:
+    needs: test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            artifact-name: gui-windows
+            spec-file: pyinstaller-win.spec
+            executable-name: "OTFeatureFreezer.exe"
+          - os: macos-latest
+            artifact-name: gui-macos
+            spec-file: pyinstaller-mac.spec
+            executable-name: "OTFeatureFreezer.app"
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install hatch pyinstaller
+    
+    - name: Install package in development mode
+      run: |
+        python -m pip install -e .
+    
+    - name: Install GUI dependencies
+      run: |
+        python -m pip install ezgooey
+    
+    - name: Build GUI executable
+      run: |
+        cd app
+        pyinstaller --clean ${{ matrix.spec-file }}
+    
+    - name: Create archive (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        cd app/dist
+        7z a OTFeatureFreezer-windows.zip ${{ matrix.executable-name }}
+    
+    - name: Create archive (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        cd app/dist
+        zip -r OTFeatureFreezer-macos.zip ${{ matrix.executable-name }}
+    
+    - name: Upload GUI artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.artifact-name }}
+        path: app/dist/*.zip
+
+  release:
+    needs: [build-python, build-gui]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Download Python package
+      uses: actions/download-artifact@v3
+      with:
+        name: python-package
+        path: dist/
+    
+    - name: Download Windows GUI
+      uses: actions/download-artifact@v3
+      with:
+        name: gui-windows
+        path: gui-windows/
+    
+    - name: Download macOS GUI
+      uses: actions/download-artifact@v3
+      with:
+        name: gui-macos
+        path: gui-macos/
+    
+    - name: Get tag name
+      id: tag
+      run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+    
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.tag.outputs.tag }}
+        release_name: OpenType Feature Freezer ${{ steps.tag.outputs.tag }}
+        body: |
+          ## What's Changed
+          
+          See [CHANGELOG.md](https://github.com/twardoch/fonttools-opentype-feature-freezer/blob/master/CHANGELOG.md) for details.
+          
+          ## Downloads
+          
+          ### Python Package
+          - Install via pip: `pip install opentype-feature-freezer`
+          - Or download wheel/sdist below
+          
+          ### GUI Applications
+          - **Windows**: Download `OTFeatureFreezer-windows.zip`
+          - **macOS**: Download `OTFeatureFreezer-macos.zip`
+          
+          🤖 Generated with [Claude Code](https://claude.ai/code)
+          
+          Co-Authored-By: Claude <noreply@anthropic.com>
+        draft: false
+        prerelease: false
+    
+    - name: Upload Python wheel
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: dist/*.whl
+        asset_name: opentype-feature-freezer-${{ steps.tag.outputs.tag }}-py3-none-any.whl
+        asset_content_type: application/zip
+    
+    - name: Upload Python source distribution
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: dist/*.tar.gz
+        asset_name: opentype-feature-freezer-${{ steps.tag.outputs.tag }}.tar.gz
+        asset_content_type: application/gzip
+    
+    - name: Upload Windows GUI
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: gui-windows/OTFeatureFreezer-windows.zip
+        asset_name: OTFeatureFreezer-${{ steps.tag.outputs.tag }}-windows.zip
+        asset_content_type: application/zip
+    
+    - name: Upload macOS GUI
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: gui-macos/OTFeatureFreezer-macos.zip
+        asset_name: OTFeatureFreezer-${{ steps.tag.outputs.tag }}-macos.zip
+        asset_content_type: application/zip
+
+  publish-pypi:
+    needs: [build-python]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download Python package
+      uses: actions/download-artifact@v3
+      with:
+        name: python-package
+        path: dist/
+    
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
+        packages_dir: dist/
