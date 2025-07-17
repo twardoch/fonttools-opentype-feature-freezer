@@ -2,25 +2,39 @@
 
 Due to GitHub App permissions, the workflow files need to be manually activated after committing the changes.
 
-## Setup Instructions
+## Quick Setup
 
-1. **After committing these changes**, manually rename the workflow files:
-
+1. **Run the setup script**:
 ```bash
-# Navigate to your repository
-cd .github/workflows/
+./setup-workflows.sh
+```
 
-# Rename the example files to activate them
-mv ci.yml.example ci.yml
-mv release.yml.example release.yml
-
-# Commit the activated workflows
-git add ci.yml release.yml
-git commit -m "Activate GitHub Actions workflows
+2. **Commit and push the workflows**:
+```bash
+git add .github/workflows/
+git commit -m "Add GitHub Actions workflows
 
 🤖 Generated with [Claude Code](https://claude.ai/code)
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
+git push
+```
+
+## Manual Setup (Alternative)
+
+If you prefer to set up manually:
+
+```bash
+# Create .github/workflows directory
+mkdir -p .github/workflows
+
+# Copy workflow templates
+cp github-workflows-templates/ci.yml .github/workflows/ci.yml
+cp github-workflows-templates/release.yml .github/workflows/release.yml
+
+# Commit and push
+git add .github/workflows/
+git commit -m "Add GitHub Actions workflows"
 git push
 ```
 
