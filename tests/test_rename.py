@@ -1,5 +1,7 @@
-from argparse import Namespace # Changed from types
+from argparse import Namespace
+
 import fontTools.ttLib
+
 import opentype_feature_freezer
 
 
@@ -12,7 +14,7 @@ def test_rename_ttf(shared_datadir):
         inpath="None",
         outpath=None,
         # rename=True, # This attribute is not used by RemapByOTL directly
-        suffix=True, # Explicitly add suffix based on command line options
+        suffix=True,  # Explicitly add suffix based on command line options
         usesuffix="Asdf",
         replacenames="Test/Rest Dest",
         info=True,
@@ -22,7 +24,7 @@ def test_rename_ttf(shared_datadir):
         lang=None,
         zapnames=False,
         report=False,
-        names=False, # For self.options.names in applySubstitutions
+        names=False,  # For self.options.names in applySubstitutions
         verbose=False,
     )
     remapper = opentype_feature_freezer.RemapByOTL(remapper_options)
@@ -52,7 +54,7 @@ def test_rename_ttf_no_replace(shared_datadir):
     remapper_options = Namespace(
         inpath="None",
         outpath=None,
-        suffix=True, # Explicitly add suffix
+        suffix=True,  # Explicitly add suffix
         usesuffix="Asdf",
         replacenames="",
         info=True,
@@ -91,8 +93,8 @@ def test_rename_ttf_autosuffix(shared_datadir):
     remapper_options = Namespace(
         inpath="None",
         outpath=None,
-        suffix=True, # Suffix is True for autosuffix generation
-        usesuffix="", # Empty usesuffix means auto-generate from features
+        suffix=True,  # Suffix is True for autosuffix generation
+        usesuffix="",  # Empty usesuffix means auto-generate from features
         replacenames="",
         info=True,
         features="smcp,c2sc,onum",

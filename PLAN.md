@@ -114,6 +114,11 @@ This document outlines a comprehensive plan to improve the OpenType Feature Free
   - Add progress tracking for batch operations
   - Implement cancellation support
 
+#### 3.3 Codebase Splitting and Modularity
+- **Split `RemapByOTL` class**: Decompose the monolithic `RemapByOTL` class into smaller, single-responsibility modules/classes (e.g., `FontIOHandler`, `FeatureProcessor`, `CmapRemapper`, `FontNamer`, `Reporter`).
+- **Refactor `tests/test_rename.py`**: Split into `tests/test_rename_ttf.py` and `tests/test_rename_otf.py` for better organization.
+- **Extract utility functions**: Move general utility functions from `app/dmgbuild_settings.py` into dedicated `app/utils.py` and `app/mac_app_utils.py` modules.
+
 ### Phase 4: User Experience Enhancements
 
 #### 4.1 GUI Improvements

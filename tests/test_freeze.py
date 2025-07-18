@@ -2,6 +2,7 @@ import logging
 import tempfile
 
 import fontTools.ttLib
+
 import opentype_feature_freezer.cli
 
 

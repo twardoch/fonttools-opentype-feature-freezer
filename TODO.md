@@ -45,6 +45,10 @@
 - [ ] Implement proper separation of concerns
 - [ ] Add design patterns (Strategy, Factory)
 - [ ] Remove code duplication
+- [ ] Split `RemapByOTL` class into smaller, single-responsibility modules/classes (e.g., `FontIOHandler`, `FeatureProcessor`, `CmapRemapper`, `FontNamer`, `Reporter`)
+- [ ] Split `tests/test_rename.py` into `tests/test_rename_ttf.py` and `tests/test_rename_otf.py`
+- [ ] Extract `get_version` from `app/dmgbuild_settings.py` to `app/utils.py`
+- [ ] Extract `icon_from_app` from `app/dmgbuild_settings.py` to `app/mac_app_utils.py`
 
 ### Build System
 - [ ] Simplify PyInstaller specs
