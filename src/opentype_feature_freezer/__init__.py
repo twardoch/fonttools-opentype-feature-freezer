@@ -36,7 +36,7 @@ class RemapByOTL:
         self.subs1: list[str] = []
         self.substitution_mapping: MutableMapping[str, str] = {}
         self.success: bool = True
-        self.ttx: fontTools.ttLib.TTFont | None = None
+        self.ttx: ttLib.TTFont | None = None
         logger.info("[RemapByOTL] Running with options: %s", self.options)
 
     def openFont(self) -> None:
@@ -51,7 +51,7 @@ class RemapByOTL:
         self.success = True
         if self.inpath:
             try:
-                self.ttx = fontTools.ttLib.TTFont(self.inpath, 0, recalcBBoxes=False)
+                self.ttx = ttLib.TTFont(self.inpath, 0, recalcBBoxes=False)
             except Exception as e:
                 logger.warning("[_openFontTTX] TTX cannot open %s: %s", self.inpath, e)
                 self.success = False
@@ -242,7 +242,7 @@ class RemapByOTL:
         if not self.options.suffix and not self.options.replacenames:
             return self.success
 
-        name_table: fontTools.ttLib.tables._n_a_m_e.table__n_a_m_e = self.ttx["name"]
+        name_table: ttLib.tables._n_a_m_e.table__n_a_m_e = self.ttx["name"]
 
         name_record_16 = name_table.getName(16, 3, 1)
         name_record_1 = name_table.getName(1, 3, 1)
