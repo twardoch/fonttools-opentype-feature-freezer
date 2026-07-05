@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.32.3] - 2026-07-05
+
+### Fixed
+- **Critical: restored a runtime that was completely broken.** `__init__.py`
+  imported `fontTools.ttLib as ttLib` but referenced `fontTools.ttLib.*`
+  throughout, so every font operation raised `NameError: name 'fontTools' is
+  not defined` (silently swallowed as "cannot open font"). The tool could not
+  process any font. The import is now `import fontTools.ttLib`.
+- **`cli.py` failed to import on Python 3.9.** Function signatures used
+  `list[str] | None` at definition time without `from __future__ import
+  annotations`; the `|` union syntax requires 3.10+. Added the future import so
+  the declared `requires-python` floor is actually honored.
+
+### Changed
+- Version is now derived from git tags via `hatch-vcs` (`__version__` resolves
+  through `importlib.metadata`) instead of a hardcoded string.
+- Source distributions no longer bundle the prebuilt GUI installer, codebase
+  snapshots, or app-packaging scaffolding: the sdist shrank from ~39 MB to ~31 KB.
+- Dropped end-of-life Python 3.8 from the support matrix (now 3.9–3.13);
+  `mypy` target updated to 3.10.
+
+### Added
+- GitHub Actions: `ci.yml` (ruff + format + mypy + pytest across Python
+  3.9–3.13) and `release.yml` (build and publish to PyPI on `v*` tags via
+  trusted publishing).
+
+### Internal
+- Removed unused imports (`List`, `Optional`, `Set`, the `ttLib` alias) and the
+  `warn_unreachable` mypy flag, which produced false positives against the
+  `self.success` control-flow pattern. `ruff`, `ruff format`, and `mypy` are
+  clean; all 10 tests pass.
+
 ## [1.32.2] - 2024-01-XX
 
 ### Changed

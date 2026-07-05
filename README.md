@@ -1,5 +1,11 @@
 # OpenType Feature Freezer: Make Advanced Typography Accessible Everywhere
 
+<img src="docs/assets/icon.png" alt="OpenType Feature Freezer icon" width="180" align="right">
+
+[![CI](https://github.com/twardoch/fonttools-opentype-feature-freezer/actions/workflows/ci.yml/badge.svg)](https://github.com/twardoch/fonttools-opentype-feature-freezer/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/opentype-feature-freezer.svg)](https://pypi.org/project/opentype-feature-freezer/)
+[![Python versions](https://img.shields.io/pypi/pyversions/opentype-feature-freezer.svg)](https://pypi.org/project/opentype-feature-freezer/)
+
 **OpenType Feature Freezer** is a powerful tool designed to make sophisticated typographic features, like small caps or old-style numerals, accessible by default in your fonts. This means you can use these features even in applications with limited or no OpenType support.
 
 ## Part 1: For Everyone Using Fonts

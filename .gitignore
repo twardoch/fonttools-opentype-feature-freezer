@@ -107,3 +107,9 @@ venv.bak/
 
 app/build/
 .DS_Store
+
+# hatch-vcs generated version file
+src/opentype_feature_freezer/_version.py
+
+# codebase snapshot artifact (codetoprompt)
+llms.txt

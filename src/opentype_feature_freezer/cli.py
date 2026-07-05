@@ -1,14 +1,18 @@
+from __future__ import annotations
+
 import logging
 import sys
 from argparse import ArgumentParser, Namespace
-from collections.abc import Callable, Sequence
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING
 
 import opentype_feature_freezer
 
+if TYPE_CHECKING:
+    from collections.abc import Callable, Sequence
 
-def parseOptions(args: Optional[Sequence[str]] = None) -> Namespace:
+
+def parseOptions(args: Sequence[str] | None = None) -> Namespace:
     parser = ArgumentParser(
         description=(
             'With %(prog)s you can "freeze" some OpenType features into a font. '

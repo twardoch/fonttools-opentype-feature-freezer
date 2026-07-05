@@ -2,16 +2,19 @@ from __future__ import annotations
 
 import logging
 import os
-from collections.abc import Mapping, MutableMapping
-from types import SimpleNamespace
-from typing import TYPE_CHECKING, List, Optional, Set
+from importlib.metadata import PackageNotFoundError, version
+from typing import TYPE_CHECKING
 
-import fontTools.ttLib as ttLib
+import fontTools.ttLib
 
 if TYPE_CHECKING:
     from argparse import Namespace
+    from collections.abc import Mapping, MutableMapping
 
-__version__ = "1.32.2"
+try:
+    __version__ = version("opentype-feature-freezer")
+except PackageNotFoundError:  # pragma: no cover - not installed as a package
+    __version__ = "0.0.0+unknown"
 
 
 logger = logging.getLogger(__name__)
@@ -29,7 +32,7 @@ class RemapByOTL:
         self.filterByScript: str | None = None
         self.LookupList: list[int] | None = None
         self.names: list[str] = []
-        self.options: SimpleNamespace = options
+        self.options: Namespace = options
         self.reportFeature: list[str] = []
         self.reportLangSys: list[str] = []
         self.subs0: list[str] = []
@@ -96,6 +99,7 @@ class RemapByOTL:
 
     def initSubs(self) -> None:
         self.success = True
+        assert self.ttx is not None
         self.subs0 = list(self.ttx.getGlyphOrder())
         self.subs1 = list(self.ttx.getGlyphOrder())
 

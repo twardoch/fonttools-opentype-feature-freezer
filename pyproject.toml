@@ -1,13 +1,13 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
 name = "opentype-feature-freezer"
-version = "1.32.2" # Will be replaced by hatch-vcs later
-description = "Turns OpenType features 'on' by default in a font: reassigns the font's Unicode-to-glyph mapping fo permanently 'freeze' the 1-to-1 substitution features, and creates a new font."
+dynamic = ["version"]
+description = "Turns OpenType features 'on' by default in a font: reassigns the font's Unicode-to-glyph mapping to permanently 'freeze' the 1-to-1 substitution features, and creates a new font."
 readme = "README.md"
-requires-python = ">=3.8" # Modernizing to Python 3.8+
+requires-python = ">=3.9"
 license = "Apache-2.0"
 authors = [
     { name = "Adam Twardoch", email = "adam@twardoch.com" },
@@ -20,11 +20,11 @@ classifiers = [
     "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Text Processing :: Fonts",
 ]
 
@@ -42,8 +42,27 @@ Repository = "https://github.com/twardoch/fonttools-opentype-feature-freezer"
 Issues = "https://github.com/twardoch/fonttools-opentype-feature-freezer/issues"
 
 [tool.hatch.version]
-# This section will be used for hatch-vcs later
-path = "src/opentype_feature_freezer/__init__.py"
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/opentype_feature_freezer/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/opentype_feature_freezer"]
+
+[tool.hatch.build.targets.sdist]
+# Ship only the package, tests, and docs — never the prebuilt GUI installers,
+# codebase snapshots, or app-packaging scaffolding.
+include = [
+    "src/opentype_feature_freezer",
+    "tests",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "AUTHORS",
+    "CONTRIBUTORS",
+    "pyproject.toml",
+]
 
 [tool.hatch.envs.default]
 dependencies = [

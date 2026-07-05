@@ -1,5 +1,23 @@
 # TODO List - OpenType Feature Freezer
 
+## Status (2026-07-05, v1.32.3)
+
+Done this pass: fixed the fatal `fontTools` import bug (tool was fully broken),
+fixed the Python 3.9 import failure in `cli.py`, migrated versioning to
+`hatch-vcs`, trimmed the sdist from ~39 MB to ~31 KB, added CI + PyPI-release
+workflows, and cleaned `ruff`/`mypy`. All 10 tests pass.
+
+Real remaining items (not yet done):
+- [ ] `download/OTFeatureFreezer.dmg` (~38 MB) is committed to git history and
+      served by the Jekyll download page. Consider moving binaries to GitHub
+      Releases and pointing the site there, to slim the repo.
+- [ ] Add regression tests for renaming CFF/OTF fonts and for `--zapnames`
+      (`post` v3), which currently have thinner coverage than the cmap path.
+- [ ] Consider replacing the `self.success` boolean-flag control flow with
+      typed exceptions so `warn_unreachable` can be re-enabled.
+- [ ] The stale `PLAN.md`, `REFACTOR_SPLITTING.md`, and `REFACTOR_FILELIST.txt`
+      are leftovers from the earlier modernization and could be archived.
+
 ## Immediate Priority Tasks
 
 ### Documentation
